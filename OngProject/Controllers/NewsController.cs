@@ -5,5 +5,6 @@ namespace OngProject.Controllers
 {
     public class NewsController: ControllerBase
     {
+        
     }
 }

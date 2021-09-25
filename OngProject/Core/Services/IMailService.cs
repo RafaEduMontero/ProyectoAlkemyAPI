@@ -8,7 +8,6 @@ namespace OngProject
 {
     public interface IMailService
     {
-
         Task SendEmailAsync(string toEmail, string subject, string content);
     }
     public class SendGridMailService : IMailService

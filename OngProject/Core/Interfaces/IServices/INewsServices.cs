@@ -4,5 +4,6 @@ namespace OngProject.Core.Interfaces.IServices
 {
     public interface INewsServices
     {
+        
     }
 }

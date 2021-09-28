@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OngProject.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,8 @@ namespace OngProject.Infrastructure.Data
         {
             base.OnModelCreating(builder);
         }
+
+        public DbSet<Category> Categories { get; set; }
 
     }
 }

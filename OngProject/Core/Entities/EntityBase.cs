@@ -31,6 +31,6 @@ namespace OngProject.Core.Entities
         #endregion
         [Required]
         [DataType(DataType.DateTime)]
-        public DataType CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }

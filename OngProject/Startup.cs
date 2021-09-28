@@ -2,11 +2,14 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using OngProject.Infrastructure.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +29,12 @@ namespace OngProject
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddEntityFrameworkSqlServer();
+            services.AddDbContextPool<ApplicationDbContext>((services, options) =>
+            {
+                options.UseInternalServiceProvider(services);
+                options.UseSqlServer(Configuration.GetConnectionString("ApplicationConnectionString"));
+            });
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

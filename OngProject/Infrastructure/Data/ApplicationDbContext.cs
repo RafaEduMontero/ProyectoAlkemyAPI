@@ -8,11 +8,13 @@ namespace OngProject.Infrastructure.Data
 {
     public class ApplicationDbContext : DbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder dbContextOptionsBuilder)
+        public ApplicationDbContext(DbContextOptions options) : base(options)
         {
-            dbContextOptionsBuilder.UseSqlServer("data source = Localhost; " +
-                                                 "initial catalog = ; " +
-                                                 "Integrated Security = true");
+        }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
         }
 
     }

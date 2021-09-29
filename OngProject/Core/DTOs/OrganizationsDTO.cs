@@ -7,12 +7,12 @@ namespace OngProject.Core.DTOs
 {
     public class OrganizationsDTO
     {
-        public string name { get; set; }
-        public string image { get; set; }
-        public string address { get; set; }
-        public int phone { get; set; }
-        public string email { get; set; }
-        public string welcomeText { get; set; }
-        public string aboutUsText { get; set; }
+        public string Name { get; set; }
+        public string Image { get; set; }
+        public string Address { get; set; }
+        public int Phone { get; set; }
+        public string Email { get; set; }
+        public string WelcomeText { get; set; }
+        public string AboutUsText { get; set; }
     }
 }

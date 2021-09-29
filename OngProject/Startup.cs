@@ -10,6 +10,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using OngProject.Infrastructure.Data;
+using OngProject.Infrastructure.Repositories;
+using OngProject.Infrastructure.Repositories.IRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,7 +37,7 @@ namespace OngProject
                 options.UseInternalServiceProvider(services);
                 options.UseSqlServer(Configuration.GetConnectionString("ApplicationConnectionString"));
             });
-
+            services.AddScoped<IUnitOfWork,UnitOfWork>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

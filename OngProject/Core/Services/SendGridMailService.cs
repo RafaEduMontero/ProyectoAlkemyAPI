@@ -4,15 +4,11 @@ using Microsoft.Extensions.Configuration;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 
-namespace OngProject
+namespace OngProject.Core.Services
 {
-    public interface IMailService
+    public class SendGridMailService
     {
-        Task SendEmailAsync(string toEmail, string subject, string content);
-    }
-    public class SendGridMailService : IMailService
-    {
-        private IConfiguration _configuration;
+         private IConfiguration _configuration;
 
         public SendGridMailService(IConfiguration configuration)
         {

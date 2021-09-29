@@ -9,6 +9,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using OngProject.Core.Interfaces.IServices;
+using OngProject.Core.Services;
 using OngProject.Infrastructure.Data;
 using OngProject.Infrastructure.Repositories;
 using OngProject.Infrastructure.Repositories.IRepository;

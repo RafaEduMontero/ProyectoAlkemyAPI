@@ -1,12 +1,13 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using OngProject.Core.Interfaces.IServices;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 
 namespace OngProject.Core.Services
 {
-    public class SendGridMailService
+    public class SendGridMailService : IMailService
     {
          private IConfiguration _configuration;
 

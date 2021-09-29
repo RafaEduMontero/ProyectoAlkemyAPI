@@ -19,6 +19,8 @@ namespace OngProject.Infrastructure.Data
         }
 
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Comments> Comments { get; set; }
+        public DbSet<Testimonials> Testimonials { get; set; }
 
     }
 }

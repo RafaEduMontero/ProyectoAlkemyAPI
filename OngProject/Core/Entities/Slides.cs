@@ -16,6 +16,7 @@ namespace OngProject.Core.Entities
         [Column(TypeName = "VARCHAR(4000)")]
         public string Text { get; set; }
         [Required]
+        [Column(TypeName = "INTEGER")]
         public int Order { get; set; }
         //Foreign Key hacia una organizacion
         public int OrganizationId { get; set; }

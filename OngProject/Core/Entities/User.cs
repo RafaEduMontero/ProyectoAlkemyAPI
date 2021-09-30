@@ -10,7 +10,7 @@ using OngProject.Core.Entities;
 namespace OngProject.Core.Entities
 {
     //de esta manera esta mal 
-    //para hacer el campo unique debo modificar el dbConxtex
+    //para hacer el campo unique debo modificar el dbContex
     //[Index(nameof(email), IsUnique = true)]
     public class User : EntityBase
     {

@@ -18,12 +18,11 @@ namespace OngProject.Infrastructure.Repositories
         }
 
         private readonly IBaseRepository<Organizations> _organizationsRepository;
-        private readonly IBaseRepository<Member> _memberRepository;
-
+        private readonly IBaseRepository<Testimonials> _testimonialsRepository;
         public IBaseRepository<Organizations> NewsRepository => _organizationsRepository ?? new BaseRepository<Organizations>(_context);
+        public IBaseRepository<Testimonials> TestimonialsRepository => _testimonialsRepository ?? new BaseRepository<Testimonials>(_context);
+        private readonly IBaseRepository<Member> _memberRepository;
         public IBaseRepository<Member> NewsRpository => _memberRepository ?? new BaseRepository<Member>(_context);
-
-
         private readonly IBaseRepository<Activities> _ActivitiesRepository;
 
         public IBaseRepository<Activities> ActivitiesRepository => _ActivitiesRepository ?? new BaseRepository<Activities>(_context);

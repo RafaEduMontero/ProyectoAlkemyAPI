@@ -22,6 +22,8 @@ namespace OngProject.Core.Entities
         [Required]
         [Column(TypeName ="VARCHAR(255)")]
         [MaxLength(255)]
-        public string image { get; set; }   
+        public string image { get; set; }
+
+        public void Method() { }
     }
 }

@@ -12,17 +12,17 @@ namespace OngProject.Core.Entities
         [Required(ErrorMessage = "Nombre de la categoria es requerido")]
         [Column(TypeName = "VARCHAR(255)")]
         [MaxLength(255)]
-        public string name { get; set; }
+        public string Name { get; set; }
 
         [Required]
         [Column(TypeName = "VARCHAR(255)")]
         [MaxLength(255)]
-        public string description { get; set; }
+        public string Description { get; set; }
 
         [Required]
         [Column(TypeName ="VARCHAR(255)")]
         [MaxLength(255)]
-        public string image { get; set; }
+        public string Image { get; set; }
 
     }
 }

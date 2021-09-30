@@ -19,13 +19,12 @@ namespace OngProject.Infrastructure.Repositories
 
         private readonly IBaseRepository<Organizations> _organizationsRepository;
         private readonly IBaseRepository<Member> _memberRepository;
+        private readonly IBaseRepository<User> _userRepository;
+        private readonly IBaseRepository<Activities> _ActivitiesRepository;
 
         public IBaseRepository<Organizations> NewsRepository => _organizationsRepository ?? new BaseRepository<Organizations>(_context);
         public IBaseRepository<Member> NewsRpository => _memberRepository ?? new BaseRepository<Member>(_context);
-
-
-        private readonly IBaseRepository<Activities> _ActivitiesRepository;
-
+        public IBaseRepository<User> UserRpository => _userRepository ?? new BaseRepository<User>(_context);
         public IBaseRepository<Activities> ActivitiesRepository => _ActivitiesRepository ?? new BaseRepository<Activities>(_context);
 
         public void Dispose()

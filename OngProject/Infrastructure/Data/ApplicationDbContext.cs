@@ -23,7 +23,10 @@ namespace OngProject.Infrastructure.Data
             });
         }
         public DbSet<Category> Categories { get; set; }
+        //referencia a la entidad : User
         public DbSet<User> Users { get; set; }
+        //Referencia a la Entidad : Slides
+        public DbSet<Slides> Slides { get; set; }
 
     }
 }

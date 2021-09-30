@@ -22,8 +22,6 @@ namespace OngProject.Infrastructure.Repositories
         public IBaseRepository<Organizations> NewsRepository => _organizationsRepository ?? new BaseRepository<Organizations>(_context);
         public IBaseRepository<Testimonials> TestimonialsRepository => _testimonialsRepository ?? new BaseRepository<Testimonials>(_context);
         private readonly IBaseRepository<Member> _memberRepository;
-
-        public IBaseRepository<Organizations> NewsRepository => _organizationsRepository ?? new BaseRepository<Organizations>(_context);
         public IBaseRepository<Member> NewsRpository => _memberRepository ?? new BaseRepository<Member>(_context);
         private readonly IBaseRepository<Activities> _ActivitiesRepository;
 

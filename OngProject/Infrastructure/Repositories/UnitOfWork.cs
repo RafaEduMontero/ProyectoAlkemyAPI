@@ -18,9 +18,9 @@ namespace OngProject.Infrastructure.Repositories
         }
 
         private readonly IBaseRepository<Organizations> _organizationsRepository;
-
+        private readonly IBaseRepository<Testimonials> _testimonialsRepository;
         public IBaseRepository<Organizations> NewsRepository => _organizationsRepository ?? new BaseRepository<Organizations>(_context);
-
+        public IBaseRepository<Testimonials> TestimonialsRepository => _testimonialsRepository ?? new BaseRepository<Testimonials>(_context);
 
         public void Dispose()
         {

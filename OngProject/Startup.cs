@@ -49,20 +49,22 @@ namespace OngProject
             // JWT Token Generator
 
             var key = Encoding.ASCII.GetBytes(Configuration["JWT:Secret"]);
-            services.AddAuthentication(x =>
+            services
+            .AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(x =>
+            })
+            .AddJwtBearer(x =>
             {
                 x.RequireHttpsMetadata = false;
                 x.SaveToken = true;
                 x.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
+                    ValidateAudience = false,
+                    ValidateIssuerSigningKey = true,
+                    ValidateIssuer = false
                 };
             });
 

@@ -18,14 +18,17 @@ namespace OngProject.Infrastructure.Repositories
         }
 
         private readonly IBaseRepository<Organizations> _organizationsRepository;
+        private readonly IBaseRepository<Category> _categoryRepository;
         private readonly IBaseRepository<Testimonials> _testimonialsRepository;
-        public IBaseRepository<Organizations> NewsRepository => _organizationsRepository ?? new BaseRepository<Organizations>(_context);
-        public IBaseRepository<Testimonials> TestimonialsRepository => _testimonialsRepository ?? new BaseRepository<Testimonials>(_context);
-        private readonly IBaseRepository<Member> _memberRepository;
-        public IBaseRepository<Member> NewsRpository => _memberRepository ?? new BaseRepository<Member>(_context);
         private readonly IBaseRepository<Activities> _ActivitiesRepository;
+        private readonly IBaseRepository<Member> _memberRepository;
+
+        public IBaseRepository<Organizations> NewsRepository => _organizationsRepository ?? new BaseRepository<Organizations>(_context);
+        public IBaseRepository<Category> CategoriesRepository => _categoryRepository ?? new BaseRepository<Category>(_context);
+        public IBaseRepository<Testimonials> TestimonialsRepository => _testimonialsRepository ?? new BaseRepository<Testimonials>(_context);
 
         public IBaseRepository<Activities> ActivitiesRepository => _ActivitiesRepository ?? new BaseRepository<Activities>(_context);
+        public IBaseRepository<Member> NewsRpository => _memberRepository ?? new BaseRepository<Member>(_context);
 
         public void Dispose()
         {

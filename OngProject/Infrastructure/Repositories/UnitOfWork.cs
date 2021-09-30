@@ -18,8 +18,10 @@ namespace OngProject.Infrastructure.Repositories
         }
 
         private readonly IBaseRepository<Organizations> _organizationsRepository;
+        private readonly IBaseRepository<Member> _memberRepository;
 
         public IBaseRepository<Organizations> NewsRepository => _organizationsRepository ?? new BaseRepository<Organizations>(_context);
+        public IBaseRepository<Member> NewsRpository => _memberRepository ?? new BaseRepository<Member>(_context);
 
 
         public void Dispose()

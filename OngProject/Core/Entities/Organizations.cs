@@ -11,35 +11,35 @@ namespace OngProject.Core.Entities
         [Required]
         [Column(TypeName = "VARCHAR(255)")]
         [MaxLength(255)]
-        public string name { get; set; }
+        public string Name { get; set; }
 
         [Required]
         [Column(TypeName = "VARCHAR(255)")]
         [MaxLength(255)]
-        public string image { get; set; }
+        public string Image { get; set; }
         
         [Column(TypeName = "VARCHAR(255)")]
         [MaxLength(255)]
-        public string address { get; set; }
+        public string Address { get; set; }
         
         [Column(TypeName = "INTEGER")]
         [MaxLength(20)]
-        public int phone { get; set; }
+        public int Phone { get; set; }
         
         [Required]
         [Column(TypeName = "VARCHAR(320)")]
         [MaxLength(320)]
         [EmailAddress]
-        public string email { get; set; }
+        public string Email { get; set; }
         
         [Required]
         [Column(TypeName = "TEXT")]
         [MaxLength(500)]        
-        public string welcomeText { get; set; }
+        public string WelcomeText { get; set; }
         
         [Column(TypeName = "TEXT")]
         [MaxLength(2000)]
-        public string aboutUsText { get; set; }
+        public string AboutUsText { get; set; }
     }
 }
 

@@ -27,6 +27,8 @@ namespace OngProject.Infrastructure.Data
         public DbSet<User> Users { get; set; }
         //Referencia a la Entidad : Slides
         public DbSet<Slides> Slides { get; set; }
+        public DbSet<Organizations> Organizations { get; set; }
+        public DbSet<Contacts> Contacts { get; set; }
 
     }
 }

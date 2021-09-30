@@ -9,7 +9,9 @@ using OngProject.Core.Entities;
 
 namespace OngProject.Core.Entities
 {
-    [Index(nameof(email), IsUnique = true)]
+    //de esta manera esta mal 
+    //para hacer el campo unique debo modificar el dbConxtex
+    //[Index(nameof(email), IsUnique = true)]
     public class User : EntityBase
     {
         [Required]

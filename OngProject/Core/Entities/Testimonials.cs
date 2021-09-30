@@ -12,14 +12,14 @@ namespace OngProject.Core.Entities
         [Required]
         [Column(TypeName = "VARCHAR(255)")]
         [MaxLength(255)]
-        public string name { get; set; }
+        public string Name { get; set; }
 
         [Column(TypeName = "VARCHAR(255)")]
         [MaxLength(255)]
-        public string image { get; set; }
+        public string Image { get; set; }
 
         [Column(TypeName = "VARCHAR(65535)")]
         [MaxLength(65535)]
-        public int content { get; set; }
+        public int Content { get; set; }
     }
 }

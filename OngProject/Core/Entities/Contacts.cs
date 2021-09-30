@@ -12,25 +12,25 @@ namespace OngProject.Core.Entities
         [Required]
         [Column(TypeName = "VARCHAR(255)")]
         [MaxLength(255)]
-        public string name { get; set; }
+        public string Name { get; set; }
 
         [Column(TypeName = "INTEGER")]
         [MaxLength(20)]
-        public int phone { get; set; }
+        public int Phone { get; set; }
 
         [Required]
         [Column(TypeName = "VARCHAR(320)")]
         [MaxLength(320)]
         [EmailAddress]
-        public string email { get; set; }
+        public string Email { get; set; }
 
         [Required]
         [Column(TypeName = "TEXT")]
         [MaxLength(500)]
-        public string message { get; set; }
+        public string Message { get; set; }
 
         [Column(TypeName = "DATETIME")]
-        public DateTime deletedAt { get; set; }
+        public DateTime DeletedAt { get; set; }
 
     }
 }

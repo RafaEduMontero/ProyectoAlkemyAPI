@@ -24,6 +24,5 @@ namespace OngProject.Core.Entities
         [MaxLength(255)]
         public string image { get; set; }
 
-        public void Method() { }
     }
 }

@@ -5,7 +5,11 @@ using System.Threading.Tasks;
 
 namespace OngProject.Core.Services.Auth
 {
-    public class Class
+    public class AuthService
     {
+
+
+
+
     }
 }

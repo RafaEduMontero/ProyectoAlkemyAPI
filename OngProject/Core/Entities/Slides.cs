@@ -11,9 +11,11 @@ namespace OngProject.Core.Entities
     {
         [Required]
         [Column(TypeName = "VARCHAR(255)")]
+        [MaxLength(255)]
         public string ImageUrl { get; set; }
         [Required]
         [Column(TypeName = "VARCHAR(4000)")]
+        [MaxLength(4000)]
         public string Text { get; set; }
         [Required]
         [Column(TypeName = "INTEGER")]

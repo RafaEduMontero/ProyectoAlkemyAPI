@@ -47,6 +47,5 @@ namespace OngProject.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-
     }
 }

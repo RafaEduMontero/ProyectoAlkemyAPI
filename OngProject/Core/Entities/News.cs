@@ -10,20 +10,20 @@ namespace OngProject.Core.Entities
         [Required]
         [Column(TypeName = "VARCHAR(255)")]
         [MaxLength(255)]
-        public string name { get; set; }
+        public string Name { get; set; }
 
         [Required]
         [Column(TypeName = "TEXT")]
         [MaxLength(255)]
-        public string content { get; set; }
+        public string Content { get; set; }
         
         [Column(TypeName = "VARCHAR(255)")]
         [MaxLength(255)]
-        public string image { get; set; }
+        public string Image { get; set; }
 
-        public int categoryId { get; set; }
+        public int CategoryId { get; set; }
         [ForeignKey("categoryId")]
-        public virtual Category category { get; set; }
+        public virtual Category Category { get; set; }
        
     }
 }

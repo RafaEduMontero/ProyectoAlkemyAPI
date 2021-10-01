@@ -17,25 +17,30 @@ namespace OngProject.Core.Entities
         [Required]
         [Column(TypeName = "VARCHAR(255)")]
         [MaxLength(255)]
-        public string firstName { get; set; }
+        public string FirstName { get; set; }
+
         [Required]
         [Column(TypeName = "VARCHAR(255)")]
         [MaxLength(255)]
-        public string lastName { get; set; }
+        public string LastName { get; set; }
+
         [Required]
         [Column(TypeName = "VARCHAR(320)")]
         [MaxLength(320)]
-        public string email { get; set; }
+        public string Email { get; set; }
+
         [Required]
         [Column(TypeName = "VARCHAR(20)")]
         [MaxLength(20)]
-        public string password { get; set; }
+        public string Password { get; set; }
+
         [Column(TypeName = "VARCHAR(255)")]
         [MaxLength(255)]
-        public string photo { get; set; }
+        public string Photo { get; set; }
+
         //Foreign Key hacia Roles
-        public int roleId { get; set; }
+        public int RoleId { get; set; }
         [ForeignKey("roleId")]
-        public virtual Roll roll { get; set; }
+        public virtual Roll Roll { get; set; }
     }
 }

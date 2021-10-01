@@ -7,24 +7,24 @@ using System.Threading.Tasks;
 
 namespace OngProject.Core.Entities
 {
-    public class Activities :EntityBase
+    public class Activities : EntityBase
     {
         [Required]
         [Column(TypeName = "VARCHAR(255)")]
         [MaxLength(255)]
-        public string name { get; set; }
+        public string Name { get; set; }
 
         [Required]
         [Column(TypeName = "TEXT")]
         [MaxLength(65535)]
-        public string content { get; set; }
+        public string Content { get; set; }
 
         [Required]
         [Column(TypeName = "VARCHAR(255)")]
         [MaxLength(255)]
-        public string image { get; set; }
+        public string Image { get; set; }
 
         [DataType(DataType.DateTime)]
-        public DateTime deleteAt { get; set; }
+        public DateTime DeleteAt { get; set; }
     }
 }

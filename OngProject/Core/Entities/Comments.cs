@@ -12,7 +12,7 @@ namespace OngProject.Core.Entities
         [Required]
         [Column(TypeName = "INTEGER")]
         [ForeignKey("UserId")]
-        public int User_id { get; set; }
+        public int UserId { get; set; }
 
         [Required]
         [Column(TypeName = "TEXT")]
@@ -22,6 +22,6 @@ namespace OngProject.Core.Entities
         [Required]
         [Column(TypeName = "INTEGER")]
         [ForeignKey("NewId")]
-        public int New_id { get; set; }
+        public int NewId { get; set; }
     }
 }

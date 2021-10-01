@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace OngProject.Controllers
 {
-    public class SlidesController : Controller
+    public class UserController : Controller
     {
-        //controlador para trabajar junto con la entidad : Slides
+        
     }
 }

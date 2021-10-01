@@ -45,6 +45,7 @@ namespace OngProject.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-
+        private readonly IBaseRepository<User> _userRepository;
+        public IBaseRepository<User> UserRpository => _userRepository ?? new BaseRepository<User>(_context);
     }
 }

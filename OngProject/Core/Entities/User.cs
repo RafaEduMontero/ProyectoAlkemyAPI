@@ -40,7 +40,7 @@ namespace OngProject.Core.Entities
 
         //Foreign Key hacia Roles
         public int RoleId { get; set; }
-        [ForeignKey("roleId")]
+        [ForeignKey("RoleId")]
         public virtual Roll Roll { get; set; }
     }
 }

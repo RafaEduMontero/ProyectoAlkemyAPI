@@ -22,10 +22,12 @@ namespace OngProject.Infrastructure.Repositories
         public IBaseRepository<Organizations> NewsRepository => _organizationsRepository ?? new BaseRepository<Organizations>(_context);
         public IBaseRepository<Testimonials> TestimonialsRepository => _testimonialsRepository ?? new BaseRepository<Testimonials>(_context);
         private readonly IBaseRepository<Member> _memberRepository;
-        public IBaseRepository<Member> NewsRpository => _memberRepository ?? new BaseRepository<Member>(_context);
+        public IBaseRepository<Member> MemberRepository => _memberRepository ?? new BaseRepository<Member>(_context);
         private readonly IBaseRepository<Activities> _ActivitiesRepository;
+        private readonly IBaseRepository<Roll> _rollRepository;
 
         public IBaseRepository<Activities> ActivitiesRepository => _ActivitiesRepository ?? new BaseRepository<Activities>(_context);
+        public IBaseRepository<Roll> RollRepository => _rollRepository ?? new BaseRepository<Roll>(_context);
 
         public void Dispose()
         {

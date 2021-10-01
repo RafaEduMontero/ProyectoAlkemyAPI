@@ -25,7 +25,7 @@ namespace OngProject.Infrastructure.Data
         public DbSet<Member> Members { get; set; }  
         public DbSet<News> News { get; set; }   
         public DbSet<Organizations> Organizations { get; set; }
-        public DbSet<Roll> Rolls { get; set; }  
+        public DbSet<Role> Roles { get; set; }  
         public DbSet<Slides> Slides { get; set; }
         public DbSet<Testimonials> Testimonials { get; set; }
         public DbSet<User> Users { get; set; }

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace OngProject.Core.Interfaces.IServices
 {
-    public interface IRoll
+    public interface IRole
     {
     }
 }

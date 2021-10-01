@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OngProject.Controllers
 {
-    public class RollController : Controller
+    public class RoleController : Controller
     {
     }
 }

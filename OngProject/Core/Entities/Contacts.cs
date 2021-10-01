@@ -29,9 +29,6 @@ namespace OngProject.Core.Entities
         [MaxLength(500)]
         public string Message { get; set; }
 
-        [Column(TypeName = "DATETIME")]
-        public DateTime DeletedAt { get; set; }
-
     }
 }
 

@@ -23,8 +23,5 @@ namespace OngProject.Core.Entities
         [Column(TypeName = "VARCHAR(255)")]
         [MaxLength(255)]
         public string Image { get; set; }
-
-        [DataType(DataType.DateTime)]
-        public DateTime DeleteAt { get; set; }
     }
 }

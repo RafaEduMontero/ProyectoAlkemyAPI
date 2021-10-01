@@ -34,9 +34,6 @@ namespace OngProject.Infrastructure.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DeleteAt")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Image")
                         .IsRequired()
                         .HasMaxLength(255)
@@ -114,6 +111,10 @@ namespace OngProject.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("NewId");
+
+                    b.HasIndex("UserId");
+
                     b.ToTable("Comments");
                 });
 
@@ -126,9 +127,6 @@ namespace OngProject.Infrastructure.Data.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DeletedAt")
-                        .HasColumnType("DATETIME");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -288,7 +286,7 @@ namespace OngProject.Infrastructure.Data.Migrations
                     b.ToTable("Organizations");
                 });
 
-            modelBuilder.Entity("OngProject.Core.Entities.Roll", b =>
+            modelBuilder.Entity("OngProject.Core.Entities.Role", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -313,7 +311,7 @@ namespace OngProject.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Rolls");
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("OngProject.Core.Entities.Slides", b =>
@@ -433,6 +431,25 @@ namespace OngProject.Infrastructure.Data.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("OngProject.Core.Entities.Comments", b =>
+                {
+                    b.HasOne("OngProject.Core.Entities.News", "New")
+                        .WithMany()
+                        .HasForeignKey("NewId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OngProject.Core.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("New");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("OngProject.Core.Entities.News", b =>
                 {
                     b.HasOne("OngProject.Core.Entities.Category", "Category")
@@ -457,13 +474,13 @@ namespace OngProject.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("OngProject.Core.Entities.User", b =>
                 {
-                    b.HasOne("OngProject.Core.Entities.Roll", "Roll")
+                    b.HasOne("OngProject.Core.Entities.Role", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Roll");
+                    b.Navigation("Role");
                 });
 #pragma warning restore 612, 618
         }

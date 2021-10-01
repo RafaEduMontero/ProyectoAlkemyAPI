@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OngProject.Core.Services
 {
-    public class RollServices : IRoll
+    public class RoleServices : IRole
     {
     }
 }

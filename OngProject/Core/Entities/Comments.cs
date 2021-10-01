@@ -9,11 +9,7 @@ namespace OngProject.Core.Entities
 {
     public class Comments : EntityBase
     {
-        [Required]
-        [Column(TypeName = "INTEGER")]
-        [ForeignKey("UserId")]
-        public int UserId { get; set; }
-
+        
         [Required]
         [Column(TypeName = "TEXT")]
         [MaxLength(4000)]
@@ -21,7 +17,17 @@ namespace OngProject.Core.Entities
 
         [Required]
         [Column(TypeName = "INTEGER")]
-        [ForeignKey("NewId")]
+        public int UserId { get; set; }
+
+        [ForeignKey("UserId")]
+        public virtual User User { get; set; }
+
+        [Required]
+        [Column(TypeName = "INTEGER")]
         public int NewId { get; set; }
+
+        [ForeignKey("NewId")]
+        public virtual News New { get; set; }
+
     }
 }

@@ -16,7 +16,6 @@ namespace OngProject.Infrastructure.Data.Migrations
                     Name = table.Column<string>(type: "VARCHAR(255)", maxLength: 255, nullable: false),
                     Content = table.Column<string>(type: "TEXT", maxLength: 65535, nullable: false),
                     Image = table.Column<string>(type: "VARCHAR(255)", maxLength: 255, nullable: false),
-                    DeleteAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -43,23 +42,6 @@ namespace OngProject.Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Comments",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "INTEGER", nullable: false),
-                    Body = table.Column<string>(type: "TEXT", maxLength: 4000, nullable: false),
-                    NewId = table.Column<int>(type: "INTEGER", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Comments", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Contacts",
                 columns: table => new
                 {
@@ -69,7 +51,6 @@ namespace OngProject.Infrastructure.Data.Migrations
                     Phone = table.Column<int>(type: "INTEGER", maxLength: 20, nullable: false),
                     Email = table.Column<string>(type: "VARCHAR(320)", maxLength: 320, nullable: false),
                     Message = table.Column<string>(type: "TEXT", maxLength: 500, nullable: false),
-                    DeletedAt = table.Column<DateTime>(type: "DATETIME", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -120,7 +101,7 @@ namespace OngProject.Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Rolls",
+                name: "Roles",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -132,7 +113,7 @@ namespace OngProject.Infrastructure.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Rolls", x => x.Id);
+                    table.PrimaryKey("PK_Roles", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -219,12 +200,51 @@ namespace OngProject.Infrastructure.Data.Migrations
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Users_Rolls_RoleId",
+                        name: "FK_Users_Roles_RoleId",
                         column: x => x.RoleId,
-                        principalTable: "Rolls",
+                        principalTable: "Roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "Comments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Body = table.Column<string>(type: "TEXT", maxLength: 4000, nullable: false),
+                    UserId = table.Column<int>(type: "INTEGER", nullable: false),
+                    NewId = table.Column<int>(type: "INTEGER", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Comments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Comments_News_NewId",
+                        column: x => x.NewId,
+                        principalTable: "News",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Comments_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Comments_NewId",
+                table: "Comments",
+                column: "NewId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Comments_UserId",
+                table: "Comments",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_News_CategoryId",
@@ -263,25 +283,25 @@ namespace OngProject.Infrastructure.Data.Migrations
                 name: "Members");
 
             migrationBuilder.DropTable(
-                name: "News");
-
-            migrationBuilder.DropTable(
                 name: "Slides");
 
             migrationBuilder.DropTable(
                 name: "Testimonials");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "News");
 
             migrationBuilder.DropTable(
-                name: "Categories");
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Organizations");
 
             migrationBuilder.DropTable(
-                name: "Rolls");
+                name: "Categories");
+
+            migrationBuilder.DropTable(
+                name: "Roles");
         }
     }
 }

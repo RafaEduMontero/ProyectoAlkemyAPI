@@ -28,7 +28,7 @@ namespace OngProject.Infrastructure.Repositories
         private readonly IBaseRepository<Member> _memberRepository;
         private readonly IBaseRepository<News> _newsRepository;
         private readonly IBaseRepository<Organizations> _organizationsRepository;
-        private readonly IBaseRepository<Roll> _rollRepository;
+        private readonly IBaseRepository<Role> _roleRepository;
         private readonly IBaseRepository<Slides> _slidesRepository;
         private readonly IBaseRepository<Testimonials> _testimonialsRepository;
         private readonly IBaseRepository<User> _userRepository;
@@ -40,7 +40,7 @@ namespace OngProject.Infrastructure.Repositories
         public IBaseRepository<Member> MemberRepository => _memberRepository ?? new BaseRepository<Member>(_context);
         public IBaseRepository<News> NewsRepository => _newsRepository ?? new BaseRepository<News>(_context);
         public IBaseRepository<Organizations> OrganizationsRepository => _organizationsRepository ?? new BaseRepository<Organizations>(_context);
-        public IBaseRepository<Roll> RollRepository => _rollRepository ?? new BaseRepository<Roll>(_context);
+        public IBaseRepository<Role> RollRepository => _roleRepository ?? new BaseRepository<Role>(_context);
         public IBaseRepository<Slides> SlidesRepository => _slidesRepository ?? new BaseRepository<Slides>(_context);
         public IBaseRepository<Testimonials> TestimonialsRepository => _testimonialsRepository ?? new BaseRepository<Testimonials>(_context);
         public IBaseRepository<User> UserRpository => _userRepository ?? new BaseRepository<User>(_context); 

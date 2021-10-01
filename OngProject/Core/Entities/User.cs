@@ -38,9 +38,8 @@ namespace OngProject.Core.Entities
         [MaxLength(255)]
         public string Photo { get; set; }
 
-        //Foreign Key hacia Roles
         public int RoleId { get; set; }
         [ForeignKey("RoleId")]
-        public virtual Roll Roll { get; set; }
+        public virtual Role Role { get; set; }
     }
 }

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace OngProject.Controllers
 {
-    public class NewsController: ControllerBase
+    public class NewsController: Controller
     {
         
     }

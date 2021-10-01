@@ -8,9 +8,6 @@ namespace OngProject.Controllers
 {
     public class OrganizationsController : Controller
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
+       
     }
 }

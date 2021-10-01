@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace OngProject.Core.Entities
 {
-    public class Contacts
+    public class Contacts : EntityBase
     {
         [Required]
         [Column(TypeName = "VARCHAR(255)")]

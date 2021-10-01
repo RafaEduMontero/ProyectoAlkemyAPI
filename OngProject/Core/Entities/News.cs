@@ -20,6 +20,10 @@ namespace OngProject.Core.Entities
         [Column(TypeName = "VARCHAR(255)")]
         [MaxLength(255)]
         public string image { get; set; }
+
+        public int categoryId { get; set; }
+        [ForeignKey("categoryId")]
+        public virtual Category category { get; set; }
        
     }
 }

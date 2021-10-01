@@ -1,10 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OngProject.Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity.Infrastructure.Annotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace OngProject.Infrastructure.Data
 {
@@ -29,7 +24,7 @@ namespace OngProject.Infrastructure.Data
         //Referencia a la Entidad : Slides
         public DbSet<Slides> Slides { get; set; }
         public DbSet<Organizations> Organizations { get; set; }
-        public DbSet<Contacts> Contacts { get; set; }
+        public DbSet<News> News{ get; set; }
 
     }
 }

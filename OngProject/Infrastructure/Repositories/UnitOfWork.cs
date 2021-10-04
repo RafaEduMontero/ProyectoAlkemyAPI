@@ -1,4 +1,5 @@
 ﻿using OngProject.Core.Entities;
+using OngProject.Core.Models;
 using OngProject.Infrastructure.Data;
 using OngProject.Infrastructure.Repositories.IRepository;
 using System;
@@ -29,7 +30,7 @@ namespace OngProject.Infrastructure.Repositories
         private readonly IBaseRepository<News> _newsRepository;
         private readonly IBaseRepository<Organizations> _organizationsRepository;
         private readonly IBaseRepository<Role> _roleRepository;
-        private readonly IBaseRepository<Slides> _slidesRepository;
+        private readonly IBaseRepository<SlidesModel> _slidesRepository;
         private readonly IBaseRepository<Testimonials> _testimonialsRepository;
         private readonly IBaseRepository<User> _userRepository;
 
@@ -41,7 +42,7 @@ namespace OngProject.Infrastructure.Repositories
         public IBaseRepository<News> NewsRepository => _newsRepository ?? new BaseRepository<News>(_context);
         public IBaseRepository<Organizations> OrganizationsRepository => _organizationsRepository ?? new BaseRepository<Organizations>(_context);
         public IBaseRepository<Role> RollRepository => _roleRepository ?? new BaseRepository<Role>(_context);
-        public IBaseRepository<Slides> SlidesRepository => _slidesRepository ?? new BaseRepository<Slides>(_context);
+        public IBaseRepository<SlidesModel> SlidesRepository => _slidesRepository ?? new BaseRepository<SlidesModel>(_context);
         public IBaseRepository<Testimonials> TestimonialsRepository => _testimonialsRepository ?? new BaseRepository<Testimonials>(_context);
         public IBaseRepository<User> UserRpository => _userRepository ?? new BaseRepository<User>(_context); 
         #endregion

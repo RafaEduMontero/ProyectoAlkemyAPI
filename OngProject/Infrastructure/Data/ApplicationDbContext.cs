@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OngProject.Core.Entities;
+using OngProject.Core.Models;
 
 namespace OngProject.Infrastructure.Data
 {
@@ -26,7 +27,7 @@ namespace OngProject.Infrastructure.Data
         public DbSet<News> News { get; set; }   
         public DbSet<Organizations> Organizations { get; set; }
         public DbSet<Role> Roles { get; set; }  
-        public DbSet<Slides> Slides { get; set; }
+        public DbSet<SlidesModel> Slides { get; set; }
         public DbSet<Testimonials> Testimonials { get; set; }
         public DbSet<User> Users { get; set; }
 

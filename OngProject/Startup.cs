@@ -81,6 +81,8 @@ namespace OngProject
             services.AddTransient<IMailService, SendGridMailService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddTransient<ISlidesServices, SlidesServices>();
+            services.AddTransient<IContactsServices, ContactsServices>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

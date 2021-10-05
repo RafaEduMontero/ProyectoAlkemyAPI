@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OngProject.Core.DTOs;
+using OngProject.Core.Interfaces.IServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,8 +8,29 @@ using System.Threading.Tasks;
 
 namespace OngProject.Controllers
 {
-    public class ContactsController : Controller
+    [Route("/contacts")]
+    [ApiController]
+    public class ContactsController : ControllerBase
     {
-       
+        private readonly IContactsServices _contactsServices;
+
+        public ContactsController(IContactsServices contactsServices)
+        {
+            _contactsServices = contactsServices;
+        }
+        [HttpGet]
+        public async Task<IEnumerable<ContactsDTO>> Get()
+        {
+            return await _contactsServices.GetAll();
+        }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            if (!_contactsServices.EntityExists(id))
+                return NotFound();
+            
+            var contact = await _contactsServices.GetById(id);
+            return Ok(contact);
+        }
     }
 }

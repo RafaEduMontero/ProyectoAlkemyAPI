@@ -84,10 +84,9 @@ namespace OngProject.Infrastructure.Data
                     new Comments
                     {
                         Id = i,
-                        // UserId = i,
-                        // NewId = i,
-                        Body = "Body from Comment " + i,
+                        UserId = i,
                         NewId = i,
+                        Body = "Body from Comment " + i,
                         CreatedAt = DateTime.Now
                     }
                 ); ;

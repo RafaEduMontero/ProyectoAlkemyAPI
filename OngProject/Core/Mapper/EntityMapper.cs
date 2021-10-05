@@ -15,6 +15,33 @@ namespace OngProject.Core.Mapper
             return slideDTO;
         }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public SlidesDTO FromSlideDetalleToSlideDto(Slides slide)
+        {
+            var slideDTO = new SlidesDTO()
+            {
+                ImageUrl = slide.ImageUrl,
+                Order = slide.Order,
+                Text = slide.Text,
+                OrganizationId = slide.OrganizationId
+
+            };
+            return slideDTO;
+        }
+
         public ContactsDTO FromContactsToContactsDto(Contacts contact)
         {
             var contactDTO = new ContactsDTO()

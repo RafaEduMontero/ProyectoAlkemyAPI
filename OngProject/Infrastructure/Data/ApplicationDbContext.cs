@@ -19,11 +19,11 @@ namespace OngProject.Infrastructure.Data
             });
             SeedActivities(builder);
             SeedCategories(builder);
-            SeedComments(builder);
+            //SeedComments(builder);
             SeedContacts(builder);
             SeedMembers(builder);
             SeedOrganizations(builder);
-        }
+         }
 
         public DbSet<Activities> Activities { get; set; }
         public DbSet<Category> Categories { get; set; }

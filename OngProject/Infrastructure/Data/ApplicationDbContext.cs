@@ -19,7 +19,7 @@ namespace OngProject.Infrastructure.Data
             });
             SeedActivities(builder);
             SeedCategories(builder);
-            //SeedComments(builder);
+            SeedComments(builder);
             SeedContacts(builder);
             SeedMembers(builder);
             SeedOrganizations(builder);
@@ -71,22 +71,22 @@ namespace OngProject.Infrastructure.Data
             }
         }
 
-        //private void SeedComments(ModelBuilder modelBuilder)
-        //{
-        //    for (int i = 1; i < 11; i++)
-        //    {
-        //        modelBuilder.Entity<Comments>().HasData(
-        //            new Comments
-        //            {
-        //                Id = i,
-        //                // UserId = i,
-        //                // NewId = i,
-        //                Body = "Body from Comment " + i,
-        //                CreatedAt = DateTime.Now
-        //            }
-        //        ); ;
-        //    }
-        //}
+        private void SeedComments(ModelBuilder modelBuilder)
+        {
+            for (int i = 1; i < 11; i++)
+            {
+                modelBuilder.Entity<Comments>().HasData(
+                    new Comments
+                    {
+                        Id = i,
+                        // UserId = i,
+                        // NewId = i,
+                        Body = "Body from Comment " + i,
+                        CreatedAt = DateTime.Now
+                    }
+                ); ;
+            }
+        }
 
         private void SeedContacts(ModelBuilder modelBuilder)
         {

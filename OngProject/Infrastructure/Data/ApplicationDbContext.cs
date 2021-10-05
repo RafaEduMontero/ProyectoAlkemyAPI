@@ -17,12 +17,17 @@ namespace OngProject.Infrastructure.Data
             builder.Entity<User>(entity => {
                 entity.HasIndex(e => e.Email).IsUnique();
             });
+            SeedRoles(builder);
+            SeedUsers(builder);
             SeedActivities(builder);
             SeedCategories(builder);
+            SeedNews(builder);
             SeedComments(builder);
             SeedContacts(builder);
             SeedMembers(builder);
             SeedOrganizations(builder);
+            SeedTestimonials(builder);
+            SeedSlides(builder);
         }
 
         public DbSet<Activities> Activities { get; set; }
@@ -46,7 +51,7 @@ namespace OngProject.Infrastructure.Data
                     {
                         Id = i,
                         Name = "Activity " + i,
-                        Image = null,
+                        Image = "Image for activity " + i,
                         Content = "Content from activity " + i,
                         CreatedAt = DateTime.Now
                     }
@@ -62,8 +67,8 @@ namespace OngProject.Infrastructure.Data
                     new Category
                     {
                         Id = i,
-                        Name = "Activity " + i,
-                        Image = null,
+                        Name = "Category " + i,
+                        Image = "Image for category " + i,
                         Description = "Description for Category " + i,
                         CreatedAt = DateTime.Now
                     }
@@ -81,6 +86,7 @@ namespace OngProject.Infrastructure.Data
                         Id = i,
                         UserId = i,
                         Body = "Body from Comment " + i,
+                        NewId = i,
                         CreatedAt = DateTime.Now
                     }
                 );
@@ -114,7 +120,7 @@ namespace OngProject.Infrastructure.Data
                     {
                         Id = i,
                         Name = "Member " + i,
-                        Image = null,
+                        Image = "Image for Memeber " + i,
                         FacebookUrl = "FacebookURL for member " + i,
                         InstagramUrl = "InstagramURL for member " + i,
                         LinkedinUrl = "LinkdInURL for member " + i,
@@ -134,7 +140,7 @@ namespace OngProject.Infrastructure.Data
                     {
                         Id = i,
                         Name = "Organization " + i,
-                        Image = null,
+                        Image = "Image for Organization " + i,
                         Address = "Address for Organization " + i,
                         Phone = 381 + i,
                         Email = "Email for Organization " + i,
@@ -144,6 +150,114 @@ namespace OngProject.Infrastructure.Data
                     }
                 );
             }
+        }
+
+        private void SeedTestimonials(ModelBuilder modelBuilder)
+        {
+            for (int i = 1; i < 11; i++)
+            {
+                modelBuilder.Entity<Testimonials>().HasData(
+                    new Testimonials
+                    {
+                        Id = i,
+                        Name = "Organization " + i,
+                        Image = "Image for testimonial " + i,
+                        Content = "Contetnt for Testimonial " + i,
+                        CreatedAt = DateTime.Now
+                    }
+                );
+            }
+        }
+
+        private void SeedUsers(ModelBuilder modelBuilder)
+        {
+            for (int i = 1; i <= 2; i++)
+            {
+                modelBuilder.Entity<User>().HasData(
+                    new User
+                    {
+                        Id = i,
+                        FirstName = "User" + i,
+                        LastName = "LastName for user " + i,
+                        Email = "Email for user " + i,
+                        Password = "password" + i,
+                        Photo = "Photo for user " + i,
+                        RoleId = 1,
+                        CreatedAt = DateTime.Now
+                    }
+                );
+            }
+            for (int i = 3; i <= 10; i++)
+            {
+                modelBuilder.Entity<User>().HasData(
+                    new User
+                    {
+                        Id = i,
+                        FirstName = "User" + i,
+                        LastName = "LastName for user " + i,
+                        Email = "Email for user " + i,
+                        Password = "password" + i,
+                        Photo = "Photo for user " + i,
+                        RoleId = 2,
+                        CreatedAt = DateTime.Now
+                    }
+                );
+            }
+        }
+
+        private void SeedSlides(ModelBuilder modelBuilder)
+        {
+            for (int i = 1; i < 11; i++)
+            {
+                modelBuilder.Entity<Slides>().HasData(
+                    new Slides
+                    {
+                        Id = i,
+                        ImageUrl = "ImageUrl for Slide " + i,
+                        Text = "Text for Slide " + i,
+                        Order = i,
+                        OrganizationId = i,
+                        CreatedAt = DateTime.Now
+                    }
+                );
+            }
+        }
+
+        private void SeedNews(ModelBuilder modelBuilder)
+        {
+            for (int i = 1; i < 11; i++)
+            {
+                modelBuilder.Entity<News>().HasData(
+                    new News
+                    {
+                        Id = i,
+                        Name = "New " + i,
+                        Content = "Content for New " + i,
+                        Image = "Image for New " + i,
+                        CategoryId = i,
+                        CreatedAt = DateTime.Now
+                    }
+                );
+            }
+        }
+
+        private void SeedRoles(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Role>().HasData(
+                    new Role
+                    {
+                        Id = 1,
+                        Name = "Admin",
+                        Description = "Description User Admin",
+                        CreatedAt = DateTime.Now
+                    },
+                    new Role
+                    {
+                        Id = 2,
+                        Name = "Standard",
+                        Description = "Description User Standard"
+                    }
+                );
         }
     }
 }

@@ -19,7 +19,7 @@ namespace OngProject.Infrastructure.Data
             });
             SeedActivities(builder);
             SeedCategories(builder);
-            //SeedComments(builder);
+            SeedComments(builder);
             SeedContacts(builder);
             SeedMembers(builder);
             SeedOrganizations(builder);

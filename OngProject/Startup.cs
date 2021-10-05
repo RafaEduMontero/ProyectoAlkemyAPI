@@ -83,11 +83,6 @@ namespace OngProject
                 });
             });
 
-            //For Identification
-
-            services.AddIdentity<User, Role>()
-                .AddDefaultTokenProviders();
-
             // JWT Token Generator
 
             var key = Encoding.ASCII.GetBytes(Configuration["JWT:Secret"]);

@@ -34,7 +34,6 @@ namespace OngProject.Infrastructure.Repositories
         private readonly IBaseRepository<User> _userRepository;
 
         public IBaseRepository<Activities> ActivitiesRepository => _activitiesRepository ?? new BaseRepository<Activities>(_context);
-        public IBaseRepository<Category> CategoriesRepository => _categoryRepository ?? new BaseRepository<Category>(_context);
         public IBaseRepository<Comments> CommentsRepository => _commentsRepository ?? new BaseRepository<Comments>(_context);
         public IBaseRepository<Contacts> ContactsRepository => _contactsRepository ?? new BaseRepository<Contacts>(_context);
         public IBaseRepository<Member> MemberRepository => _memberRepository ?? new BaseRepository<Member>(_context);
@@ -43,7 +42,9 @@ namespace OngProject.Infrastructure.Repositories
         public IBaseRepository<Role> RollRepository => _roleRepository ?? new BaseRepository<Role>(_context);
         public IBaseRepository<Slides> SlidesRepository => _slidesRepository ?? new BaseRepository<Slides>(_context);
         public IBaseRepository<Testimonials> TestimonialsRepository => _testimonialsRepository ?? new BaseRepository<Testimonials>(_context);
-        public IBaseRepository<User> UserRpository => _userRepository ?? new BaseRepository<User>(_context); 
+        public IBaseRepository<User> UserRpository => _userRepository ?? new BaseRepository<User>(_context);
+        public IBaseRepository<Category> CategoryRepository => _categoryRepository ?? new BaseRepository<Category>(_context);
+
         #endregion
 
 

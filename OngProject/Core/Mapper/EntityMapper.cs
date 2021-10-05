@@ -15,10 +15,29 @@ namespace OngProject.Core.Mapper
             };
             return slideDTO;
         }
-
-        internal object FromContactsToContactsDto(Contacts x)
+        public ContactsDTO FromContactsToContactsDto(Contacts contact)
         {
-            throw new NotImplementedException();
+            var contactDTO = new ContactsDTO()
+            {
+                Name = contact.Name,
+                Phone = contact.Phone,
+                Email = contact.Email,
+                Message = contact.Message
+            };
+           return contactDTO;
         }
+        public SlidesDTO FromSlideDetalleToSlideDto(Slides slide)
+        {
+            var slideDTO = new SlidesDTO()
+            {
+                ImageUrl = slide.ImageUrl,
+                Order = slide.Order,
+                Text = slide.Text,
+                OrganizationId = slide.OrganizationId
+
+            };
+            return slideDTO;
+        }
+
     }
 }

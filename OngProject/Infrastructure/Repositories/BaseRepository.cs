@@ -38,14 +38,12 @@ namespace OngProject.Infrastructure.Repositories
             entity.IsDeleted = false;
 
             await _entity.AddAsync(entity);
-            await _context.SaveChangesAsync();
         }
         public async Task Update(T entity)
         {
             entity.CreatedAt = DateTime.Now;
 
             _entity.Update(entity);
-            await _context.SaveChangesAsync();
         }
         public async Task Delete(int id)
         {

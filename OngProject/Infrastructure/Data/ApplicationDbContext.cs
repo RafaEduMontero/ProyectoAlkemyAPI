@@ -19,7 +19,7 @@ namespace OngProject.Infrastructure.Data
             });
             SeedActivities(builder);
             SeedCategories(builder);
-            SeedComments(builder);
+            //SeedComments(builder);
             SeedContacts(builder);
             SeedMembers(builder);
             SeedOrganizations(builder);
@@ -46,7 +46,7 @@ namespace OngProject.Infrastructure.Data
                     {
                         Id = i,
                         Name = "Activity " + i,
-                        Image = null,
+                        Image = "ImageActivities" + i + ".jpg",
                         Content = "Content from activity " + i,
                         CreatedAt = DateTime.Now
                     }
@@ -63,7 +63,7 @@ namespace OngProject.Infrastructure.Data
                     {
                         Id = i,
                         Name = "Activity " + i,
-                        Image = null,
+                        Image = "ImageCategories" + i + ".jpg",
                         Description = "Description for Category " + i,
                         CreatedAt = DateTime.Now
                     }
@@ -71,21 +71,22 @@ namespace OngProject.Infrastructure.Data
             }
         }
 
-        private void SeedComments(ModelBuilder modelBuilder)
-        {
-            for (int i = 1; i < 11; i++)
-            {
-                modelBuilder.Entity<Comments>().HasData(
-                    new Comments
-                    {
-                        Id = i,
-                        UserId = i,
-                        Body = "Body from Comment " + i,
-                        CreatedAt = DateTime.Now
-                    }
-                );
-            }
-        }
+        //private void SeedComments(ModelBuilder modelBuilder)
+        //{
+        //    for (int i = 1; i < 11; i++)
+        //    {
+        //        modelBuilder.Entity<Comments>().HasData(
+        //            new Comments
+        //            {
+        //                Id = i,
+        //                // UserId = i,
+        //                // NewId = i,
+        //                Body = "Body from Comment " + i,
+        //                CreatedAt = DateTime.Now
+        //            }
+        //        ); ;
+        //    }
+        //}
 
         private void SeedContacts(ModelBuilder modelBuilder)
         {
@@ -114,7 +115,7 @@ namespace OngProject.Infrastructure.Data
                     {
                         Id = i,
                         Name = "Member " + i,
-                        Image = null,
+                        Image = "ImageMembers" + i + ".jpg",
                         FacebookUrl = "FacebookURL for member " + i,
                         InstagramUrl = "InstagramURL for member " + i,
                         LinkedinUrl = "LinkdInURL for member " + i,
@@ -134,7 +135,7 @@ namespace OngProject.Infrastructure.Data
                     {
                         Id = i,
                         Name = "Organization " + i,
-                        Image = null,
+                        Image = "ImageOrganizations" + i + ".jpg",
                         Address = "Address for Organization " + i,
                         Phone = 381 + i,
                         Email = "Email for Organization " + i,

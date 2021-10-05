@@ -1,11 +1,11 @@
 ﻿using OngProject.Core.DTOs;
-using OngProject.Core.Models;
+using OngProject.Core.Entities;
 
 namespace OngProject.Core.Mapper
 {
     public class EntityMapper
     {
-        public SlidesDTO FromSlideToSlideDto(SlidesModel slide)
+        public SlidesDTO FromSlideToSlideDto(Slides slide)
         {
             var slideDTO = new SlidesDTO()
             {

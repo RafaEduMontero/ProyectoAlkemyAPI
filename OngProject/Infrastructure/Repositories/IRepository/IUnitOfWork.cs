@@ -1,11 +1,11 @@
-﻿using OngProject.Core.Models;
+﻿using OngProject.Core.Entities;
 using System.Threading.Tasks;
 
 namespace OngProject.Infrastructure.Repositories.IRepository
 {
     public interface IUnitOfWork 
     {
-        IBaseRepository<SlidesModel> SlidesRepository { get; }
+        IBaseRepository<Slides> SlidesRepository { get; }
         void Dispose();
 
         void SaveChanges();

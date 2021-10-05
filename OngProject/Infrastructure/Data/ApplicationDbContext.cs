@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OngProject.Core.Entities;
+using System;
 
 namespace OngProject.Infrastructure.Data
 {
@@ -16,6 +17,12 @@ namespace OngProject.Infrastructure.Data
             builder.Entity<User>(entity => {
                 entity.HasIndex(e => e.Email).IsUnique();
             });
+            SeedActivities(builder);
+            SeedCategories(builder);
+            SeedComments(builder);
+            SeedContacts(builder);
+            SeedMembers(builder);
+            SeedOrganizations(builder);
         }
 
         public DbSet<Activities> Activities { get; set; }
@@ -30,5 +37,113 @@ namespace OngProject.Infrastructure.Data
         public DbSet<Testimonials> Testimonials { get; set; }
         public DbSet<User> Users { get; set; }
 
+        private void SeedActivities(ModelBuilder modelBuilder)
+        {
+            for (int i = 1; i < 11; i++)
+            {
+                modelBuilder.Entity<Activities>().HasData(
+                    new Activities
+                    {
+                        Id = i,
+                        Name = "Activity " + i,
+                        Image = null,
+                        Content = "Content from activity " + i,
+                        CreatedAt = DateTime.Now
+                    }
+                );
+            }
+        }
+
+        private void SeedCategories(ModelBuilder modelBuilder)
+        {
+            for (int i = 1; i < 11; i++)
+            {
+                modelBuilder.Entity<Category>().HasData(
+                    new Category
+                    {
+                        Id = i,
+                        Name = "Activity " + i,
+                        Image = null,
+                        Description = "Description for Category " + i,
+                        CreatedAt = DateTime.Now
+                    }
+                );
+            }
+        }
+
+        private void SeedComments(ModelBuilder modelBuilder)
+        {
+            for (int i = 1; i < 11; i++)
+            {
+                modelBuilder.Entity<Comments>().HasData(
+                    new Comments
+                    {
+                        Id = i,
+                        UserId = i,
+                        Body = "Body from Comment " + i,
+                        CreatedAt = DateTime.Now
+                    }
+                );
+            }
+        }
+
+        private void SeedContacts(ModelBuilder modelBuilder)
+        {
+            for (int i = 1; i < 11; i++)
+            {
+                modelBuilder.Entity<Contacts>().HasData(
+                    new Contacts
+                    {
+                        Id = i,
+                        Name = "Contact " + i,
+                        Phone = 381 + i,
+                        Email = "Email for contact " + i,
+                        Message = "Message from contact "+ i,
+                        CreatedAt = DateTime.Now
+                    }
+                );
+            }
+        }
+
+        private void SeedMembers(ModelBuilder modelBuilder)
+        {
+            for (int i = 1; i < 11; i++)
+            {
+                modelBuilder.Entity<Member>().HasData(
+                    new Member
+                    {
+                        Id = i,
+                        Name = "Member " + i,
+                        Image = null,
+                        FacebookUrl = "FacebookURL for member " + i,
+                        InstagramUrl = "InstagramURL for member " + i,
+                        LinkedinUrl = "LinkdInURL for member " + i,
+                        Description = "Description for member " + i,
+                        CreatedAt = DateTime.Now
+                    }
+                );
+            }
+        }
+
+        private void SeedOrganizations(ModelBuilder modelBuilder)
+        {
+            for (int i = 1; i < 11; i++)
+            {
+                modelBuilder.Entity<Organizations>().HasData(
+                    new Organizations
+                    {
+                        Id = i,
+                        Name = "Organization " + i,
+                        Image = null,
+                        Address = "Address for Organization " + i,
+                        Phone = 381 + i,
+                        Email = "Email for Organization " + i,
+                        WelcomeText = "WelcomeText for Organization " + i,
+                        AboutUsText = "AboutUsText for Organization " + i,
+                        CreatedAt = DateTime.Now
+                    }
+                );
+            }
+        }
     }
 }

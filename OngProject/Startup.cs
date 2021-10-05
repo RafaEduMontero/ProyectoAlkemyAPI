@@ -58,7 +58,7 @@ namespace OngProject
                 // To Enable authorization using Swagger (JWT)
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
-                    Description = "JWT Authorization header using the bearer scheme",
+                    Description = "Please enter into field the word 'Bearer' following by space and JWT",
                     Name = "Authorization",
                     In = ParameterLocation.Header,
                     Type = SecuritySchemeType.ApiKey,
@@ -73,7 +73,10 @@ namespace OngProject
                             {
                                 Type = ReferenceType.SecurityScheme,
                                 Id = "Bearer"
-                            }
+                            },
+                            Scheme = "oauth2",
+                                Name = "Bearer",
+                                In = ParameterLocation.Header,
                         },
                         new List<string>()
                     }
@@ -93,7 +96,6 @@ namespace OngProject
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             })
             .AddJwtBearer(x =>
             {

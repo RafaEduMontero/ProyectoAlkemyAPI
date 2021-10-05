@@ -25,5 +25,12 @@ namespace OngProject.Controllers
         {
             return await _slidesServices.GetAll();
         }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            if (!_slidesServices.EntityExist(id)) return NotFound();
+            var slide = await _slidesServices.GetAll();
+            return Ok(slide);
+        }
     }
 }

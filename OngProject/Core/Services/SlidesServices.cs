@@ -15,12 +15,25 @@ namespace OngProject.Core.Services
         {
             _unitOfWork = unitOfWork;
         }
+
+        public bool EntityExist(int id)
+        {
+            return _unitOfWork.SlidesRepository.EntityExists(id);
+        }
+
         public async Task<IEnumerable<SlidesDTO>> GetAll()
         {
             var mapper = new EntityMapper();
             var slideList = await _unitOfWork.SlidesRepository.GetAll();
             var slideDTOList = slideList.Select(x => mapper.FromSlideToSlideDto(x)).ToList();
             return slideDTOList;
+        }
+        public async Task<SlidesDTO> GetById(int id)
+        {
+            var mapper = new EntityMapper();
+            var slide = await _unitOfWork.SlidesRepository.GetById(id);
+            var slideDTO = mapper.FromSlideToSlideDto(slide);
+            return slideDTO;
         }
     }
 }

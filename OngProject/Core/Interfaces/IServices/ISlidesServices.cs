@@ -7,5 +7,7 @@ namespace OngProject.Core.Interfaces.IServices
     public interface ISlidesServices
     {
         Task<IEnumerable<SlidesDTO>> GetAll();
+        Task<SlidesDTO> GetById(int id);
+        bool EntityExist(int id);
     }
 }

@@ -23,7 +23,7 @@ namespace OngProject.Infrastructure.Data
             SeedContacts(builder);
             SeedMembers(builder);
             SeedOrganizations(builder);
-        }
+         }
 
         public DbSet<Activities> Activities { get; set; }
         public DbSet<Category> Categories { get; set; }
@@ -46,7 +46,7 @@ namespace OngProject.Infrastructure.Data
                     {
                         Id = i,
                         Name = "Activity " + i,
-                        Image = null,
+                        Image = "ImageActivities" + i + ".jpg",
                         Content = "Content from activity " + i,
                         CreatedAt = DateTime.Now
                     }
@@ -63,7 +63,7 @@ namespace OngProject.Infrastructure.Data
                     {
                         Id = i,
                         Name = "Activity " + i,
-                        Image = null,
+                        Image = "ImageCategories" + i + ".jpg",
                         Description = "Description for Category " + i,
                         CreatedAt = DateTime.Now
                     }
@@ -79,11 +79,12 @@ namespace OngProject.Infrastructure.Data
                     new Comments
                     {
                         Id = i,
-                        UserId = i,
+                        // UserId = i,
+                        // NewId = i,
                         Body = "Body from Comment " + i,
                         CreatedAt = DateTime.Now
                     }
-                );
+                ); ;
             }
         }
 
@@ -114,7 +115,7 @@ namespace OngProject.Infrastructure.Data
                     {
                         Id = i,
                         Name = "Member " + i,
-                        Image = null,
+                        Image = "ImageMembers" + i + ".jpg",
                         FacebookUrl = "FacebookURL for member " + i,
                         InstagramUrl = "InstagramURL for member " + i,
                         LinkedinUrl = "LinkdInURL for member " + i,
@@ -134,7 +135,7 @@ namespace OngProject.Infrastructure.Data
                     {
                         Id = i,
                         Name = "Organization " + i,
-                        Image = null,
+                        Image = "ImageOrganizations" + i + ".jpg",
                         Address = "Address for Organization " + i,
                         Phone = 381 + i,
                         Email = "Email for Organization " + i,

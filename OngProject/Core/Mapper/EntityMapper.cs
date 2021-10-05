@@ -15,19 +15,17 @@ namespace OngProject.Core.Mapper
             return slideDTO;
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+        public ContactsDTO FromContactsToContactsDto(Contacts contact)
+        {
+            var contactDTO = new ContactsDTO()
+            {
+                Name = contact.Name,
+                Phone = contact.Phone,
+                Email = contact.Email,
+                Message = contact.Message
+            };
+           return contactDTO;
+        }
 
         public SlidesDTO FromSlideDetalleToSlideDto(Slides slide)
         {

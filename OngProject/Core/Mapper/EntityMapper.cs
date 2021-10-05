@@ -16,6 +16,9 @@ namespace OngProject.Core.Mapper
             return slideDTO;
         }
 
-        
+        internal object FromContactsToContactsDto(Contacts x)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

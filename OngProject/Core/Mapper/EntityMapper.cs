@@ -14,7 +14,6 @@ namespace OngProject.Core.Mapper
             };
             return slideDTO;
         }
-
         public ContactsDTO FromContactsToContactsDto(Contacts contact)
         {
             var contactDTO = new ContactsDTO()
@@ -26,7 +25,6 @@ namespace OngProject.Core.Mapper
             };
            return contactDTO;
         }
-
         public SlidesDTO FromSlideDetalleToSlideDto(Slides slide)
         {
             var slideDTO = new SlidesDTO()

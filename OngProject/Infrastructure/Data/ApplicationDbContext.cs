@@ -51,7 +51,7 @@ namespace OngProject.Infrastructure.Data
                     {
                         Id = i,
                         Name = "Activity " + i,
-                        Image = "Image for activity " + i,
+                        Image = "ImageActivities" + i + ".jpg",
                         Content = "Content from activity " + i,
                         CreatedAt = DateTime.Now
                     }
@@ -67,8 +67,8 @@ namespace OngProject.Infrastructure.Data
                     new Category
                     {
                         Id = i,
-                        Name = "Category " + i,
-                        Image = "Image for category " + i,
+                        Name = "Activity " + i,
+                        Image = "ImageCategories" + i + ".jpg",
                         Description = "Description for Category " + i,
                         CreatedAt = DateTime.Now
                     }
@@ -84,12 +84,13 @@ namespace OngProject.Infrastructure.Data
                     new Comments
                     {
                         Id = i,
-                        UserId = i,
+                        // UserId = i,
+                        // NewId = i,
                         Body = "Body from Comment " + i,
                         NewId = i,
                         CreatedAt = DateTime.Now
                     }
-                );
+                ); ;
             }
         }
 
@@ -120,7 +121,7 @@ namespace OngProject.Infrastructure.Data
                     {
                         Id = i,
                         Name = "Member " + i,
-                        Image = "Image for Memeber " + i,
+                        Image = "ImageMembers" + i + ".jpg",
                         FacebookUrl = "FacebookURL for member " + i,
                         InstagramUrl = "InstagramURL for member " + i,
                         LinkedinUrl = "LinkdInURL for member " + i,
@@ -140,7 +141,7 @@ namespace OngProject.Infrastructure.Data
                     {
                         Id = i,
                         Name = "Organization " + i,
-                        Image = "Image for Organization " + i,
+                        Image = "ImageOrganizations" + i + ".jpg",
                         Address = "Address for Organization " + i,
                         Phone = 381 + i,
                         Email = "Email for Organization " + i,

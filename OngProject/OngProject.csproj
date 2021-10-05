@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Core\Models\" />
     <Folder Include="Infrastructure\Data\Migrations\" />
   </ItemGroup>
 

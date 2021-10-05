@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using OngProject.Core.Entities;
 using System.Threading.Tasks;
 
 namespace OngProject.Infrastructure.Repositories.IRepository
 {
-    public interface IUnitOfWork
+    public interface IUnitOfWork 
     {
+        IBaseRepository<Slides> SlidesRepository { get; }
         void Dispose();
 
         void SaveChanges();

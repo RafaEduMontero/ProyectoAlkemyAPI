@@ -1,11 +1,12 @@
-﻿using System;
+﻿using OngProject.Core.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace OngProject.Infrastructure.Repositories.IRepository
 {
-    public interface IBaseRepository<T> where T : class
+    public interface IBaseRepository<T> where T : EntityBase
     {
         Task<IEnumerable<T>> GetAll();
         Task<T> GetById(int id);

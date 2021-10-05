@@ -65,6 +65,19 @@ namespace OngProject.Core.Mapper
             };
             return slideDTO;
         }
+        public UserDTO FromsUsertoUserDTO(User user)
+        {
+            var userDTO = new UserDTO()
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                Password = user.Password,
+                Photo = user.Photo,
+                RoleId = user.RoleId
+            };
+            return userDTO;
+        }
         public CategoryNameDTO FromCategoryToCategoryNameDto(Category category)
         {
             var categoryNameDTO = new CategoryNameDTO()

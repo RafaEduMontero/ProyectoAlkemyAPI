@@ -22,7 +22,6 @@
   <ItemGroup>
     <Folder Include="Core\Models\" />
     <Folder Include="Infrastructure\Data\Migrations\" />
-    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

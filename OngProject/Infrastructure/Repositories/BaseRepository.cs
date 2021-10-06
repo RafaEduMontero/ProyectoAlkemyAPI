@@ -33,12 +33,13 @@ namespace OngProject.Infrastructure.Repositories
             var response = await _entity.FindAsync(id);
             return response;
         }
-        public async Task Insert(T entity)
+        public async Task<T> Insert(T entity)
         {
             entity.CreatedAt = DateTime.Now;
             entity.IsDeleted = false;
 
-            await _entity.AddAsync(entity);
+            var response= await _entity.AddAsync(entity);
+            return response.Entity;
         }
         public async Task Update(T entity)
         {

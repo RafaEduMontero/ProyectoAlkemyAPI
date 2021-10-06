@@ -1,3 +1,4 @@
+using OngProject.Common;
 using OngProject.Core.DTOs;
 using OngProject.Core.Entities;
 using OngProject.Core.Interfaces.IServices;
@@ -21,12 +22,26 @@ namespace OngProject.Core.Services
             this._unitOfWork = unitOfWork;
         }
         #endregion
+        public async Task<Result> Register(UserDTO userDTO)
+        {
+            var newUser = new EntityMapper().FromUserDtoToUser(userDTO);
+
+            newUser.RoleId = 2;
+            newUser.Password = Encrypt.GetSHA256(newUser.Password);
+
+            await _unitOfWork.UsersRepository.Insert(newUser);
+            
+            await _unitOfWork.SaveChangesAsync();
+
+            return new Result().Success($"Se ha agregado correctamene al usuario {newUser.FirstName}");
+        }
         public async Task<UserDTO> GetByEmail(string email)
         {
-            var mapper = new EntityMapper();
             var user = await _unitOfWork.UsersRepository.FindByCondition(x => x.Email == email);
                 
+            var mapper = new EntityMapper();
             var userDTO = mapper.FromsUserToUserDto(user);
+
             return userDTO;
         }
     }

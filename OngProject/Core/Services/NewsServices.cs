@@ -15,14 +15,18 @@ namespace OngProject.Core.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<NewsDTO> GetNewsForId(int id)
+        public async Task<NewsDTO> GetForId(int id)
         {
             var maper = new EntityMapper();
             var news = await _unitOfWork.NewsRepository.GetById(id);
             var newsDTO = maper.FromNewsToNewsDTO(news);
-
+           
             return newsDTO;
 
+        }
+        public bool EntityExists(int id)
+        {
+            return _unitOfWork.NewsRepository.EntityExists(id);
         }
     }
 }

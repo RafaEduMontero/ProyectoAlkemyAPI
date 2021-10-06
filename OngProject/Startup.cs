@@ -111,6 +111,7 @@ namespace OngProject
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddTransient<ISlidesServices, SlidesServices>();
             services.AddTransient<IContactsServices, ContactsServices>();
+            services.AddTransient<INewsServices, NewsServices>();
 
         }
 

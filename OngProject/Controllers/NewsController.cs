@@ -1,15 +1,12 @@
-using System;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces.IServices;
-using OngProject.Core.Services;
-using OngProject.Infrastructure.Repositories;
+using System.Threading.Tasks;
 
 namespace OngProject.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class NewsController : Controller
+    public class NewsController : ControllerBase
     {
         private readonly INewsServices _newsServices;
 
@@ -17,12 +14,15 @@ namespace OngProject.Controllers
         {
             _newsServices = newsServices;
         }
-
+        
         [HttpGet]
         [Route("{id}")]
-        public IActionResult GetNewsForId(int id)
+        public async Task<IActionResult> GetNewsForId(int id)
         {
-            return Ok(_newsServices.GetNewsForId(id));
+            if (!_newsServices.EntityExists(id))
+                return NotFound();
+            var news = await _newsServices.GetForId(id);
+            return Ok(news);
         }
     }
 }

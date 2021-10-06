@@ -18,6 +18,8 @@ namespace OngProject.Controllers
         {
             _CategoriesServices = CategoriesServices;
         }
+
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             if (!_CategoriesServices.EntityExist(id)) return NotFound();

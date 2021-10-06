@@ -7,9 +7,9 @@ namespace OngProject.Infrastructure.Repositories.IRepository
     {
         IBaseRepository<Slides> SlidesRepository { get; }
         IBaseRepository<Category> CategoryRepository {get; }       
-
         IBaseRepository<Contacts> ContactsRepository { get; }
         IBaseRepository<Comments> CommentsRepository { get; }
+        IBaseRepository<Organizations> OrganizationsRepository { get; }
 
         void Dispose();
 

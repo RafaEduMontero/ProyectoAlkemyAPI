@@ -11,7 +11,7 @@ namespace OngProject.Core.Helper.S3
         private readonly IAmazonS3 _amazonS3;
         public S3AwsHelper(IAmazonS3 amazonS3)
         {
-
+            _amazonS3 = amazonS3;
         }
     }
 }

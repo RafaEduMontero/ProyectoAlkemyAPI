@@ -37,6 +37,16 @@ namespace OngProject.Core.Mapper
             };
             return slideDTO;
         }
-
+        public NewsDTO FromNewsToNewsDTO(News news)
+        {
+            var newsDTO = new NewsDTO()
+            {
+                Name = news.Name,
+                Content = news.Content,
+                Image = news.Image,
+                CategoryId = news.CategoryId
+            };
+            return newsDTO;
+        }
     }
 }

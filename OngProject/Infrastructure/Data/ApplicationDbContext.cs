@@ -146,7 +146,10 @@ namespace OngProject.Infrastructure.Data
                         Email = "Email for Organization " + i,
                         WelcomeText = "WelcomeText for Organization " + i,
                         AboutUsText = "AboutUsText for Organization " + i,
-                        CreatedAt = DateTime.Now
+                        CreatedAt = DateTime.Now,
+                        FacebookUrl = "FacebookUrl" + i,
+                        InstagramUrl = "InstagramUrl" + i,
+                        LinkedinUrl = "InstragramUrl" + i
                     }
                 );
             }

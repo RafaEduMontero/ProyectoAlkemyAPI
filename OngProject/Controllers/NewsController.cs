@@ -11,7 +11,18 @@ namespace OngProject.Controllers
     [Route("[controller]")]
     public class NewsController : Controller
     {
-        
+        private readonly INewsServices _newsServices;
 
+        public NewsController(INewsServices newsServices)
+        {
+            _newsServices = newsServices;
+        }
+
+        [HttpGet]
+        [Route("{id}")]
+        public IActionResult GetNewsForId(int id)
+        {
+            return Ok(_newsServices.GetNewsForId(id));
+        }
     }
 }

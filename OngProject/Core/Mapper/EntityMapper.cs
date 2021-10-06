@@ -26,6 +26,19 @@ namespace OngProject.Core.Mapper
             };
            return contactDTO;
         }
+
+        internal object FromCategoryToCategoryDto(Category category)
+        {
+            var categoryDTO= new CategoryDTO()
+            {
+                Name = category.Name,
+                Description = category.Description,
+                Image = category.Image
+            };
+           return categoryDTO;
+        }
+            
+
         public SlidesDTO FromSlideDetalleToSlideDto(Slides slide)
         {
             var slideDTO = new SlidesDTO()

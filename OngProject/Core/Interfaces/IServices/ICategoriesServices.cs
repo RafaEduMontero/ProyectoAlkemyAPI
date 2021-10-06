@@ -10,6 +10,7 @@ namespace OngProject.Core.Interfaces.IServices
     {
 
         Task<CategoryDTO> GetById(int id);
-         bool EntityExist(int id);
+        bool EntityExist(int id);
+        Task<IEnumerable<CategoryNameDTO>> GetAll();
     }
 }

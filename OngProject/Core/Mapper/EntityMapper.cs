@@ -62,6 +62,15 @@ namespace OngProject.Core.Mapper
             };
             return slideDTO;
         }
+        public CategoryNameDTO FromCategoryToCategoryNameDto(Category category)
+        {
+            var categoryNameDTO = new CategoryNameDTO()
+            {
+                Name = category.Name
+            };
+            return categoryNameDTO;
+        }
+
 
         public CommentsDTO FromCommentsToCommentsDto (Comments comment)
         {

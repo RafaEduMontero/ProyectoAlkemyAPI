@@ -41,15 +41,15 @@ namespace OngProject
 
             //services.AddDbContext<ApplicationDbContext>(options =>
             //options.UseSqlServer(Configuration.GetConnectionString("ApplicationConnectionString")));
-            
-            
+
+
             services.AddEntityFrameworkSqlServer();
             services.AddDbContextPool<ApplicationDbContext>((services, options) =>
             {
                 options.UseInternalServiceProvider(services);
                 options.UseSqlServer(Configuration.GetConnectionString("ApplicationConnectionString"));
             });
-            
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -109,9 +109,13 @@ namespace OngProject
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             services.AddTransient<IMailService, SendGridMailService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddTransient<ICategoriesServices, CategoriesServices>();
             services.AddTransient<IContactsServices, ContactsServices>();
             services.AddTransient<IMemberServices, MemberServices>();
+            services.AddTransient<ISlidesServices, SlidesServices>();
+            services.AddTransient<ICategoriesServices, CategoriesServices>();
+            services.AddTransient<IOrganizationsServices, OrganizationsServices>();
+            services.AddTransient<IContactsServices, ContactsServices>();
+            services.AddTransient<ICommentsServices, CommentsServices>();
 
         }
 

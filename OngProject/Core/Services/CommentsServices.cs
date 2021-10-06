@@ -16,11 +16,25 @@ namespace OngProject.Core.Services
         {
             _unitOfWork = unitOfWork;
         }
+
+        public bool EntityExists(int id)
+        {
+            return _unitOfWork.CommentsRepository.EntityExists(id);
+        }
+
         public async Task<IEnumerable<CommentsDTO>> GetAll()
         {
             var mapper = new EntityMapper();
             var commentsList = await _unitOfWork.CommentsRepository.GetAll();
             var commentsListDTO = commentsList.OrderBy(y => y.CreatedAt).Select(x => mapper.FromCommentsToCommentsDto(x)).ToList();
+            return commentsListDTO;
+        }
+
+        public async Task<IEnumerable<CommentsDTO>> GetById(int id)
+        {
+            var mapper = new EntityMapper();
+            var commentsList = await _unitOfWork.CommentsRepository.GetAll();
+            var commentsListDTO = commentsList.Where(y => y.NewId == id).Select(x => mapper.FromCommentsToCommentsDto(x)).ToList();
             return commentsListDTO;
         }
     }

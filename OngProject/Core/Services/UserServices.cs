@@ -27,6 +27,5 @@ namespace OngProject.Core.Services
             var userDTO = mapper.FromsUserToUserDto(user);
             return userDTO;
         }
-
     }
 }

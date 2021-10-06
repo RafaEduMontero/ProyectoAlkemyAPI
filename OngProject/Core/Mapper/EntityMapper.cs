@@ -63,5 +63,14 @@ namespace OngProject.Core.Mapper
             return slideDTO;
         }
 
+        public CommentsDTO FromCommentsToCommentsDto (Comments comment)
+        {
+            var CommentsDTO = new CommentsDTO()
+            {
+                Body = comment.Body
+            };
+            return CommentsDTO;
+        }
+
     }
 }

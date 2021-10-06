@@ -109,11 +109,11 @@ namespace OngProject
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             services.AddTransient<IMailService, SendGridMailService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-
+            services.AddTransient<ISlidesServices, SlidesServices>();
             services.AddTransient<ICategoriesServices, CategoriesServices>();
             services.AddTransient<IOrganizationsServices, OrganizationsServices>();
             services.AddTransient<IContactsServices, ContactsServices>();
-
+            services.AddTransient<ICommentsServices, CommentsServices>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

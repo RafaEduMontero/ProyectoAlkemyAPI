@@ -14,5 +14,8 @@ namespace OngProject.Core.DTOs
         public string Email { get; set; }
         public string WelcomeText { get; set; }
         public string AboutUsText { get; set; }
+        public string FacebookUrl { get; set; }
+        public string InstagramUrl { get; set; }
+        public string LinkedinUrl { get; set; }
     }
 }

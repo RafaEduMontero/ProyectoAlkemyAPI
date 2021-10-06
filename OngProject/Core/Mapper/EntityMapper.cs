@@ -52,5 +52,20 @@ namespace OngProject.Core.Mapper
             return slideDTO;
         }
 
+         public MembersDTO FromMembersToMembersDto(Member member)
+        {
+            var membersDTO = new MembersDTO()
+            {
+                Name = member.Name,
+                FacebookUrl = member.FacebookUrl,
+                InstagramUrl=member.InstagramUrl,
+                LinkedinUrl = member.LinkedinUrl,
+                Image = member.Image,
+                Description= member.Description
+
+            };
+            return membersDTO;
+        }
+
     }
 }

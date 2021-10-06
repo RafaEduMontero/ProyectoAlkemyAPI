@@ -9,6 +9,7 @@ namespace OngProject.Infrastructure.Repositories.IRepository
         IBaseRepository<Category> CategoryRepository {get; }       
 
         IBaseRepository<Contacts> ContactsRepository { get; }
+        IBaseRepository<Member> MemberRepository { get; }
 
         void Dispose();
 

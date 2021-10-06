@@ -109,10 +109,9 @@ namespace OngProject
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             services.AddTransient<IMailService, SendGridMailService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-
             services.AddTransient<ICategoriesServices, CategoriesServices>();
-
             services.AddTransient<IContactsServices, ContactsServices>();
+            services.AddTransient<IMemberServices, MemberServices>();
 
         }
 

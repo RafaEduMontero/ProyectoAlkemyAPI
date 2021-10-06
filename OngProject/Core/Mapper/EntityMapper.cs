@@ -65,7 +65,7 @@ namespace OngProject.Core.Mapper
             };
             return slideDTO;
         }
-        public UserDTO FromsUsertoUserDTO(User user)
+        public UserDTO FromsUserToUserDto(User user)
         {
             var userDTO = new UserDTO()
             {

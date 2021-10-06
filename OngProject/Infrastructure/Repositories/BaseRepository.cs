@@ -73,7 +73,10 @@ namespace OngProject.Infrastructure.Repositories
         }
         public async Task<T> FindByCondition(Expression<Func<T, bool>> predicate)
         {
-            var response = await _entity.FindAsync(predicate);
+            var response = await _entity
+                .Where(x=> x.IsDeleted==false)
+                .FirstOrDefaultAsync(predicate);
+
             return response;
 
         }

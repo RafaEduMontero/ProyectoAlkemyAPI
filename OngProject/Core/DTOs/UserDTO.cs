@@ -15,9 +15,6 @@ namespace OngProject.Core.DTOs
         [Required]
         [EmailAddress]
         public string Email { get; set; }
-
-        [Required]
-        
         public string Password { get; set; }
         public string Photo { get; set; }
         public int RoleId { get; set; }

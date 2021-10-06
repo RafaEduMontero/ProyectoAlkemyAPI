@@ -22,5 +22,12 @@ namespace OngProject.Controllers
         {
             return await _commentsServices.GetAll(); 
         }
+        [HttpGet("/news/{id}/comments")]
+        public async Task<IActionResult> Get(int id)
+        {
+            if (!_commentsServices.EntityExists(id)) return NotFound();
+            var contact = await _commentsServices.GetById(id);
+            return Ok(contact);
+        }
     }
 }

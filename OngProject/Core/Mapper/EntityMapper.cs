@@ -1,4 +1,5 @@
-﻿using OngProject.Core.DTOs;
+﻿using System;
+using OngProject.Core.DTOs;
 using OngProject.Core.Entities;
 
 namespace OngProject.Core.Mapper
@@ -25,6 +26,19 @@ namespace OngProject.Core.Mapper
             };
            return contactDTO;
         }
+
+        public CategoryDTO FromCategoryToCategoryDto(Category category)
+        {
+            var categoryDTO= new CategoryDTO()
+            {
+                Name = category.Name,
+                Description = category.Description,
+                Image = category.Image
+            };
+           return categoryDTO;
+        }
+            
+
         public SlidesDTO FromSlideDetalleToSlideDto(Slides slide)
         {
             var slideDTO = new SlidesDTO()

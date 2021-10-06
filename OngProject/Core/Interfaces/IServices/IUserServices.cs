@@ -7,8 +7,8 @@ using System.Linq;
 using System.Threading.Tasks;
 namespace OngProject.Core.Interfaces.IServices
 {
-    public class IUserServices
+    public interface IUserServices
     {
-        Task<User> GetByEmail(UserDTO userDTO);
+        Task<UserDTO> GetByEmail(string email);
     }
 }

@@ -34,7 +34,10 @@ namespace OngProject.Core.Mapper
                 Name = organization.Name,
                 Image = organization.Image,
                 Phone = organization.Phone,
-                Address = organization.Address
+                Address = organization.Address,
+                FacebookUrl = organization.FacebookUrl,
+                InstagramUrl = organization.InstagramUrl,
+                LinkedinUrl = organization.LinkedinUrl
             };
         }
 
@@ -72,7 +75,7 @@ namespace OngProject.Core.Mapper
         }
 
 
-        public CommentsDTO FromCommentsToCommentsDto (Comments comment)
+        public CommentsDTO FromCommentsToCommentsDto(Comments comment)
         {
             var CommentsDTO = new CommentsDTO()
             {

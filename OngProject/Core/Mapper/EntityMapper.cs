@@ -111,6 +111,19 @@ namespace OngProject.Core.Mapper
             };
             return membersDTO;
         }
+        public User FromUserDtoToUser(UserDTO userDTO)
+        {
+            var user = new User()
+            {
+                FirstName = userDTO.FirstName,
+                LastName = userDTO.LastName,
+                Email = userDTO.Email,
+                Password = userDTO.Password,
+                Photo = userDTO.Photo,
+                RoleId = userDTO.RoleId
+            };
+            return user;
+        }
 
     }
 }

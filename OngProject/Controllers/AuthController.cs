@@ -11,6 +11,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using OngProject.Core.Mapper;
 
 namespace OngProject.Controllers
 {
@@ -20,12 +21,31 @@ namespace OngProject.Controllers
     public class AuthController : ControllerBase
     {
         #region Object and Constructor
-        private readonly IUserServices userServices;
-        public AuthController(IUserServices userServices)
+        private readonly IUserServices _userServices;
+        public AuthController(IUserServices _userServices)
         {
-            this.userServices = userServices;
+            this._userServices = _userServices;
         } 
         #endregion
+
+        [HttpPost("register")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [AllowAnonymous]
+        public async Task<ActionResult> Register([FromBody] UserDTO userDTO)
+        {
+            /*var userExists = await _userServices.GetByEmail(userDTO.Email);
+            if (userExists!=null)
+            {
+                return BadRequest("Este correo ya esta en uso.");
+            }*/
+
+            await _userServices.Register(userDTO);
+
+            Response.StatusCode = StatusCodes.Status201Created;
+
+            return new JsonResult(new {});
+        }
+
 
         [HttpPost("login")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -33,7 +53,7 @@ namespace OngProject.Controllers
         public async Task<ActionResult> Login(UserDTO userDTO)
         {
             
-            var userSaved = await userServices.GetByEmail(userDTO.Email);
+            var userSaved = await _userServices.GetByEmail(userDTO.Email);
             
             if (userSaved==null)
             {

@@ -6,6 +6,6 @@ namespace OngProject.Core.Interfaces.IServices
 {
     public interface INewsServices
     {
-        
+        Task<NewsDTO> GetNewsForId(int id);
     }
 }

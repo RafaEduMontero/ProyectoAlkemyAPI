@@ -6,8 +6,23 @@ using System.Threading.Tasks;
 
 namespace OngProject.Core.Services
 {
-    public class NewsServices
+    public class NewsServices : INewsServices
     {
-        
+        private readonly IUnitOfWork _unitOfWork;
+
+        public NewsServices(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
+
+        public async Task<NewsDTO> GetNewsForId(int id)
+        {
+            var maper = new EntityMapper();
+            var news = await _unitOfWork.NewsRepository.GetById(id);
+            var newsDTO = maper.FromNewsToNewsDTO(news);
+
+            return newsDTO;
+
+        }
     }
 }

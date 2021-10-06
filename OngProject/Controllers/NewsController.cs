@@ -17,11 +17,11 @@ namespace OngProject.Controllers
         
         [HttpGet]
         [Route("{id}")]
-        public async Task<IActionResult> GetNewsForId(int id)
+        public async Task<IActionResult> GetById(int id)
         {
             if (!_newsServices.EntityExists(id))
                 return NotFound();
-            var news = await _newsServices.GetForId(id);
+            var news = await _newsServices.GetById(id);
             return Ok(news);
         }
     }

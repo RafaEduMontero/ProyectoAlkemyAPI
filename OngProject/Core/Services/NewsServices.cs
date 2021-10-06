@@ -15,7 +15,7 @@ namespace OngProject.Core.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<NewsDTO> GetForId(int id)
+        public async Task<NewsDTO> GetById(int id)
         {
             var maper = new EntityMapper();
             var news = await _unitOfWork.NewsRepository.GetById(id);

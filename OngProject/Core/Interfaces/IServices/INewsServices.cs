@@ -6,7 +6,7 @@ namespace OngProject.Core.Interfaces.IServices
 {
     public interface INewsServices
     {
-        Task<NewsDTO> GetForId(int id);
+        Task<NewsDTO> GetById(int id);
 
         bool EntityExists(int id);
     }

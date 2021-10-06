@@ -23,6 +23,14 @@ namespace OngProject.Core.Services
             return _unitOfWork.CategoryRepository.EntityExists(id);
         }
 
+        public async Task<IEnumerable<CategoryNameDTO>> GetAll()
+        {
+            var mapper = new EntityMapper();
+            var CategoryList = await _unitOfWork.CategoryRepository.GetAll();
+            var CategoryDTOList = CategoryList.Select(x => mapper.FromCategoryToCategoryNameDto(x)).ToList();
+            return CategoryDTOList;
+        }
+
         public async Task<CategoryDTO> GetById(int id)
         {
             var mapper = new EntityMapper();
@@ -30,5 +38,6 @@ namespace OngProject.Core.Services
             var categoryDTO = mapper.FromCategoryToCategoryDto(category);
             return categoryDTO;
         }
+       
     }
 }

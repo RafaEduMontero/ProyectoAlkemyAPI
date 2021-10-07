@@ -8,6 +8,7 @@ namespace OngProject.Controllers
     [Route("[controller]")]
     public class NewsController : Controller
     {
+
         private readonly INewsServices _newsServices;
 
         public NewsController(INewsServices newsServices)
@@ -24,5 +25,6 @@ namespace OngProject.Controllers
             var news = await _newsServices.GetById(id);
             return Ok(news);
         }
+
     }
 }

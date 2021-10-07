@@ -1,3 +1,4 @@
+using Amazon.S3;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -13,6 +14,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using OngProject.Core.Entities;
+using OngProject.Core.Helper;
 using OngProject.Core.Interfaces.IServices;
 using OngProject.Core.Services;
 using OngProject.Infrastructure.Data;
@@ -39,17 +41,13 @@ namespace OngProject
         public void ConfigureServices(IServiceCollection services)
         {
 
-            //services.AddDbContext<ApplicationDbContext>(options =>
-            //options.UseSqlServer(Configuration.GetConnectionString("ApplicationConnectionString")));
-            
-            
             services.AddEntityFrameworkSqlServer();
             services.AddDbContextPool<ApplicationDbContext>((services, options) =>
             {
                 options.UseInternalServiceProvider(services);
                 options.UseSqlServer(Configuration.GetConnectionString("ApplicationConnectionString"));
             });
-            
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -104,14 +102,26 @@ namespace OngProject
                     ValidateIssuer = false
                 };
             });
+            //AWS S3 Configuration
+            services.AddAWSService<IAmazonS3>();
 
             // 
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             services.AddTransient<IMailService, SendGridMailService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddTransient<ISlidesServices, SlidesServices>();
             services.AddTransient<IContactsServices, ContactsServices>();
+            services.AddTransient<IMemberServices, MemberServices>();
+            services.AddTransient<ISlidesServices, SlidesServices>();
+            services.AddTransient<ICategoriesServices, CategoriesServices>();
+            services.AddTransient<IOrganizationsServices, OrganizationsServices>();
+            services.AddTransient<IContactsServices, ContactsServices>();
+
             services.AddTransient<INewsServices, NewsServices>();
+
+            services.AddTransient<IUserServices, UserServices>();
+            services.AddTransient<ICommentsServices, CommentsServices>();
+            services.AddSingleton<JwtHelper>();
+
 
         }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using OngProject.Core.Entities;
@@ -30,8 +31,8 @@ namespace OngProject.Core.Entities
         public string Email { get; set; }
 
         [Required]
-        [Column(TypeName = "VARCHAR(20)")]
-        [MaxLength(20)]
+        [Column(TypeName = "VARCHAR(64)")]
+        [MaxLength(64)]
         public string Password { get; set; }
 
         [Column(TypeName = "VARCHAR(255)")]
@@ -41,5 +42,6 @@ namespace OngProject.Core.Entities
         public int RoleId { get; set; }
         [ForeignKey("RoleId")]
         public virtual Role Role { get; set; }
+        // public ClaimsIdentity UserRole { get; internal set; }
     }
 }

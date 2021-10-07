@@ -18,16 +18,14 @@ namespace OngProject.Core.Entities
         [Required]
         [Column(TypeName = "INTEGER")]
         public int UserId { get; set; }
-
         [ForeignKey("UserId")]
         public virtual User User { get; set; }
 
         [Required]
         [Column(TypeName = "INTEGER")]
         public int NewId { get; set; }
-
         [ForeignKey("NewId")]
-        public virtual News New { get; set; }
+        public virtual News News { get; set; }
 
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.DTOs;
 using OngProject.Core.Interfaces.IServices;
 using System;
@@ -19,6 +20,7 @@ namespace OngProject.Controllers
             _memberServices = memberServices;
         }
 
+        [Authorize(Roles = "Administrator")]
         [HttpGet]
          public async Task<IEnumerable<MembersDTO>> Get()
         {

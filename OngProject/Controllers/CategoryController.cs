@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.DTOs;
 using OngProject.Core.Interfaces.IServices;
 using System;
@@ -20,6 +21,7 @@ namespace OngProject.Controllers
             _CategoriesServices = CategoriesServices;
         }
 
+        [Authorize(Roles = "Administrator")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CategoryNameDTO>>> Get()
         {
@@ -30,6 +32,7 @@ namespace OngProject.Controllers
             
         }
 
+        [Authorize(Roles = "Administrator")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {

@@ -1,3 +1,4 @@
+using Amazon.S3;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -104,6 +105,8 @@ namespace OngProject
                     ValidateIssuer = false
                 };
             });
+            //AWS S3 Configuration
+            services.AddAWSService<IAmazonS3>();
 
             // 
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));

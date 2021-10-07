@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.DTOs;
 using OngProject.Core.Interfaces.IServices;
@@ -19,12 +20,13 @@ namespace OngProject.Controllers
         {
             _slidesServices = slidesServices;
         }
-
+        [Authorize(Roles = "Administrator")]
         [HttpGet]
         public async Task<IEnumerable<SlidesDTO>> Get()
         {
             return await _slidesServices.GetAll();
         }
+        [Authorize(Roles = "Administrator")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {

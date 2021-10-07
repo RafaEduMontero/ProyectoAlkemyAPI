@@ -35,14 +35,10 @@ namespace OngProject.Core.Services
 
             return new Result().Success($"Se ha agregado correctamene al usuario {newUser.FirstName}");
         }
-        public async Task<UserDTO> GetByEmail(string email)
+        public async Task<User> GetByEmail(string email)
         {
             var user = await _unitOfWork.UsersRepository.FindByCondition(x => x.Email == email);
-                
-            var mapper = new EntityMapper();
-            var userDTO = mapper.FromsUserToUserDto(user);
-
-            return userDTO;
+            return user;
         }
     }
 }

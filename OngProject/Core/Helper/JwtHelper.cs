@@ -19,7 +19,7 @@ namespace OngProject.Core.Helper
             this._configuration = _configuration;
         }
 
-        public string GetToken(User user)
+        public string GenerateJwtToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_configuration["JWT:Secret"]);
@@ -36,5 +36,6 @@ namespace OngProject.Core.Helper
                 );
             return tokenHandler.WriteToken(token);
         }
+
     }
 }

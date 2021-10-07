@@ -11,6 +11,6 @@ namespace OngProject.Core.Interfaces.IServices
     public interface IUserServices
     {
         Task<Result> Register(UserDTO userDTO);
-        Task<UserDTO> GetByEmail(string email);
+        Task<User> GetByEmail(string email);
     }
 }

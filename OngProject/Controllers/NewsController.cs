@@ -6,7 +6,7 @@ namespace OngProject.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class NewsController : ControllerBase
+    public class NewsController : Controller
     {
         private readonly INewsServices _newsServices;
 

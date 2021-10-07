@@ -6,6 +6,7 @@ namespace OngProject.Core.Mapper
 {
     public class EntityMapper
     {
+        #region Slides Mappers
         public SlidesDTO FromSlideToSlideDto(Slides slide)
         {
             var slideDTO = new SlidesDTO()
@@ -15,44 +16,6 @@ namespace OngProject.Core.Mapper
             };
             return slideDTO;
         }
-        public ContactsDTO FromContactsToContactsDto(Contacts contact)
-        {
-            var contactDTO = new ContactsDTO()
-            {
-                Name = contact.Name,
-                Phone = contact.Phone,
-                Email = contact.Email,
-                Message = contact.Message
-            };
-            return contactDTO;
-        }
-
-        public OrganizationsDTO FromOrganizationToOrganizationDto(Organizations organization)
-        {
-            return new OrganizationsDTO
-            {
-                Name = organization.Name,
-                Image = organization.Image,
-                Phone = organization.Phone,
-                Address = organization.Address,
-                FacebookUrl = organization.FacebookUrl,
-                InstagramUrl = organization.InstagramUrl,
-                LinkedinUrl = organization.LinkedinUrl
-            };
-        }
-
-        public CategoryDTO FromCategoryToCategoryDto(Category category)
-        {
-            var categoryDTO = new CategoryDTO()
-            {
-                Name = category.Name,
-                Description = category.Description,
-                Image = category.Image
-            };
-            return categoryDTO;
-        }
-
-
         public SlidesDTO FromSlideDetalleToSlideDto(Slides slide)
         {
             var slideDTO = new SlidesDTO()
@@ -65,6 +28,89 @@ namespace OngProject.Core.Mapper
             };
             return slideDTO;
         }
+        #endregion
+
+        #region Category Mappers
+        public CategoryDTO FromCategoryToCategoryDto(Category category)
+        {
+            var categoryDTO = new CategoryDTO()
+            {
+                Name = category.Name,
+                Description = category.Description,
+                Image = category.Image
+            };
+            return categoryDTO;
+        }
+        public CategoryNameDTO FromCategoryToCategoryNameDto(Category category)
+        {
+            var categoryNameDTO = new CategoryNameDTO()
+            {
+                Name = category.Name
+            };
+            return categoryNameDTO;
+        }
+
+        #endregion
+
+        #region Comments Mapper
+        public CommentsDTO FromCommentsToCommentsDto(Comments comment)
+        {
+            var CommentsDTO = new CommentsDTO()
+            {
+                Body = comment.Body
+            };
+            return CommentsDTO;
+        } 
+        #endregion
+
+        #region Member Mapper
+        public MembersDTO FromMembersToMembersDto(Member member)
+        {
+            var membersDTO = new MembersDTO()
+            {
+                Name = member.Name,
+                FacebookUrl = member.FacebookUrl,
+                InstagramUrl = member.InstagramUrl,
+                LinkedinUrl = member.LinkedinUrl,
+                Image = member.Image,
+                Description = member.Description
+
+            };
+            return membersDTO;
+        } 
+        #endregion
+
+        #region Contact Mapper
+        public ContactsDTO FromContactsToContactsDto(Contacts contact)
+        {
+            var contactDTO = new ContactsDTO()
+            {
+                Name = contact.Name,
+                Phone = contact.Phone,
+                Email = contact.Email,
+                Message = contact.Message
+            };
+            return contactDTO;
+        } 
+        #endregion
+
+        #region Organization Mappers
+        public OrganizationsDTO FromOrganizationToOrganizationDto(Organizations organization)
+        {
+            return new OrganizationsDTO
+            {
+                Name = organization.Name,
+                Image = organization.Image,
+                Phone = organization.Phone,
+                Address = organization.Address,
+                FacebookUrl = organization.FacebookUrl,
+                InstagramUrl = organization.InstagramUrl,
+                LinkedinUrl = organization.LinkedinUrl
+            };
+        } 
+        #endregion
+
+        #region User Mappers
         public UserDTO FromsUserToUserDto(User user)
         {
             var userDTO = new UserDTO()
@@ -77,39 +123,6 @@ namespace OngProject.Core.Mapper
                 RoleId = user.RoleId
             };
             return userDTO;
-        }
-        public CategoryNameDTO FromCategoryToCategoryNameDto(Category category)
-        {
-            var categoryNameDTO = new CategoryNameDTO()
-            {
-                Name = category.Name
-            };
-            return categoryNameDTO;
-        }
-
-
-        public CommentsDTO FromCommentsToCommentsDto(Comments comment)
-        {
-            var CommentsDTO = new CommentsDTO()
-            {
-                Body = comment.Body
-            };
-            return CommentsDTO;
-        }
-
-         public MembersDTO FromMembersToMembersDto(Member member)
-        {
-            var membersDTO = new MembersDTO()
-            {
-                Name = member.Name,
-                FacebookUrl = member.FacebookUrl,
-                InstagramUrl=member.InstagramUrl,
-                LinkedinUrl = member.LinkedinUrl,
-                Image = member.Image,
-                Description= member.Description
-
-            };
-            return membersDTO;
         }
         public User FromUserDtoToUser(UserDTO userDTO)
         {
@@ -125,5 +138,6 @@ namespace OngProject.Core.Mapper
             return user;
         }
 
+        #endregion
     }
 }

@@ -103,9 +103,9 @@ namespace OngProject
                 };
             });
             //AWS S3 Configuration
-            services.AddAWSService<IAmazonS3>();
+            //services.AddAWSService<IAmazonS3>();
 
-            // 
+            // Add Services
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             services.AddTransient<IMailService, SendGridMailService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -118,7 +118,6 @@ namespace OngProject
             services.AddTransient<IUserServices, UserServices>();
             services.AddTransient<ICommentsServices, CommentsServices>();
             services.AddSingleton<JwtHelper>();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

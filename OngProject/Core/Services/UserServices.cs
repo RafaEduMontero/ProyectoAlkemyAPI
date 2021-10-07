@@ -16,12 +16,18 @@ namespace OngProject.Core.Services
     {
         #region Object and Constructor
         private readonly IUnitOfWork _unitOfWork;
-        //private readonly UserRepository _userRepository;
         public UserServices(IUnitOfWork unitOfWork)
         {
             this._unitOfWork = unitOfWork;
         }
         #endregion
+        public async Task<IEnumerable<UserDTO>> GetAll()
+        {
+            var mapper = new EntityMapper();
+            var request= await _unitOfWork.UsersRepository.GetAll();
+
+            return request.Select(x => mapper.FromsUserToUserDto(x)).ToList();
+        }
         public async Task<Result> Register(UserDTO userDTO)
         {
             var newUser = new EntityMapper().FromUserDtoToUser(userDTO);

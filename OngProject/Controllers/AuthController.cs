@@ -12,6 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using OngProject.Core.Mapper;
+using OngProject.Core.Helper;
 
 namespace OngProject.Controllers
 {
@@ -22,9 +23,11 @@ namespace OngProject.Controllers
     {
         #region Object and Constructor
         private readonly IUserServices _userServices;
-        public AuthController(IUserServices _userServices)
+        private readonly JwtHelper _JwtHelper;
+        public AuthController(IUserServices _userServices , JwtHelper _JwtHelper)
         {
             this._userServices = _userServices;
+            this._JwtHelper = _JwtHelper;
         } 
         #endregion
 
@@ -33,11 +36,6 @@ namespace OngProject.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> Register([FromBody] UserDTO userDTO)
         {
-            /*var userExists = await _userServices.GetByEmail(userDTO.Email);
-            if (userExists!=null)
-            {
-                return BadRequest("Este correo ya esta en uso.");
-            }*/
 
             await _userServices.Register(userDTO);
 
@@ -66,8 +64,10 @@ namespace OngProject.Controllers
                 return StatusCode(401, "Credenciales no validas");
             }
 
-            var token = new JwtSecurityToken();
-            return Ok(token);
+            var token = _JwtHelper.GenerateJwtToken(userSaved);
+
+            return Ok(new { token });
+           
         }
     }
 }

@@ -13,6 +13,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using OngProject.Core.Entities;
+using OngProject.Core.Helper;
 using OngProject.Core.Interfaces.IServices;
 using OngProject.Core.Services;
 using OngProject.Infrastructure.Data;
@@ -38,10 +39,6 @@ namespace OngProject
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-            //services.AddDbContext<ApplicationDbContext>(options =>
-            //options.UseSqlServer(Configuration.GetConnectionString("ApplicationConnectionString")));
-
 
             services.AddEntityFrameworkSqlServer();
             services.AddDbContextPool<ApplicationDbContext>((services, options) =>
@@ -117,6 +114,7 @@ namespace OngProject
             services.AddTransient<IContactsServices, ContactsServices>();
             services.AddTransient<IUserServices, UserServices>();
             services.AddTransient<ICommentsServices, CommentsServices>();
+            services.AddSingleton<JwtHelper>();
 
         }
 

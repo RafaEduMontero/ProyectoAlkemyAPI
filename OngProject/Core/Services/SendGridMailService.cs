@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using OngProject.Core.Interfaces.IServices;
@@ -9,21 +10,35 @@ namespace OngProject.Core.Services
 {
     public class SendGridMailService : IMailService
     {
-         private IConfiguration _configuration;
+        private IConfiguration _configuration;
+        private readonly IOrganizationsServices _organizationService;
 
-        public SendGridMailService(IConfiguration configuration)
+        public SendGridMailService(IConfiguration configuration, IOrganizationsServices organizationService)
         {
             _configuration = configuration; 
+            _organizationService = organizationService; 
         }
 
-        public async Task SendEmailAsync(string toEmail, string subject, string content)
+        public async Task SendEmailAsync(string ToEmail, string body, string subject)
         {
-            var apiKey = _configuration["SendGridAPIKey"];
-            var client = new SendGridClient(apiKey);
-            var from = new EmailAddress("ongalkemy@gmail.com");
-            var to = new EmailAddress(toEmail);
-            var msg = MailHelper.CreateSingleEmail(from, to, subject, content, content);
-            var response = await client.SendEmailAsync(msg);
+           try
+            {
+                var ong =await _organizationService.Get();
+                string html = File.ReadAllText("./MailTemplates/plantilla_email.html");
+                html = html.Replace("{mail_title}", subject);
+                html = html.Replace("{mail_body}", body);
+                html = html.Replace("{mail_contact}", ong.Address + " <br> "+ ong.Phone);
+                var apiKey = _configuration["MailService:SendGridAPI"];
+                var client = new SendGridClient(apiKey);
+                var from = new EmailAddress(_configuration["MailService:VerifiedAPIMail"]);
+                var to = new EmailAddress(ToEmail);
+                var msg = MailHelper.CreateSingleEmail(from, to, subject, "", html);
+                var response = await client.SendEmailAsync(msg).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

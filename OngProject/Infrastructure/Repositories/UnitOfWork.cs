@@ -39,7 +39,7 @@ namespace OngProject.Infrastructure.Repositories
         public IBaseRepository<Member> MemberRepository => _memberRepository ?? new BaseRepository<Member>(_context);
         public IBaseRepository<News> NewsRepository => _newsRepository ?? new BaseRepository<News>(_context);
         public IBaseRepository<Organizations> OrganizationsRepository => _organizationsRepository ?? new BaseRepository<Organizations>(_context);
-        public IBaseRepository<Role> RollRepository => _roleRepository ?? new BaseRepository<Role>(_context);
+        public IBaseRepository<Role> RoleRepository => _roleRepository ?? new BaseRepository<Role>(_context);
         public IBaseRepository<Slides> SlidesRepository => _slidesRepository ?? new BaseRepository<Slides>(_context);
         public IBaseRepository<Testimonials> TestimonialsRepository => _testimonialsRepository ?? new BaseRepository<Testimonials>(_context);
         public IBaseRepository<User> UsersRepository => _usersRepository ?? new BaseRepository<User>(_context); 

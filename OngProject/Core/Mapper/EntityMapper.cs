@@ -1,6 +1,7 @@
 ﻿using System;
 using OngProject.Core.DTOs;
 using OngProject.Core.Entities;
+using OngProject.Infrastructure.Repositories;
 
 namespace OngProject.Core.Mapper
 {
@@ -120,7 +121,7 @@ namespace OngProject.Core.Mapper
                 Email = user.Email,
                 Password = user.Password,
                 Photo = user.Photo,
-                RoleId = user.RoleId
+                RoleId = user.RoleId,
             };
             return userDTO;
         }

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.DTOs;
@@ -11,6 +12,7 @@ namespace OngProject.Controllers
 {
     [Route("users")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class UserController : Controller
     {
         #region Objects and Constructor
@@ -21,12 +23,12 @@ namespace OngProject.Controllers
         } 
         #endregion
 
-        [HttpGet]   
+        [HttpGet]
         [Authorize(Roles ="Administrator")]
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetAll()
         {
-            var request = await _userServices.GetAll();
-            return Ok(request);
+            var userlist = await _userServices.GetAll();
+            return Ok(userlist);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.DTOs;
 using OngProject.Core.Interfaces.IServices;
 using System;
@@ -18,11 +19,13 @@ namespace OngProject.Controllers
         {
             _contactsServices = contactsServices;
         }
+        [Authorize(Roles = "Administrator")]
         [HttpGet]
         public async Task<IEnumerable<ContactsDTO>> Get()
         {
             return await _contactsServices.GetAll();
         }
+        [Authorize(Roles = "Administrator")]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {

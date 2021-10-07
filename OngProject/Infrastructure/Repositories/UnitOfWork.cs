@@ -43,7 +43,6 @@ namespace OngProject.Infrastructure.Repositories
         public IBaseRepository<Slides> SlidesRepository => _slidesRepository ?? new BaseRepository<Slides>(_context);
         public IBaseRepository<Testimonials> TestimonialsRepository => _testimonialsRepository ?? new BaseRepository<Testimonials>(_context);
         public IBaseRepository<User> UsersRepository => _usersRepository ?? new BaseRepository<User>(_context); 
-        public IBaseRepository<User> UserRpository => _userRepository ?? new BaseRepository<User>(_context);
         public IBaseRepository<Category> CategoryRepository => _categoryRepository ?? new BaseRepository<Category>(_context);
 
         #endregion

@@ -31,7 +31,7 @@ namespace OngProject.Core.Services
 
             await _unitOfWork.UsersRepository.Insert(newUser);
             
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.SaveChanges();
 
             return new Result().Success($"Se ha agregado correctamene al usuario {newUser.FirstName}");
         }

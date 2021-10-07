@@ -115,9 +115,13 @@ namespace OngProject
             services.AddTransient<ICategoriesServices, CategoriesServices>();
             services.AddTransient<IOrganizationsServices, OrganizationsServices>();
             services.AddTransient<IContactsServices, ContactsServices>();
+
+            services.AddTransient<INewsServices, NewsServices>();
+
             services.AddTransient<IUserServices, UserServices>();
             services.AddTransient<ICommentsServices, CommentsServices>();
             services.AddSingleton<JwtHelper>();
+
 
         }
 

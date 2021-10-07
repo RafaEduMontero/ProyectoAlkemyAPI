@@ -8,10 +8,12 @@ namespace OngProject.Infrastructure.Repositories.IRepository
         IBaseRepository<Slides> SlidesRepository { get; }
         IBaseRepository<Category> CategoryRepository {get; }       
         IBaseRepository<Contacts> ContactsRepository { get; }
+        IBaseRepository<News> NewsRepository { get; }
         IBaseRepository<User> UsersRepository { get; }  
         IBaseRepository<Member> MemberRepository { get; }
         IBaseRepository<Comments> CommentsRepository { get; }
         IBaseRepository<Organizations> OrganizationsRepository { get; }
+
 
         void Dispose();
 

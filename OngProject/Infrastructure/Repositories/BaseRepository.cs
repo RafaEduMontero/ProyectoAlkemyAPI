@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace OngProject.Infrastructure.Repositories
@@ -32,12 +33,13 @@ namespace OngProject.Infrastructure.Repositories
             var response = await _entity.FindAsync(id);
             return response;
         }
-        public async Task Insert(T entity)
+        public async Task<T> Insert(T entity)
         {
             entity.CreatedAt = DateTime.Now;
             entity.IsDeleted = false;
 
-            await _entity.AddAsync(entity);
+            var response = await _entity.AddAsync(entity);
+            return response.Entity;
         }
         public async Task Update(T entity)
         {
@@ -50,7 +52,7 @@ namespace OngProject.Infrastructure.Repositories
             var entity = await _entity.FindAsync(id);
             if (entity == null)
             {
-                throw new NotImplementedException(); // <= Aca tal vez podamos crear una clase que lleve un registro de errores (?) 
+                throw new NotImplementedException();
             }
 
             entity.IsDeleted = true;
@@ -69,6 +71,15 @@ namespace OngProject.Infrastructure.Repositories
         public bool EntityExists(int id)
         {
             return _entity.Any(x => x.Id==id && x.IsDeleted == false);
+        }
+        public async Task<T> FindByCondition(Expression<Func<T, bool>> predicate)
+        {
+            var response = await _entity
+                .Where(x=> x.IsDeleted==false)
+                .FirstOrDefaultAsync(predicate);
+
+            return response;
+
         }
     }
 }

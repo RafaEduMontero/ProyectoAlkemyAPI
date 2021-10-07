@@ -14,12 +14,12 @@ namespace OngProject.Core.Helper.S3
         private readonly IAmazonS3 _amazonS3;
         public S3AwsHelper()
         {
-            var chain = new CredentialProfileStoreChain("app_data\\credentials.ini");
+            var chain = new CredentialProfileStoreChain("App_data\\credentials.ini");
             AWSCredentials awsCredentials;
-            RegionEndpoint sAEast1 = RegionEndpoint.SAEast1;
+            RegionEndpoint uSEast1 = RegionEndpoint.USEast1;
             if (chain.TryGetAWSCredentials("default", out awsCredentials))
             {
-                _amazonS3 = new AmazonS3Client(awsCredentials.GetCredentials().AccessKey, awsCredentials.GetCredentials().SecretKey, sAEast1);
+                _amazonS3 = new AmazonS3Client(awsCredentials.GetCredentials().AccessKey, awsCredentials.GetCredentials().SecretKey, uSEast1);
             }
         }
         public async Task<AwsManagerResponse> AwsUploadFile(string key, IFormFile file)
@@ -28,7 +28,7 @@ namespace OngProject.Core.Helper.S3
             {
                 var putRequest = new PutObjectRequest()
                 {
-                    BucketName = "alkemy-ong",
+                    BucketName = "cohorte-septiembre-91ddd87b",
                     Key = key,
                     InputStream = file.OpenReadStream(),
                     ContentType = file.ContentType
@@ -68,7 +68,7 @@ namespace OngProject.Core.Helper.S3
             {
                 DeleteObjectRequest request = new DeleteObjectRequest
                 {
-                    BucketName = "alkemy-ong",
+                    BucketName = "cohorte-septiembre-91ddd87b",
                     Key = key
                 };
                 var result = await _amazonS3.DeleteObjectAsync(request);
@@ -111,7 +111,7 @@ namespace OngProject.Core.Helper.S3
             {
                 var request = new GetObjectRequest()
                 {
-                    BucketName = "alkemy-ong",
+                    BucketName = "cohorte-septiembre-91ddd87b",
                     Key = key
                 };
                 using GetObjectResponse response = await _amazonS3.GetObjectAsync(request);

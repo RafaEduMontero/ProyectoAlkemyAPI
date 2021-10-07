@@ -31,8 +31,8 @@ namespace OngProject.Core.Entities
         public string Email { get; set; }
 
         [Required]
-        [Column(TypeName = "VARCHAR(20)")]
-        [MaxLength(20)]
+        [Column(TypeName = "VARCHAR(64)")]
+        [MaxLength(64)]
         public string Password { get; set; }
 
         [Column(TypeName = "VARCHAR(255)")]

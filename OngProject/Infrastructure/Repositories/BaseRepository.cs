@@ -38,7 +38,7 @@ namespace OngProject.Infrastructure.Repositories
             entity.CreatedAt = DateTime.Now;
             entity.IsDeleted = false;
 
-            var response= await _entity.AddAsync(entity);
+            var response = await _entity.AddAsync(entity);
             return response.Entity;
         }
         public async Task Update(T entity)

@@ -10,6 +10,7 @@ namespace OngProject.Core.Interfaces.IServices
 {
     public interface IUserServices
     {
+        Task<IEnumerable<UserDTO>> GetAll();
         Task<Result> Register(UserDTO userDTO);
         Task<User> GetByEmail(string email);
     }

@@ -1,11 +1,13 @@
 ﻿using System;
 using OngProject.Core.DTOs;
 using OngProject.Core.Entities;
+using OngProject.Infrastructure.Repositories;
 
 namespace OngProject.Core.Mapper
 {
     public class EntityMapper
     {
+        #region Slides Mappers
         public SlidesDTO FromSlideToSlideDto(Slides slide)
         {
             var slideDTO = new SlidesDTO()
@@ -15,32 +17,21 @@ namespace OngProject.Core.Mapper
             };
             return slideDTO;
         }
-        public ContactsDTO FromContactsToContactsDto(Contacts contact)
+        public SlidesDTO FromSlideDetalleToSlideDto(Slides slide)
         {
-            var contactDTO = new ContactsDTO()
+            var slideDTO = new SlidesDTO()
             {
-                Name = contact.Name,
-                Phone = contact.Phone,
-                Email = contact.Email,
-                Message = contact.Message
-            };
-            return contactDTO;
-        }
+                ImageUrl = slide.ImageUrl,
+                Order = slide.Order,
+                Text = slide.Text,
+                OrganizationId = slide.OrganizationId
 
-        public OrganizationsDTO FromOrganizationToOrganizationDto(Organizations organization)
-        {
-            return new OrganizationsDTO
-            {
-                Name = organization.Name,
-                Image = organization.Image,
-                Phone = organization.Phone,
-                Address = organization.Address,
-                FacebookUrl = organization.FacebookUrl,
-                InstagramUrl = organization.InstagramUrl,
-                LinkedinUrl = organization.LinkedinUrl
             };
+            return slideDTO;
         }
+        #endregion
 
+        #region Category Mappers
         public CategoryDTO FromCategoryToCategoryDto(Category category)
         {
             var categoryDTO = new CategoryDTO()
@@ -100,7 +91,9 @@ namespace OngProject.Core.Mapper
             return categoryNameDTO;
         }
 
+        #endregion
 
+        #region Comments Mapper
         public CommentsDTO FromCommentsToCommentsDto(Comments comment)
         {
             var CommentsDTO = new CommentsDTO()
@@ -108,21 +101,69 @@ namespace OngProject.Core.Mapper
                 Body = comment.Body
             };
             return CommentsDTO;
-        }
+        } 
+        #endregion
 
-         public MembersDTO FromMembersToMembersDto(Member member)
+        #region Member Mapper
+        public MembersDTO FromMembersToMembersDto(Member member)
         {
             var membersDTO = new MembersDTO()
             {
                 Name = member.Name,
                 FacebookUrl = member.FacebookUrl,
-                InstagramUrl=member.InstagramUrl,
+                InstagramUrl = member.InstagramUrl,
                 LinkedinUrl = member.LinkedinUrl,
                 Image = member.Image,
-                Description= member.Description
+                Description = member.Description
 
             };
             return membersDTO;
+        } 
+        #endregion
+
+        #region Contact Mapper
+        public ContactsDTO FromContactsToContactsDto(Contacts contact)
+        {
+            var contactDTO = new ContactsDTO()
+            {
+                Name = contact.Name,
+                Phone = contact.Phone,
+                Email = contact.Email,
+                Message = contact.Message
+            };
+            return contactDTO;
+        } 
+        #endregion
+
+        #region Organization Mappers
+        public OrganizationsDTO FromOrganizationToOrganizationDto(Organizations organization)
+        {
+            return new OrganizationsDTO
+            {
+                Name = organization.Name,
+                Image = organization.Image,
+                Phone = organization.Phone,
+                Address = organization.Address,
+                FacebookUrl = organization.FacebookUrl,
+                InstagramUrl = organization.InstagramUrl,
+                LinkedinUrl = organization.LinkedinUrl
+            };
+        } 
+        #endregion
+
+        #region User Mappers
+        public UserDTO FromsUserToUserDto(User user)
+        {
+            var userDTO = new UserDTO()
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                Password = user.Password,
+                Photo = user.Photo,
+                RoleId = user.RoleId,
+            };
+            return userDTO;
         }
         public User FromUserDtoToUser(UserDTO userDTO)
         {
@@ -138,6 +179,7 @@ namespace OngProject.Core.Mapper
             return user;
         }
 
+        #endregion
 
     }
 }

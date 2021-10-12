@@ -105,7 +105,7 @@ namespace OngProject
             //AWS S3 Configuration
             services.AddAWSService<IAmazonS3>();
 
-            // 
+            // Add Services
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             services.AddTransient<IMailService, SendGridMailService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -120,6 +120,7 @@ namespace OngProject
 
             services.AddTransient<IUserServices, UserServices>();
             services.AddTransient<ICommentsServices, CommentsServices>();
+            services.AddTransient<IUserServices, UserServices>();
             services.AddSingleton<JwtHelper>();
 
 
@@ -139,9 +140,9 @@ namespace OngProject
 
             app.UseRouting();
 
-            app.UseAuthorization();
-
             app.UseAuthentication();
+
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

@@ -16,12 +16,18 @@ namespace OngProject.Core.Services
     {
         #region Object and Constructor
         private readonly IUnitOfWork _unitOfWork;
-        //private readonly UserRepository _userRepository;
-        public UserServices(IUnitOfWork unitOfWork)
+        public UserServices(IUnitOfWork _unitOfWork)
         {
-            this._unitOfWork = unitOfWork;
+            this._unitOfWork = _unitOfWork;
         }
         #endregion
+        public async Task<IEnumerable<UserDTO>> GetAll()
+        {
+            var mapper = new EntityMapper();
+            var request= await _unitOfWork.UsersRepository.GetAll();
+
+            return request.Select(x => mapper.FromsUserToUserDto(x)).ToList();
+        }
         public async Task<Result> Register(UserDTO userDTO)
         {
             var newUser = new EntityMapper().FromUserDtoToUser(userDTO);
@@ -37,7 +43,8 @@ namespace OngProject.Core.Services
         }
         public async Task<User> GetByEmail(string email)
         {
-            var user = await _unitOfWork.UsersRepository.FindByCondition(x => x.Email == email);
+            var user = await _unitOfWork.UsersRepository.GetByEmail(email);
+            
             return user;
         }
     }

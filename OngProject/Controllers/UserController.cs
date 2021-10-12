@@ -28,6 +28,7 @@ namespace OngProject.Controllers
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetAll()
         {
             var userlist = await _userServices.GetAll();
+            
             return Ok(userlist);
         }
     }

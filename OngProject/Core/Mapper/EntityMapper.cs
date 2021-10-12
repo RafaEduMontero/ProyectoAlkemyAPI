@@ -29,6 +29,7 @@ namespace OngProject.Core.Mapper
             };
             return slideDTO;
         }
+       
         #endregion
 
         #region Category Mappers
@@ -43,20 +44,18 @@ namespace OngProject.Core.Mapper
             return categoryDTO;
         }
 
-
-        public SlidesDTO FromSlideDetalleToSlideDto(Slides slide)
+            public CategoryNameDTO FromCategoryToCategoryNameDto(Category category)
         {
-            var slideDTO = new SlidesDTO()
+            var categoryNameDTO = new CategoryNameDTO()
             {
-                ImageUrl = slide.ImageUrl,
-                Order = slide.Order,
-                Text = slide.Text,
-                OrganizationId = slide.OrganizationId
-
+                Name = category.Name
             };
-            return slideDTO;
+            return categoryNameDTO;
         }
 
+         #endregion
+
+        #region News Mappers
         public NewsDTO FromNewsToNewsDTO(News news)
         {
             var newsDTO = new NewsDTO()
@@ -69,30 +68,9 @@ namespace OngProject.Core.Mapper
             return newsDTO;
         }
 
-        public UserDTO FromsUserToUserDto(User user)
-        {
-            var userDTO = new UserDTO()
-            {
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Email = user.Email,
-                Password = user.Password,
-                Photo = user.Photo,
-                RoleId = user.RoleId
-            };
-            return userDTO;
-        }
-        public CategoryNameDTO FromCategoryToCategoryNameDto(Category category)
-        {
-            var categoryNameDTO = new CategoryNameDTO()
-            {
-                Name = category.Name
-            };
-            return categoryNameDTO;
-        }
-
         #endregion
 
+       
         #region Comments Mapper
         public CommentsDTO FromCommentsToCommentsDto(Comments comment)
         {
@@ -151,7 +129,8 @@ namespace OngProject.Core.Mapper
         } 
         #endregion
 
-        #region User Mappers
+         #region User Mappers
+
         public UserDTO FromsUserToUserDto(User user)
         {
             var userDTO = new UserDTO()
@@ -161,10 +140,12 @@ namespace OngProject.Core.Mapper
                 Email = user.Email,
                 Password = user.Password,
                 Photo = user.Photo,
-                RoleId = user.RoleId,
+                RoleId = user.RoleId
             };
             return userDTO;
         }
+    
+
         public User FromUserDtoToUser(UserDTO userDTO)
         {
             var user = new User()

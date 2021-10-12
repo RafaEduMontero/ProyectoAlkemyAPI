@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Configuration;
 using OngProject.Common;
 using OngProject.Core.DTOs;
 using OngProject.Core.Entities;
@@ -16,9 +17,13 @@ namespace OngProject.Core.Services
     {
         #region Object and Constructor
         private readonly IUnitOfWork _unitOfWork;
-        public UserServices(IUnitOfWork _unitOfWork)
+        private readonly IMailService _emailservice;
+        private IConfiguration _configuration;
+        public UserServices(IUnitOfWork _unitOfWork, IMailService emailservice, IConfiguration configuration)
         {
             this._unitOfWork = _unitOfWork;
+            _emailservice = emailservice;
+            _configuration = configuration;
         }
         #endregion
         public async Task<IEnumerable<UserDTO>> GetAll()
@@ -30,12 +35,18 @@ namespace OngProject.Core.Services
         }
         public async Task<Result> Register(UserDTO userDTO)
         {
-            var newUser = new EntityMapper().FromUserDtoToUser(userDTO);
 
+            var request= await _unitOfWork.UsersRepository.GetByEmail(userDTO.Email);
+            if(request!= null){
+                return new Result().Fail("Este correo ya existe");
+            }
+            var newUser = new EntityMapper().FromUserDtoToUser(userDTO);
             newUser.RoleId = 2;
             newUser.Password = Encrypt.GetSHA256(newUser.Password);
 
             await _unitOfWork.UsersRepository.Insert(newUser);
+
+            await _emailservice.SendEmailAsync(newUser.Email,_configuration["Welcomesubject"],newUser.FirstName+" "+newUser.LastName);
             
             _unitOfWork.SaveChanges();
 

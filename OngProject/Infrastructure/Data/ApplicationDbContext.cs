@@ -251,7 +251,7 @@ namespace OngProject.Infrastructure.Data
                     new Role
                     {
                         Id = 1,
-                        Name = "Admin",
+                        Name = "Administrator",
                         Description = "Description User Admin",
                         CreatedAt = DateTime.Now
                     },

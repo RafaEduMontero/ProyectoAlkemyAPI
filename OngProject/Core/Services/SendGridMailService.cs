@@ -24,13 +24,13 @@ namespace OngProject.Core.Services
            try
             {
                 var ong =await _organizationService.Get();
-                string html = File.ReadAllText("./MailTemplates/plantilla_email.html");
+                string html = File.ReadAllText("./Templates/htmlpage.html");
                 html = html.Replace("{mail_title}", subject);
                 html = html.Replace("{mail_body}", body);
                 html = html.Replace("{mail_contact}", ong.Address + " <br> "+ ong.Phone);
-                var apiKey = _configuration["MailService:SendGridAPI"];
+                var apiKey = _configuration["SendGridAPIKey"];
                 var client = new SendGridClient(apiKey);
-                var from = new EmailAddress(_configuration["MailService:VerifiedAPIMail"]);
+                var from = new EmailAddress(_configuration["VerifiedAPIMail"]);
                 var to = new EmailAddress(ToEmail);
                 var msg = MailHelper.CreateSingleEmail(from, to, subject, "", html);
                 var response = await client.SendEmailAsync(msg).ConfigureAwait(false);

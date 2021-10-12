@@ -5,6 +5,6 @@ namespace OngProject.Core.Interfaces.IServices
 {
     public interface IMailService
     {
-        Task SendEmailAsync(string toEmail, string subject, string content);
+        Task SendEmailAsync(string ToEmail, string body, string subject);
     }
 }

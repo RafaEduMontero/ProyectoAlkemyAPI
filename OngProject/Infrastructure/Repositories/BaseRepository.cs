@@ -81,5 +81,11 @@ namespace OngProject.Infrastructure.Repositories
             return response;
 
         }
+        public async Task<User> GetByEmail(string email)
+        {
+            IQueryable<User> query = _context.Users.Include(u => u.Role);
+            var user = await query.Where(x => x.Email.ToUpper() == email.ToUpper() && x.IsDeleted == false).FirstOrDefaultAsync();
+            return user;
+        }
     }
 }

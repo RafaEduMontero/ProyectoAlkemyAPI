@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OngProject.Common;
 using OngProject.Core.Entities;
 using System;
 
@@ -183,7 +184,7 @@ namespace OngProject.Infrastructure.Data
                         FirstName = "User" + i,
                         LastName = "LastName for user " + i,
                         Email = "Email for user " + i,
-                        Password = "password" + i,
+                        Password = Encrypt.GetSHA256("password")+ i,
                         Photo = "Photo for user " + i,
                         RoleId = 1,
                         CreatedAt = DateTime.Now
@@ -199,7 +200,7 @@ namespace OngProject.Infrastructure.Data
                         FirstName = "User" + i,
                         LastName = "LastName for user " + i,
                         Email = "Email for user " + i,
-                        Password = "password" + i,
+                        Password = Encrypt.GetSHA256("password") + i,
                         Photo = "Photo for user " + i,
                         RoleId = 2,
                         CreatedAt = DateTime.Now

@@ -120,6 +120,7 @@ namespace OngProject
 
             services.AddTransient<IUserServices, UserServices>();
             services.AddTransient<ICommentsServices, CommentsServices>();
+            services.AddTransient<IUserServices, UserServices>();
             services.AddSingleton<JwtHelper>();
 
 
@@ -139,9 +140,9 @@ namespace OngProject
 
             app.UseRouting();
 
-            app.UseAuthorization();
-
             app.UseAuthentication();
+
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

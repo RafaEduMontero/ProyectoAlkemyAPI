@@ -16,6 +16,7 @@ namespace OngProject.Infrastructure.Repositories.IRepository
         Task Update(T entity);
         bool EntityExists(int id);
         Task<T> FindByCondition(Expression<Func<T, bool>> predicate);
+        Task<User> GetByEmail(string email);
 
     }
 }

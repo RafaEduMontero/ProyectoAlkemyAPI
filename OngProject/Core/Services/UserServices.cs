@@ -16,11 +16,9 @@ namespace OngProject.Core.Services
     {
         #region Object and Constructor
         private readonly IUnitOfWork _unitOfWork;
-        private readonly UsersRepository _usersRepository;
-        public UserServices(IUnitOfWork unitOfWork,UsersRepository _usersRepository)
+        public UserServices(IUnitOfWork _unitOfWork)
         {
-            this._unitOfWork = unitOfWork;
-            this._usersRepository = _usersRepository;
+            this._unitOfWork = _unitOfWork;
         }
         #endregion
         public async Task<IEnumerable<UserDTO>> GetAll()
@@ -45,7 +43,8 @@ namespace OngProject.Core.Services
         }
         public async Task<User> GetByEmail(string email)
         {
-            var user = await _usersRepository.GetByEmail(email);
+            var user = await _unitOfWork.UsersRepository.GetByEmail(email);
+            
             return user;
         }
     }

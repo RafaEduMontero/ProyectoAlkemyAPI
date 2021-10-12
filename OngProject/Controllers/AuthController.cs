@@ -49,17 +49,17 @@ namespace OngProject.Controllers
         [HttpPost("login")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [AllowAnonymous]
-        public async Task<ActionResult> Login(UserDTO userDTO)
+        public async Task<ActionResult> Login(LoginDTO loginDTO)
         {
             
-            var userSaved = await _userServices.GetByEmail(userDTO.Email);
+            var userSaved = await _userServices.GetByEmail(loginDTO.Email);
 
             if (userSaved==null)
             {
                 return BadRequest("No se ha encontrado un usuario con este correo...");
             }
 
-            var passwordVerification = Encrypt.Verify(userDTO.Password, userSaved.Password);
+            var passwordVerification = Encrypt.Verify(loginDTO.Password, userSaved.Password);
             if (!passwordVerification)
             {
                 return StatusCode(401, "Credenciales no validas");

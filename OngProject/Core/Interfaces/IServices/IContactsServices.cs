@@ -6,8 +6,9 @@ namespace OngProject.Core.Interfaces.IServices
 {
     public interface IContactsServices
     {
-        Task<IEnumerable<ContactsDTO>> GetAll();
-        Task<ContactsDTO> GetById(int id);
+        Task<ContactDTO> Insert(ContactDTO contactDTO);
+        Task<IEnumerable<ContactDTO>> GetAll();
+        Task<ContactDTO> GetById(int id);
         bool EntityExists(int id);
     }
 }

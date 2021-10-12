@@ -115,9 +115,10 @@ namespace OngProject
             services.AddTransient<ICategoriesServices, CategoriesServices>();
             services.AddTransient<IOrganizationsServices, OrganizationsServices>();
             services.AddTransient<IContactsServices, ContactsServices>();
-            services.AddTransient<IUserServices, UserServices>();
             services.AddTransient<ICommentsServices, CommentsServices>();
+            services.AddTransient<IUserServices, UserServices>();
             services.AddSingleton<JwtHelper>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -134,9 +135,9 @@ namespace OngProject
 
             app.UseRouting();
 
-            app.UseAuthorization();
-
             app.UseAuthentication();
+
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

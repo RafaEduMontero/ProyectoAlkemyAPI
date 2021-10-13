@@ -15,9 +15,11 @@ namespace OngProject.Core.Services
     {
         #region Objects and Constructor
         private readonly IUnitOfWork _unitOfWork;
-        public ContactsServices(IUnitOfWork unitOfWork)
+        private readonly IMailService _mailService;
+        public ContactsServices(IUnitOfWork unitOfWork, IMailService mailService)
         {
             this._unitOfWork = unitOfWork;
+            this._mailService = mailService;
         } 
         #endregion
         public async Task<IEnumerable<ContactDTO>> GetAll()
@@ -47,6 +49,9 @@ namespace OngProject.Core.Services
             await _unitOfWork.ContactsRepository.Insert(newContact);
 
             await _unitOfWork.SaveChangesAsync();
+
+            string body = $"{newContact.Name}, Gracias por el contacto! En breve nos estaremos comunicando con vos";
+            await _mailService.SendEmailAsync(newContact.Email, body, $"Contacto OnG para {newContact.Name}");
             return contactDTO;
         }
     }

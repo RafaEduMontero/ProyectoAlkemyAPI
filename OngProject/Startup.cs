@@ -114,7 +114,6 @@ namespace OngProject
             services.AddTransient<ISlidesServices, SlidesServices>();
             services.AddTransient<ICategoriesServices, CategoriesServices>();
             services.AddTransient<IOrganizationsServices, OrganizationsServices>();
-            services.AddTransient<IContactsServices, ContactsServices>();
 
             services.AddTransient<INewsServices, NewsServices>();
 

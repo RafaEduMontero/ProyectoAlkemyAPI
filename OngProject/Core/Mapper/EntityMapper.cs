@@ -29,7 +29,7 @@ namespace OngProject.Core.Mapper
             };
             return slideDTO;
         }
-       
+
         #endregion
 
         #region Category Mappers
@@ -44,7 +44,7 @@ namespace OngProject.Core.Mapper
             return categoryDTO;
         }
 
-            public CategoryNameDTO FromCategoryToCategoryNameDto(Category category)
+        public CategoryNameDTO FromCategoryToCategoryNameDto(Category category)
         {
             var categoryNameDTO = new CategoryNameDTO()
             {
@@ -53,7 +53,7 @@ namespace OngProject.Core.Mapper
             return categoryNameDTO;
         }
 
-         #endregion
+        #endregion
 
         #region News Mappers
         public NewsDTO FromNewsToNewsDTO(News news)
@@ -70,7 +70,6 @@ namespace OngProject.Core.Mapper
 
         #endregion
 
-       
         #region Comments Mapper
         public CommentsDTO FromCommentsToCommentsDto(Comments comment)
         {
@@ -79,7 +78,7 @@ namespace OngProject.Core.Mapper
                 Body = comment.Body
             };
             return CommentsDTO;
-        } 
+        }
         #endregion
 
         #region Member Mapper
@@ -96,13 +95,13 @@ namespace OngProject.Core.Mapper
 
             };
             return membersDTO;
-        } 
+        }
         #endregion
 
-        #region Contact Mapper
-        public ContactsDTO FromContactsToContactsDto(Contacts contact)
+        #region Contact Mappers
+        public ContactDTO FromContactsToContactsDto(Contacts contact)
         {
-            var contactDTO = new ContactsDTO()
+            var contactDTO = new ContactDTO()
             {
                 Name = contact.Name,
                 Phone = contact.Phone,
@@ -110,7 +109,19 @@ namespace OngProject.Core.Mapper
                 Message = contact.Message
             };
             return contactDTO;
-        } 
+        }
+        public Contacts FromContactsDtoToContacts(ContactDTO contactDTO)
+        {
+            var contact = new Contacts()
+            {
+                Name = contactDTO.Name,
+                Phone = contactDTO.Phone,
+                Email = contactDTO.Email,
+                Message = contactDTO.Message
+            };
+            return contact;
+        }
+
         #endregion
 
         #region Organization Mappers
@@ -126,10 +137,10 @@ namespace OngProject.Core.Mapper
                 InstagramUrl = organization.InstagramUrl,
                 LinkedinUrl = organization.LinkedinUrl
             };
-        } 
+        }
         #endregion
 
-         #region User Mappers
+        #region User Mappers
 
         public UserDTO FromsUserToUserDto(User user)
         {
@@ -144,7 +155,7 @@ namespace OngProject.Core.Mapper
             };
             return userDTO;
         }
-    
+
 
         public User FromUserDtoToUser(UserDTO userDTO)
         {

@@ -37,12 +37,12 @@ namespace OngProject.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> Register([FromBody] UserDTO userDTO)
         {
+            if (ModelState.IsValid){
+                await _userServices.Register(userDTO);
 
-            await _userServices.Register(userDTO);
-
-            Response.StatusCode = StatusCodes.Status201Created;
-
-            return new JsonResult(new {});
+                Response.StatusCode = StatusCodes.Status201Created;     
+            }
+            return new JsonResult(new {});           
         }
 
 

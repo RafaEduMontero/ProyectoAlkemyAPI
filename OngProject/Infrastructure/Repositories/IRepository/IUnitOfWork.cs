@@ -5,6 +5,7 @@ namespace OngProject.Infrastructure.Repositories.IRepository
 {
     public interface IUnitOfWork 
     {
+        IBaseRepository<Activities> ActivitiesRepository { get; }
         IBaseRepository<Slides> SlidesRepository { get; }
         IBaseRepository<Category> CategoryRepository {get; }       
         IBaseRepository<Contacts> ContactsRepository { get; }

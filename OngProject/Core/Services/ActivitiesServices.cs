@@ -13,32 +13,31 @@ namespace OngProject.Core.Services
     {
 
         private readonly IUnitOfWork _unitOfWork;
+        private readonly EntityMapper _mapper;
         public ActivitiesServices(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
+            _mapper = new EntityMapper();
         }
         public async Task<IEnumerable<ActivitiesDTO>> GetAll()
         {
-            var mapper = new EntityMapper();
             var activitiesList = await _unitOfWork.ActivitiesRepository.GetAll();
-            var activitiesDTO = activitiesList.Select(x => mapper.FromActivitiesToActivitiesDTO(x)).ToList();
+            var activitiesDTO = activitiesList.Select(x => _mapper.FromActivitiesToActivitiesDTO(x)).ToList();
 
             return activitiesDTO;
         }
 
         public async Task<ActivitiesDTO> GetById(int id)
         {
-            var maper = new EntityMapper();
             var activities = await _unitOfWork.ActivitiesRepository.GetById(id);
-            var activitiesDTO = maper.FromActivitiesToActivitiesDTO(activities);
+            var activitiesDTO = _mapper.FromActivitiesToActivitiesDTO(activities);
 
             return activitiesDTO;
         }
 
         public async Task<ActivitiesDTO> Insert(ActivitiesDTO activitiesDTO)
         {
-            var mapper = new EntityMapper();
-            var newActivity = mapper.FromActivitiesDTOToActivities(activitiesDTO);
+            var newActivity = _mapper.FromActivitiesDTOToActivities(activitiesDTO);
             await _unitOfWork.ActivitiesRepository.Insert(newActivity);
             await _unitOfWork.SaveChangesAsync();
 

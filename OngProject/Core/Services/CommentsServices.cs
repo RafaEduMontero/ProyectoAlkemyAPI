@@ -40,6 +40,8 @@ namespace OngProject.Core.Services
 
         public async Task<NewCommentsDTO> Insert(NewCommentsDTO newCommentDTO)
         {
+            if(await _unitOfWork.UsersRepository.GetById(newCommentDTO.UserId) == null) return null;
+            if(await _unitOfWork.NewsRepository.GetById(newCommentDTO.NewId) == null) return null;
             var newComment = new EntityMapper().FromNewCommentsDtoToComments(newCommentDTO);
             await _unitOfWork.CommentsRepository.Insert(newComment);
 

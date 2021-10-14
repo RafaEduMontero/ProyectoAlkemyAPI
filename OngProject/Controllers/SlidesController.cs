@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OngProject.Common;
 using OngProject.Core.DTOs;
 using OngProject.Core.Interfaces.IServices;
 using OngProject.Core.Services;
@@ -35,6 +36,16 @@ namespace OngProject.Controllers
             var slide = await _slidesServices.GetById(id);
             
             return Ok(slide);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<Result>> Insert(SlidesCreateDTO slidesCreateDTO)
+        {
+            var response = await _slidesServices.Insert(slidesCreateDTO);
+            return response.HasErrors
+                ? BadRequest(response.Messages)
+                : Ok(response);
+
         }
     }
 }

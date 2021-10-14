@@ -41,7 +41,13 @@ namespace OngProject.Controllers
             return Ok(category);
         }
         
-       
+       [HttpPost]
+       public async Task<IActionResult> Post([FromBody] CategoryDTO categoryDTO)
+        {
+            if (!ModelState.IsValid) return BadRequest();
+            var response = await _CategoriesServices.Post(categoryDTO);
+            return CreatedAtAction("POST", response);
+        }
         
     }
 }

@@ -38,6 +38,15 @@ namespace OngProject.Core.Services
             var categoryDTO = mapper.FromCategoryToCategoryDto(category);
             return categoryDTO;
         }
-       
+
+        public async Task<Category> Post(CategoryDTO categoryDTO)
+        {
+            var mapper = new EntityMapper();
+            var category = mapper.FromCategoryCreateDtoToCategory(categoryDTO);
+            await _unitOfWork.CategoryRepository.Insert(category);
+            await _unitOfWork.SaveChangesAsync();
+            return category;
+
+        }
     }
 }

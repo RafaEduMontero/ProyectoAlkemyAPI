@@ -173,5 +173,28 @@ namespace OngProject.Core.Mapper
 
         #endregion
 
+        #region Activities Mappers
+        public ActivitiesDTO FromActivitiesToActivitiesDTO (Activities activities)
+        {
+            var activitiesDTO = new ActivitiesDTO()
+            {
+                Name = activities.Name,
+                Content = activities.Content,
+                Image = activities.Image
+            };
+            return activitiesDTO;
+        }
+        public Activities FromActivitiesDTOToActivities (ActivitiesDTO activitiesDTO)
+        {
+            var activities = new Activities()
+            {
+                Name = activitiesDTO.Name,
+                Content = activitiesDTO.Content,
+                Image = activitiesDTO.Image
+            };
+            return activities;
+        }
+
+        #endregion
     }
 }

@@ -9,7 +9,8 @@ namespace OngProject.Core.Interfaces.IServices
     public interface ICommentsServices
     {
         Task<IEnumerable<CommentsDTO>> GetAll();
-        Task<IEnumerable<CommentsDTO>> GetById(int id );
+        Task<IEnumerable<CommentsDTO>> GetById(int id);
         bool EntityExists(int id);
+        Task<NewCommentsDTO> Insert(NewCommentsDTO newCommentsDTO);
     }
 }

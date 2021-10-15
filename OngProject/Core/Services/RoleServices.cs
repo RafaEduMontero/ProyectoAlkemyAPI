@@ -11,9 +11,9 @@ namespace OngProject.Core.Services
     public class RoleServices : IRoleServices
     {
         private readonly UnitOfWork _unitOfWork;
-        public RoleServices(UnitOfWork _unitOfWork)
+        public RoleServices(UnitOfWork unitOfWork)
         {
-            _unitOfWork = _unitOfWork;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<Role> GetById(int id)

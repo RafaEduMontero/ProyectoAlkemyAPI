@@ -37,5 +37,16 @@ namespace OngProject.Core.Services
             var commentsListDTO = commentsList.Where(y => y.NewId == id).Select(x => mapper.FromCommentsToCommentsDto(x)).ToList();
             return commentsListDTO;
         }
+
+        public async Task<NewCommentsDTO> Insert(NewCommentsDTO newCommentDTO)
+        {
+            if(await _unitOfWork.UsersRepository.GetById(newCommentDTO.UserId) == null) return null;
+            if(await _unitOfWork.NewsRepository.GetById(newCommentDTO.NewId) == null) return null;
+            var newComment = new EntityMapper().FromNewCommentsDtoToComments(newCommentDTO);
+            await _unitOfWork.CommentsRepository.Insert(newComment);
+
+            await _unitOfWork.SaveChangesAsync();
+            return newCommentDTO;
+        }
     }
 }

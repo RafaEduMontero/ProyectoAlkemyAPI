@@ -1,7 +1,14 @@
-﻿using OngProject.Core.DTOs;
+﻿using Microsoft.AspNetCore.Http;
+using OngProject.Common;
+using OngProject.Core.DTOs;
+using OngProject.Core.Entities;
+using OngProject.Core.Helper.FomFileData;
+using OngProject.Core.Helper.S3;
 using OngProject.Core.Interfaces.IServices;
+using OngProject.Core.Interfaces.IServices.AWS;
 using OngProject.Core.Mapper;
 using OngProject.Infrastructure.Repositories.IRepository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,9 +18,11 @@ namespace OngProject.Core.Services
     public class SlidesServices : ISlidesServices
     {
         private readonly IUnitOfWork _unitOfWork;
-        public SlidesServices(IUnitOfWork unitOfWork)
+        private readonly IImageService _imageServices;
+        public SlidesServices(IUnitOfWork unitOfWork, IImageService imageServices)
         {
             _unitOfWork = unitOfWork;
+            _imageServices = imageServices;
         }
 
         public bool EntityExist(int id)
@@ -34,6 +43,58 @@ namespace OngProject.Core.Services
             var slide = await _unitOfWork.SlidesRepository.GetById(id);
             var slideDTO = mapper.FromSlideToSlideDto(slide);
             return slideDTO;
+        }
+
+        public async Task<Result> Insert(SlidesCreateDTO slidesCreateDTO)
+        {
+            Slides slide;
+            byte[] bytesFile = Convert.FromBase64String(slidesCreateDTO.ImageUrl);
+            slidesCreateDTO.FileName = ValidateFiles.GetImageExtensionFromFile(bytesFile);
+            var formFile = new FormFileData()
+            {
+                FileName = slidesCreateDTO.FileName,
+                ContentType = slidesCreateDTO.ContentType,
+                Name = slidesCreateDTO.Name
+            };
+            var image = ConvertFile.BinaryToFormFile(bytesFile,formFile);
+
+            var urlImage = await _imageServices.Save(slidesCreateDTO.FileName, image);
+
+            if(slidesCreateDTO.Order != 0)
+            {
+                slide = new Slides()
+                {
+                    ImageUrl = urlImage,
+                    Text = slidesCreateDTO.Text,
+                    Order = slidesCreateDTO.Order,
+                    OrganizationId = slidesCreateDTO.OrganizationId
+                };
+            }
+            else
+            {
+                var mapper = new EntityMapper();
+                var slideList = await _unitOfWork.SlidesRepository.GetAll();
+                var slideLast = slideList.OrderByDescending(s => s.Id).FirstOrDefault();
+                slide = new Slides()
+                {
+                    ImageUrl = urlImage,
+                    Text = slidesCreateDTO.Text,
+                    Order = slideLast.Order,
+                    OrganizationId = slidesCreateDTO.OrganizationId
+                };
+            }
+
+            var response = await _unitOfWork.SlidesRepository.Insert(slide);
+            await _unitOfWork.SaveChangesAsync();
+
+            if (response != null)
+            {
+                return new Result().Success("Slide ingresado con éxito");
+            }
+            else
+            {
+                return new Result().Fail("No se ha podido ingresar el Slide");
+            }
         }
     }
 }

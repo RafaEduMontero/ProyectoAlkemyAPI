@@ -22,7 +22,7 @@ namespace OngProject.Controllers
         [HttpGet]
         public async Task<IEnumerable<CommentsDTO>> Get()
         {
-            return await _commentsServices.GetAll(); 
+            return await _commentsServices.GetAll();
         }
         [HttpGet("/news/{id}/comments")]
         public async Task<IActionResult> Get(int id)
@@ -30,6 +30,14 @@ namespace OngProject.Controllers
             if (!_commentsServices.EntityExists(id)) return NotFound();
             var contact = await _commentsServices.GetById(id);
             return Ok(contact);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Insert([FromBody] NewCommentsDTO newCommentsDTO)
+        {
+            var request = await _commentsServices.Insert(newCommentsDTO);
+
+            return (request != null) ? Ok() : BadRequest("No se ha podido ingresar el comentario");
         }
     }
 }

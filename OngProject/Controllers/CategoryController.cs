@@ -40,8 +40,14 @@ namespace OngProject.Controllers
             var category = await _CategoriesServices.GetById(id);
             return Ok(category);
         }
-        
-       
+        [Authorize(Roles = "Administrator")]
+        [HttpPost]
+       public async Task<IActionResult> Post([FromBody] CategoryDTO categoryDTO)
+        {
+            if (!ModelState.IsValid) return BadRequest();
+            var response = await _CategoriesServices.Post(categoryDTO);
+            return CreatedAtAction("POST", response);
+        }
         
     }
 }

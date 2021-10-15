@@ -53,6 +53,17 @@ namespace OngProject.Core.Mapper
             return categoryNameDTO;
         }
 
+        public Category FromCategoryCreateDtoToCategory(CategoryDTO categoryDTO)
+        {
+            var category = new Category()
+            {
+                Name = categoryDTO.Name,
+                Description = categoryDTO.Description,
+                Image = categoryDTO.Image
+            };
+            return category;
+        }
+
         #endregion
 
         #region News Mappers
@@ -67,6 +78,17 @@ namespace OngProject.Core.Mapper
             };
             return newsDTO;
         }
+        public News FromNewsDTOtoNews(NewsDTO newsDTO)
+        {
+            var news = new News()
+            {
+                Name = newsDTO.Name,
+                Content = newsDTO.Content,
+                Image = newsDTO.Image,
+                CategoryId = newsDTO.CategoryId
+            };
+            return news;
+        }
 
         #endregion
 
@@ -78,6 +100,16 @@ namespace OngProject.Core.Mapper
                 Body = comment.Body
             };
             return CommentsDTO;
+        }
+
+        public Comments FromNewCommentsDtoToComments(NewCommentsDTO newCommentDTO)
+        {
+            return new Comments()
+            {
+                Body = newCommentDTO.Body,
+                NewId = newCommentDTO.NewId,
+                UserId = newCommentDTO.UserId
+            };
         }
         #endregion
 
@@ -173,5 +205,28 @@ namespace OngProject.Core.Mapper
 
         #endregion
 
+        #region Activities Mappers
+        public ActivitiesDTO FromActivitiesToActivitiesDTO (Activities activities)
+        {
+            var activitiesDTO = new ActivitiesDTO()
+            {
+                Name = activities.Name,
+                Content = activities.Content,
+                Image = activities.Image
+            };
+            return activitiesDTO;
+        }
+        public Activities FromActivitiesDTOToActivities (ActivitiesDTO activitiesDTO)
+        {
+            var activities = new Activities()
+            {
+                Name = activitiesDTO.Name,
+                Content = activitiesDTO.Content,
+                Image = activitiesDTO.Image
+            };
+            return activities;
+        }
+
+        #endregion
     }
 }

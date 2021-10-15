@@ -16,7 +16,9 @@ using Microsoft.OpenApi.Models;
 using OngProject.Core.Entities;
 using OngProject.Core.Helper;
 using OngProject.Core.Interfaces.IServices;
+using OngProject.Core.Interfaces.IServices.AWS;
 using OngProject.Core.Services;
+using OngProject.Core.Services.AWS;
 using OngProject.Infrastructure.Data;
 using OngProject.Infrastructure.Repositories;
 using OngProject.Infrastructure.Repositories.IRepository;
@@ -116,11 +118,12 @@ namespace OngProject
             services.AddTransient<IOrganizationsServices, OrganizationsServices>();
 
             services.AddTransient<INewsServices, NewsServices>();
-
+            services.AddTransient<IActivitiesServices, ActivitiesServices>();
             services.AddTransient<IUserServices, UserServices>();
             services.AddTransient<ICommentsServices, CommentsServices>();
             services.AddTransient<IUserServices, UserServices>();
             services.AddSingleton<JwtHelper>();
+            services.AddTransient<IImageService, ImageService>();
 
 
         }

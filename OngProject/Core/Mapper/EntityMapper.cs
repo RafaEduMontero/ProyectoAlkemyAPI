@@ -67,6 +67,17 @@ namespace OngProject.Core.Mapper
             };
             return newsDTO;
         }
+        public News FromNewsDTOtoNews(NewsDTO newsDTO)
+        {
+            var news = new News()
+            {
+                Name = newsDTO.Name,
+                Content = newsDTO.Content,
+                Image = newsDTO.Image,
+                CategoryId = newsDTO.CategoryId
+            };
+            return news;
+        }
 
         #endregion
 

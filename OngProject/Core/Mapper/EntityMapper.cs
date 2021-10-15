@@ -101,6 +101,16 @@ namespace OngProject.Core.Mapper
             };
             return CommentsDTO;
         }
+
+        public Comments FromNewCommentsDtoToComments(NewCommentsDTO newCommentDTO)
+        {
+            return new Comments()
+            {
+                Body = newCommentDTO.Body,
+                NewId = newCommentDTO.NewId,
+                UserId = newCommentDTO.UserId
+            };
+        }
         #endregion
 
         #region Member Mapper

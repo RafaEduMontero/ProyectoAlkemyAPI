@@ -124,6 +124,7 @@ namespace OngProject
             services.AddTransient<IUserServices, UserServices>();
             services.AddSingleton<JwtHelper>();
             services.AddTransient<IImageService, ImageService>();
+            services.AddTransient<ITestimonialsServices, TestimonialsServices>();
 
 
         }

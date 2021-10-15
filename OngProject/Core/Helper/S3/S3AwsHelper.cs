@@ -31,7 +31,8 @@ namespace OngProject.Core.Helper.S3
                     BucketName = "cohorte-septiembre-91ddd87b",
                     Key = key,
                     InputStream = file.OpenReadStream(),
-                    ContentType = file.ContentType
+                    ContentType = file.ContentType,
+                    CannedACL = S3CannedACL.PublicRead
                 };
                 var result = await _amazonS3.PutObjectAsync(putRequest);
                 var response = new AwsManagerResponse
@@ -39,7 +40,7 @@ namespace OngProject.Core.Helper.S3
                     Message = "File upload successfully",
                     Code = (int)result.HttpStatusCode,
                     NameImage = key,
-                    Url = $"https://alkemy-ong.s3.amazonaws.com/{key}"
+                    Url = $"https://cohorte-septiembre-91ddd87b.s3.amazonaws.com/{key}"
                 };
                 return response;
             }

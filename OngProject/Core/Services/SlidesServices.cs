@@ -50,6 +50,7 @@ namespace OngProject.Core.Services
             Slides slide;
             byte[] bytesFile = Convert.FromBase64String(slidesCreateDTO.ImageUrl);
             slidesCreateDTO.FileName = ValidateFiles.GetImageExtensionFromFile(bytesFile);
+            string uniqueName = "slide_" + DateTime.Now.ToString().Replace(",", "").Replace("/", "").Replace(" ", "");
             var formFile = new FormFileData()
             {
                 FileName = slidesCreateDTO.FileName,
@@ -58,7 +59,7 @@ namespace OngProject.Core.Services
             };
             var image = ConvertFile.BinaryToFormFile(bytesFile,formFile);
 
-            var urlImage = await _imageServices.Save(slidesCreateDTO.FileName, image);
+            var urlImage = await _imageServices.Save(uniqueName + slidesCreateDTO.FileName, image);
 
             if(slidesCreateDTO.Order != 0)
             {

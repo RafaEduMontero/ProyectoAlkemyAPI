@@ -30,7 +30,8 @@ namespace OngProject.Core.Services
             {
                 if (testimonialsDTO.Imagen != null)
                 {
-                    var urlImage = await _imageServices.Save(testimonialsDTO.Imagen.FileName, testimonialsDTO.Imagen);
+                    string uniqueName = "testimonial_" + DateTime.Now.ToString().Replace(",", "").Replace("/", "").Replace(" ", "");
+                    var urlImage = await _imageServices.Save(uniqueName + testimonialsDTO.Imagen.FileName, testimonialsDTO.Imagen);
 
                     testimonial = new Testimonials()
                     {

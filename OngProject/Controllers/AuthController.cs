@@ -32,6 +32,16 @@ namespace OngProject.Controllers
         } 
         #endregion
 
+        [HttpGet("me")]
+        public async Task<IActionResult> Get()
+        {
+            if (!ModelState.IsValid) return BadRequest();
+            var token = Request.Headers["Authorization"];
+            var userId =_userServices.GetUserId(token);
+            var user = await _userServices.GetById(userId);
+            return Ok(user);
+        }
+
         [HttpPost("register")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [AllowAnonymous]
@@ -76,5 +86,6 @@ namespace OngProject.Controllers
             return Ok(new { token });
            
         }
+
     }
 }

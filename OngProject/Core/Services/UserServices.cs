@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Primitives;
 using OngProject.Common;
 using OngProject.Core.DTOs;
 using OngProject.Core.Entities;
@@ -8,7 +9,9 @@ using OngProject.Infrastructure.Repositories;
 using OngProject.Infrastructure.Repositories.IRepository;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace OngProject.Core.Services
@@ -57,6 +60,25 @@ namespace OngProject.Core.Services
             var user = await _unitOfWork.UsersRepository.GetByEmail(email);
             
             return user;
+        }
+
+        public int GetUserId(string token)
+        {
+            var handler = new JwtSecurityTokenHandler();
+            var stringSplit = token.Split(' ');
+            var Token = handler.ReadJwtToken(stringSplit[1]);
+            var claims = Token.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).FirstOrDefault();
+            var id = int.Parse(claims.Value);
+            return (int)id;
+        }
+
+        public async Task<UserInfoDTO> GetById(int userId)
+        {
+            var mapper = new EntityMapper();
+            var user = await _unitOfWork.UsersRepository.GetById(userId);
+            var userDTO = mapper.FromsUserToUserInfoDto(user);
+
+            return userDTO;
         }
     }
 }

@@ -184,7 +184,7 @@ namespace OngProject.Infrastructure.Data
                         FirstName = "User" + i,
                         LastName = "LastName for user " + i,
                         Email = "Email for user " + i,
-                        Password = Encrypt.GetSHA256("password")+ i,
+                        Password = Encrypt.GetSHA256("123456"),
                         Photo = "Photo for user " + i,
                         RoleId = 1,
                         CreatedAt = DateTime.Now

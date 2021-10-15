@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using OngProject.Core.DTOs;
 using OngProject.Core.Interfaces.IServices;
 using System.Threading.Tasks;
 
@@ -25,6 +26,12 @@ namespace OngProject.Controllers
             var news = await _newsServices.GetById(id);
             return Ok(news);
         }
-
+        [HttpPost]
+        public async Task<IActionResult> Post(NewsDTO newsDTO)
+        {
+            if (!ModelState.IsValid) return BadRequest();
+            var response = await _newsServices.Insert(newsDTO);
+            return Ok(response);
+        }
     }
 }

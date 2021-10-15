@@ -1,4 +1,5 @@
 using OngProject.Core.DTOs;
+using OngProject.Core.Entities;
 using OngProject.Core.Interfaces.IServices;
 using OngProject.Core.Mapper;
 using OngProject.Infrastructure.Repositories.IRepository;
@@ -27,6 +28,17 @@ namespace OngProject.Core.Services
         public bool EntityExists(int id)
         {
             return _unitOfWork.NewsRepository.EntityExists(id);
+        }
+
+        public async Task<News> Insert(NewsDTO newsDTO)
+        {
+            var mapper = new EntityMapper();
+            var news = mapper.FromNewsDTOtoNews(newsDTO);
+            await _unitOfWork.NewsRepository.Insert(news);
+            await _unitOfWork.SaveChangesAsync();
+            return news;
+
+
         }
     }
 }

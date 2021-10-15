@@ -22,6 +22,7 @@ using OngProject.Core.Services.AWS;
 using OngProject.Infrastructure.Data;
 using OngProject.Infrastructure.Repositories;
 using OngProject.Infrastructure.Repositories.IRepository;
+using OngProject.Middleware;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -131,6 +132,10 @@ namespace OngProject
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseMiddleware<AdminRoutesMiddleware>();
+
+            app.UseMiddleware<OwnerShipMiddleware>();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.DTOs;
 using OngProject.Core.Interfaces.IServices;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 namespace OngProject.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("/news")]
     public class NewsController : Controller
     {
 
@@ -26,6 +27,8 @@ namespace OngProject.Controllers
             var news = await _newsServices.GetById(id);
             return Ok(news);
         }
+
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         public async Task<IActionResult> Post(NewsDTO newsDTO)
         {

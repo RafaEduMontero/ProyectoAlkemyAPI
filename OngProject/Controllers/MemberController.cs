@@ -26,5 +26,14 @@ namespace OngProject.Controllers
         {
             return await _memberServices.GetAll();
         }
+
+        [Authorize(Roles = "Administrator")]
+        [HttpPost]
+        public async Task<IActionResult> Post(MembersDTO membersDTO)
+        {
+            if (!ModelState.IsValid) return BadRequest();
+            var response = await _memberServices.Insert(membersDTO);
+            return Ok(response);
+        }
     }    
 }

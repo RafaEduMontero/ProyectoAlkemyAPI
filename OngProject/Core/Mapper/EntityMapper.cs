@@ -128,6 +128,19 @@ namespace OngProject.Core.Mapper
             };
             return membersDTO;
         }
+         public Member FromMembersDTOtoMember(MembersDTO membersDTO)
+        {
+            return new Member()
+            {
+                Name = membersDTO.Name,
+                FacebookUrl = membersDTO.FacebookUrl,
+                InstagramUrl = membersDTO.InstagramUrl,
+                LinkedinUrl = membersDTO.LinkedinUrl,
+                Image = membersDTO.Image,
+                Description = membersDTO.Description
+            };
+        }
+    
         #endregion
 
         #region Contact Mappers

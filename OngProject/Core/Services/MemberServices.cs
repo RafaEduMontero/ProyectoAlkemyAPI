@@ -25,5 +25,17 @@ namespace OngProject.Core.Services
             var MemberDTO = Member.Select(x => mapper.FromMembersToMembersDto(x));
             return MemberDTO;
         }
+
+        public async Task<Member> Insert(MembersDTO membersDTO)
+        {
+            var mapper = new EntityMapper();
+            var member = mapper.FromMembersDTOtoMember(membersDTO);
+            await _unitOfWork.MemberRepository.Insert(member);
+            await _unitOfWork.SaveChangesAsync();
+            return member;
+        }
+
+
+
     }
 }

@@ -9,6 +9,7 @@ namespace OngProject.Core.Interfaces.IServices
     {
         Task<Result> Insert(SlidesCreateDTO slidesCreateDTO);
         Task<IEnumerable<SlidesDTO>> GetAll();
+        Task<List<SlidesPublicDTO>> GetAllPublic();
         Task<SlidesDTO> GetById(int id);
         bool EntityExist(int id);
     }

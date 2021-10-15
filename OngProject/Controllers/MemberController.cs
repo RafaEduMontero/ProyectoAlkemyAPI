@@ -29,7 +29,7 @@ namespace OngProject.Controllers
 
         [Authorize(Roles = "Administrator")]
         [HttpPost]
-        public async Task<IActionResult> Post(MembersDTO membersDTO)
+        public async Task<IActionResult> Post([FromForm] MembersInsertarDTO membersDTO)
         {
             if (!ModelState.IsValid) return BadRequest();
             var response = await _memberServices.Insert(membersDTO);

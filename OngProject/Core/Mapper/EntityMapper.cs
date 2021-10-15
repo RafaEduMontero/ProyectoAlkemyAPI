@@ -128,7 +128,7 @@ namespace OngProject.Core.Mapper
             };
             return membersDTO;
         }
-         public Member FromMembersDTOtoMember(MembersDTO membersDTO)
+         public Member FromMembersDTOtoMember(MembersInsertarDTO membersDTO)
         {
             return new Member()
             {
@@ -136,7 +136,7 @@ namespace OngProject.Core.Mapper
                 FacebookUrl = membersDTO.FacebookUrl,
                 InstagramUrl = membersDTO.InstagramUrl,
                 LinkedinUrl = membersDTO.LinkedinUrl,
-                Image = membersDTO.Image,
+                Image = membersDTO.Image.ToString(),
                 Description = membersDTO.Description
             };
         }

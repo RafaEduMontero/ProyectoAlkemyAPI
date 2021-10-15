@@ -11,6 +11,6 @@ namespace OngProject.Core.Interfaces.IServices
     {
         Task<IEnumerable<MembersDTO>> GetAll();
 
-        Task<Member> Insert(MembersDTO membersDTO);
+        Task<Member> Insert(MembersInsertarDTO membersInsertarDTO);
     }
 }

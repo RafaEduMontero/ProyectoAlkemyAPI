@@ -76,7 +76,7 @@ namespace OngProject.Core.Services
         {
             var mapper = new EntityMapper();
             var user = await _unitOfWork.UsersRepository.GetById(userId);
-            var userDTO = mapper.FromsUserInfoToUserDto(user);
+            var userDTO = mapper.FromsUserToUserInfoDto(user);
 
             return userDTO;
         }

@@ -5,11 +5,11 @@ namespace OngProject.Core.DTOs
 {
     public class ActivitiesDTO
     {
-        [Required]
+        [Required(ErrorMessage = "El nombre es requerido")]
         public string Name { get; set; }
-        [Required]
+        [Required(ErrorMessage = "El content es requerido")]
         public string Content { get; set; }
-        [Required]
          public string Image { get; set; }
     }
 }
+

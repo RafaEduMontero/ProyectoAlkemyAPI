@@ -53,6 +53,17 @@ namespace OngProject.Core.Mapper
             return categoryNameDTO;
         }
 
+        public Category FromCategoryCreateDtoToCategory(CategoryDTO categoryDTO)
+        {
+            var category = new Category()
+            {
+                Name = categoryDTO.Name,
+                Description = categoryDTO.Description,
+                Image = categoryDTO.Image
+            };
+            return category;
+        }
+
         #endregion
 
         #region News Mappers

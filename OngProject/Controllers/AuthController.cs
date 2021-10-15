@@ -42,7 +42,13 @@ namespace OngProject.Controllers
 
                 Response.StatusCode = StatusCodes.Status201Created;     
             }
-            return new JsonResult(new {});           
+            return Ok(new { Status = "operacion exitosa El usuario fue creado con exito!", 
+            Token = (OkObjectResult)await Login(new LoginDTO
+            {
+                Email = userDTO.Email,
+                Password = userDTO.Password
+            })
+            });           
         }
 
 

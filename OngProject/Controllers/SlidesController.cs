@@ -38,6 +38,7 @@ namespace OngProject.Controllers
             return Ok(slide);
         }
 
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         public async Task<ActionResult<Result>> Insert(SlidesCreateDTO slidesCreateDTO)
         {

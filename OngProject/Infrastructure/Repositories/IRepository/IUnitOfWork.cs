@@ -14,6 +14,7 @@ namespace OngProject.Infrastructure.Repositories.IRepository
         IBaseRepository<Member> MemberRepository { get; }
         IBaseRepository<Comments> CommentsRepository { get; }
         IBaseRepository<Organizations> OrganizationsRepository { get; }
+        IBaseRepository<Testimonials> TestimonialsRepository { get; }
 
 
         void Dispose();

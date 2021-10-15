@@ -27,6 +27,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace OngProject
@@ -125,6 +126,7 @@ namespace OngProject
             services.AddTransient<IUserServices, UserServices>();
             services.AddSingleton<JwtHelper>();
             services.AddTransient<IImageService, ImageService>();
+            services.AddTransient<ITestimonialsServices, TestimonialsServices>();
 
 
         }

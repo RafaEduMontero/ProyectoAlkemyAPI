@@ -118,7 +118,7 @@ namespace OngProject
             services.AddTransient<IOrganizationsServices, OrganizationsServices>();
 
             services.AddTransient<INewsServices, NewsServices>();
-
+            services.AddTransient<IActivitiesServices, ActivitiesServices>();
             services.AddTransient<IUserServices, UserServices>();
             services.AddTransient<ICommentsServices, CommentsServices>();
             services.AddTransient<IUserServices, UserServices>();

@@ -32,15 +32,16 @@ namespace OngProject.Core.Services
         public async Task<IEnumerable<UserDTO>> GetAll()
         {
             var mapper = new EntityMapper();
-            var request= await _unitOfWork.UsersRepository.GetAll();
+            var request = await _unitOfWork.UsersRepository.GetAll();
 
             return request.Select(x => mapper.FromsUserToUserDto(x)).ToList();
         }
         public async Task<Result> Register(UserDTO userDTO)
         {
 
-            var request= await _unitOfWork.UsersRepository.GetByEmail(userDTO.Email);
-            if(request!= null){
+            var request = await _unitOfWork.UsersRepository.GetByEmail(userDTO.Email);
+            if (request != null)
+            {
                 return new Result().Fail("Este correo ya existe");
             }
             var newUser = new EntityMapper().FromUserDtoToUser(userDTO);
@@ -49,17 +50,23 @@ namespace OngProject.Core.Services
 
             await _unitOfWork.UsersRepository.Insert(newUser);
 
-            await _emailservice.SendEmailAsync(newUser.Email,_configuration["Welcomesubject"],newUser.FirstName+" "+newUser.LastName);
-            
+            await _emailservice.SendEmailAsync(newUser.Email, _configuration["Welcomesubject"], newUser.FirstName + " " + newUser.LastName);
+
             _unitOfWork.SaveChanges();
 
             return new Result().Success($"Se ha agregado correctamene al usuario {newUser.FirstName}");
         }
         public async Task<User> GetByEmail(string email)
         {
-            var user = await _unitOfWork.UsersRepository.GetByEmail(email);
-            
-            return user;
+            var user = await _unitOfWork.UsersRepository.FindByCondition(x => x.Email == email, y => y.Role);
+            var list = user.ToList();
+
+            if (list.Count()>1)
+            {
+                return null;
+            }
+
+            return list[0];
         }
 
         public int GetUserId(string token)

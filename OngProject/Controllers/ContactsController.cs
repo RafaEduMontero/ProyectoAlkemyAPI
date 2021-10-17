@@ -40,7 +40,7 @@ namespace OngProject.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult>Insert([FromBody]ContactDTO contactDTO)
+        public async Task<IActionResult> Insert([FromBody]ContactDTO contactDTO)
         {
             var request= await _contactsServices.Insert(contactDTO);
             

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using OngProject.Core.DTOs;
 using OngProject.Core.Entities;
 using OngProject.Infrastructure.Repositories;
@@ -28,6 +30,21 @@ namespace OngProject.Core.Mapper
 
             };
             return slideDTO;
+        }
+
+        public List<SlidesPublicDTO> FromSlidePublicToSlideDto(List<Slides> slides)
+        {
+            List<SlidesPublicDTO> publics = new List<SlidesPublicDTO>();
+            foreach (var sd in slides)
+            {
+                var sPDTO = new SlidesPublicDTO()
+                {
+                    ImageUrl = sd.ImageUrl,
+                    Order = sd.Order
+                };
+                publics.Add(sPDTO);
+            }
+            return publics;
         }
 
         #endregion

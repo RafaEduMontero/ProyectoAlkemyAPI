@@ -37,6 +37,16 @@ namespace OngProject.Core.Services
             var slideDTOList = slideList.Select(x => mapper.FromSlideToSlideDto(x)).ToList();
             return slideDTOList;
         }
+
+        public async Task<List<SlidesPublicDTO>> GetAllPublic()
+        {
+            var mapper = new EntityMapper();
+            var slideList = await _unitOfWork.SlidesRepository.GetAll();
+            var orderSlideList = slideList.OrderBy(s => s.Order).ToList();
+            var slideDTOList = mapper.FromSlidePublicToSlideDto(orderSlideList);
+            return slideDTOList;
+        }
+
         public async Task<SlidesDTO> GetById(int id)
         {
             var mapper = new EntityMapper();

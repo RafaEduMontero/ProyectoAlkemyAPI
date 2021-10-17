@@ -27,6 +27,14 @@ namespace OngProject.Controllers
         {
             return await _slidesServices.GetAll();
         }
+
+        [Route("/slides/public")]
+        [HttpGet]
+        public async Task<List<SlidesPublicDTO>> GetPublic()
+        {
+            return await _slidesServices.GetAllPublic();
+        }
+
         [Authorize(Roles = "Administrator")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)

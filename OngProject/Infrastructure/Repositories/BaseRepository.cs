@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OngProject.Common;
 using OngProject.Core.Entities;
 using OngProject.Infrastructure.Data;
 using OngProject.Infrastructure.Repositories.IRepository;
@@ -46,18 +47,19 @@ namespace OngProject.Infrastructure.Repositories
 
             _entity.Update(entity);
         }
-        public async Task Delete(int id)
+        public async Task<Result> Delete(int id)
         {
             var entity = await _entity.FindAsync(id);
             if (entity == null)
             {
-                throw new NotImplementedException();
+                return new Result().Fail("El id no existe");
             }
 
             entity.IsDeleted = true;
             entity.CreatedAt = DateTime.Now;
 
             _entity.Update(entity);
+            return new Result().Success($"Se ha borrado correctamente");
         }
         #region 
         /// <summary>

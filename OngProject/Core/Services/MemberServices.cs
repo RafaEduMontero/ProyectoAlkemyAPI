@@ -1,4 +1,5 @@
-﻿using OngProject.Core.DTOs;
+﻿using OngProject.Common;
+using OngProject.Core.DTOs;
 using OngProject.Core.Entities;
 using OngProject.Core.Interfaces.IServices;
 using OngProject.Core.Interfaces.IServices.AWS;
@@ -20,6 +21,11 @@ namespace OngProject.Core.Services
             _unitOfWork = unitOfWork;
             _ImageService = ImageService;
 
+        }
+
+        public async Task<Result> Delete(int id)
+        {
+            return await _unitOfWork.MemberRepository.Delete(id);
         }
 
         public async Task<IEnumerable<MembersDTO>> GetAll()

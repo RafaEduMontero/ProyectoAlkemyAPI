@@ -42,9 +42,17 @@ namespace OngProject.Infrastructure.Repositories
         }
         public async Task Update(T entity)
         {
+            var modEntry = this._context.Entry(entity);
             entity.CreatedAt = DateTime.Now;
 
-            _entity.Update(entity);
+            if (modEntry.State != EntityState.Modified)
+            {
+                modEntry.State = EntityState.Modified;
+            }
+
+
+            /*entity.CreatedAt = DateTime.Now;
+            _entity.Update(entity);*/
         }
         public async Task Delete(int id)
         {

@@ -115,7 +115,7 @@ namespace OngProject.Core.Services
             
             await _unitOfWork.SlidesRepository.Update(entity);
 
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.SaveChanges();
 
             return new Result().Success($"El item se ha modificado correctamente!!" +
                 $"{entity.Text}");

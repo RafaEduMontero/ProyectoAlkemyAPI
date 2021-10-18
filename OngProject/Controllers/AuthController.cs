@@ -45,7 +45,7 @@ namespace OngProject.Controllers
         [HttpPost("register")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [AllowAnonymous]
-        public async Task<ActionResult> Register([FromBody] UserDTO userDTO)
+        public async Task<ActionResult> Register([FromForm] UserDTO userDTO)
         {
             if (ModelState.IsValid){
                 await _userServices.Register(userDTO);
@@ -65,7 +65,7 @@ namespace OngProject.Controllers
         [HttpPost("login")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [AllowAnonymous]
-        public async Task<ActionResult> Login(LoginDTO loginDTO)
+        public async Task<ActionResult> Login([FromForm]LoginDTO loginDTO)
         {
             
             var userSaved = await _userServices.GetByEmail(loginDTO.Email);

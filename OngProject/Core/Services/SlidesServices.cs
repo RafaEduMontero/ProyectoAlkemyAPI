@@ -106,14 +106,17 @@ namespace OngProject.Core.Services
         }
         public async Task<Result> Update(SlidesDTO slidesDTO)
         {
-            var verify = await GetById(slidesDTO.Id);
+            
+            var verify = await _unitOfWork.SlidesRepository.GetById(slidesDTO.Id);
             if (verify == null)
                 return new Result().NotFound();
 
             var mapper = new EntityMapper();
             var entity = mapper.FromSlidesDtoToSlides(slidesDTO);
+            
             await _unitOfWork.SlidesRepository.Update(entity);
-            _unitOfWork.SaveChanges();
+
+            await _unitOfWork.SaveChangesAsync();
 
             return new Result().Success($"El item se ha modificado correctamente!!" +
                 $"{entity.Text}");

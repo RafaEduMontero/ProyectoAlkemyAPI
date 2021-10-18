@@ -157,7 +157,7 @@ namespace OngProject.Core.Mapper
             };
             return membersDTO;
         }
-         public Member FromMembersDTOtoMember(MembersInsertarDTO membersDTO)
+        public Member FromMembersDTOtoMember(MembersInsertarDTO membersDTO)
         {
             return new Member()
             {
@@ -169,7 +169,7 @@ namespace OngProject.Core.Mapper
                 Description = membersDTO.Description
             };
         }
-    
+
         #endregion
 
         #region Contact Mappers
@@ -260,7 +260,7 @@ namespace OngProject.Core.Mapper
         #endregion
 
         #region Activities Mappers
-        public ActivitiesDTO FromActivitiesToActivitiesDTO (Activities activities)
+        public ActivitiesDTO FromActivitiesToActivitiesDTO(Activities activities)
         {
             var activitiesDTO = new ActivitiesDTO()
             {
@@ -270,7 +270,7 @@ namespace OngProject.Core.Mapper
             };
             return activitiesDTO;
         }
-        public Activities FromActivitiesDTOToActivities (ActivitiesDTO activitiesDTO)
+        public Activities FromActivitiesDTOToActivities(ActivitiesDTO activitiesDTO)
         {
             var activities = new Activities()
             {

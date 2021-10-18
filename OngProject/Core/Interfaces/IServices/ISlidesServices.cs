@@ -8,6 +8,7 @@ namespace OngProject.Core.Interfaces.IServices
     public interface ISlidesServices
     {
         Task<Result> Insert(SlidesCreateDTO slidesCreateDTO);
+        Task<Result> Delete(int id);
         Task<IEnumerable<SlidesDTO>> GetAll();
         Task<List<SlidesPublicDTO>> GetAllPublic();
         Task<SlidesDTO> GetById(int id);

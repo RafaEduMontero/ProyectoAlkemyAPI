@@ -25,6 +25,7 @@ namespace OngProject.Core.Services
             _imageServices = imageServices;
         }
 
+
         public bool EntityExist(int id)
         {
             return _unitOfWork.SlidesRepository.EntityExists(id);
@@ -107,5 +108,19 @@ namespace OngProject.Core.Services
                 return new Result().Fail("No se ha podido ingresar el Slide");
             }
         }
+        public async Task<Result> Delete(int id)
+        {
+            var verify = _unitOfWork.SlidesRepository.GetById(id);
+            if (verify==null)
+            {
+                return new Result().NotFound();
+            }
+
+            await _unitOfWork.SlidesRepository.Delete(id);
+            await _unitOfWork.SaveChangesAsync();
+
+            return new Result().Success($"Se ha borrado el slide correctamente");
+        }
+
     }
 }

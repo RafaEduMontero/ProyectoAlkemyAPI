@@ -19,6 +19,18 @@ namespace OngProject.Core.Mapper
             };
             return slideDTO;
         }
+        public Slides FromSlidesDtoToSlides(SlidesDTO slidesDTO)
+        {
+            var slide = new Slides()
+            {
+                ImageUrl = slidesDTO.ImageUrl,
+                Order = slidesDTO.Order,
+                Text = slidesDTO.Text,
+                OrganizationId = slidesDTO.OrganizationId
+            };
+            return slide;
+        }
+
         public SlidesDTO FromSlideDetalleToSlideDto(Slides slide)
         {
             var slideDTO = new SlidesDTO()

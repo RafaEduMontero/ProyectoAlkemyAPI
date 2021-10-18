@@ -30,7 +30,6 @@ namespace OngProject.Core.Services
         {
             return _unitOfWork.SlidesRepository.EntityExists(id);
         }
-
         public async Task<IEnumerable<SlidesDTO>> GetAll()
         {
             var mapper = new EntityMapper();
@@ -38,7 +37,6 @@ namespace OngProject.Core.Services
             var slideDTOList = slideList.Select(x => mapper.FromSlideToSlideDto(x)).ToList();
             return slideDTOList;
         }
-
         public async Task<List<SlidesPublicDTO>> GetAllPublic()
         {
             var mapper = new EntityMapper();
@@ -47,7 +45,6 @@ namespace OngProject.Core.Services
             var slideDTOList = mapper.FromSlidePublicToSlideDto(orderSlideList);
             return slideDTOList;
         }
-
         public async Task<SlidesDTO> GetById(int id)
         {
             var mapper = new EntityMapper();
@@ -55,7 +52,6 @@ namespace OngProject.Core.Services
             var slideDTO = mapper.FromSlideToSlideDto(slide);
             return slideDTO;
         }
-
         public async Task<Result> Insert(SlidesCreateDTO slidesCreateDTO)
         {
             Slides slide;
@@ -107,6 +103,20 @@ namespace OngProject.Core.Services
             {
                 return new Result().Fail("No se ha podido ingresar el Slide");
             }
+        }
+        public async Task<Result> Update(SlidesDTO slidesDTO)
+        {
+            var verify = await GetById(slidesDTO.Id);
+            if (verify == null)
+                return new Result().NotFound();
+
+            var mapper = new EntityMapper();
+            var entity = mapper.FromSlidesDtoToSlides(slidesDTO);
+            await _unitOfWork.SlidesRepository.Update(entity);
+            _unitOfWork.SaveChanges();
+
+            return new Result().Success($"El item se ha modificado correctamente!!" +
+                $"{entity.Text}");
         }
         public async Task<Result> Delete(int id)
         {

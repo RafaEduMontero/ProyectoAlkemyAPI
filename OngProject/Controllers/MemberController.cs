@@ -35,5 +35,13 @@ namespace OngProject.Controllers
             var response = await _memberServices.Insert(membersDTO);
             return Ok(response);
         }
+
+        [Authorize(Roles = "Administrator")]
+        [HttpDelete]
+        public async Task<ActionResult> Delete(int id)
+        {
+             
+            return Ok(await _memberServices.Delete(id));
+        }
     }    
 }

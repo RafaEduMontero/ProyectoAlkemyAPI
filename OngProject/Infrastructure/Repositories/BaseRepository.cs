@@ -114,5 +114,17 @@ namespace OngProject.Infrastructure.Repositories
             var user = await query.Where(x => x.Email.ToUpper() == email.ToUpper() && x.IsDeleted == false).FirstOrDefaultAsync();
             return user;
         }
+        public async Task<IEnumerable<T>> GetPageAsync(Expression<Func<T, object>> order, int limit, int page)
+        {
+            return await _entity.Where(x => !x.IsDeleted)
+                .OrderBy(order)
+                .Skip( (page-1) * limit)
+                .Take(limit)
+                .ToListAsync();
+        }
+        public async Task<int> CountAsync()
+        {
+            return await _entity.CountAsync();
+        }
     }
 }

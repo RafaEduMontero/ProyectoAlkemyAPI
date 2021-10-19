@@ -1,6 +1,8 @@
 ﻿using OngProject.Common;
 using OngProject.Core.DTOs;
 using OngProject.Core.Entities;
+using OngProject.Core.Helper.Pagination;
+using OngProject.Core.Helper.Pagination.Extensions;
 using OngProject.Core.Interfaces.IServices;
 using OngProject.Core.Interfaces.IServices.AWS;
 using OngProject.Core.Mapper;
@@ -12,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace OngProject.Core.Services
 {
-    public class MemberServices : IMemberServices
+    public class MemberServices : IMemberServices , IService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly  IImageService _ImageService;
@@ -36,6 +38,23 @@ namespace OngProject.Core.Services
     
             var MemberDTO = Member.Select(x => mapper.FromMembersToMembersDto(x));
             return MemberDTO;
+        }
+
+        public async Task<PaginationDTO<MembersDTO>> GetByPage(int page)
+        {
+            if (page <= 0) page = 1;
+            int elementsByPage = 10; // Condición exigida por negocio
+            var member = new Member();
+            var m = await _unitOfWork.MemberRepository.GetPageAsync(member=> member.Name, elementsByPage, page);
+            var items= m.ToList();
+            var mapper = new EntityMapper();
+            var itemsList = items.Select(x => mapper.FromMembersToMembersDto(x)).ToList();
+            var totalItems = await _unitOfWork.MemberRepository.CountAsync();
+
+            var response = this.PaginationDTO<MembersDTO>
+                (page: page, items: itemsList, totalItems: totalItems, elementsByPage: elementsByPage);
+
+            return response;
         }
 
         public async Task<Member> Insert(MembersInsertarDTO membersInsertarDTO)

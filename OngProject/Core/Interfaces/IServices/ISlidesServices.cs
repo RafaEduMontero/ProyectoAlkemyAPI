@@ -13,6 +13,6 @@ namespace OngProject.Core.Interfaces.IServices
         Task<List<SlidesPublicDTO>> GetAllPublic();
         Task<SlidesDTO> GetById(int id);
         bool EntityExist(int id);
-        Task<Result> Update(SlidesDTO slidesDTO);
+        Task<Result> Update(int id, SlidesDTO slidesDTO);
     }
 }

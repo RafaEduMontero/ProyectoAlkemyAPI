@@ -43,17 +43,8 @@ namespace OngProject.Infrastructure.Repositories
         }
         public async Task Update(T entity)
         {
-            var modEntry = this._context.Entry(entity);
             entity.CreatedAt = DateTime.Now;
-
-            if (modEntry.State != EntityState.Modified)
-            {
-                modEntry.State = EntityState.Modified;
-            }
-
-
-            /*entity.CreatedAt = DateTime.Now;
-            _entity.Update(entity);*/
+            _context.Set<T>().Update(entity);
         }
         public async Task<Result> Delete(int id)
         {

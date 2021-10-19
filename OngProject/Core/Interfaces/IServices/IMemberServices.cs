@@ -16,7 +16,7 @@ namespace OngProject.Core.Interfaces.IServices
         
         Task <Result> Delete(int id);
         
-       Task <Result> Update(MembersInsertarDTO membersInsertarDTO);
+       Task <Result> Update(MemberUpdateDTO memberUpdateDTO);
         
     }
 }

@@ -47,9 +47,9 @@ namespace OngProject.Controllers
 
         [Authorize(Roles = "Administrator")]
         [HttpPut]
-        public async Task<ActionResult<Result>> Update ([FromForm] MembersInsertarDTO membersInsertarDTO)
+        public async Task<ActionResult<Result>> Update ([FromForm] MemberUpdateDTO memberUpdateDTO)
         {
-            var request= await _memberServices.Update(membersInsertarDTO);
+            var request= await _memberServices.Update(memberUpdateDTO);
             return request.HasErrors
                 ? BadRequest(request.Messages):Ok(request);
 

@@ -149,7 +149,6 @@ namespace OngProject.Core.Mapper
         {
             return new Member()
             { 
-                Id= membersDTO.Id,
                 Name = membersDTO.Name,
                 FacebookUrl = membersDTO.FacebookUrl,
                 InstagramUrl = membersDTO.InstagramUrl,

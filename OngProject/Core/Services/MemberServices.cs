@@ -54,16 +54,16 @@ namespace OngProject.Core.Services
             return member;
         }
 
-        public async Task<Result> Update(MembersInsertarDTO membersInsertarDTO)
+        public async Task<Result> Update(MemberUpdateDTO memberUpdateDTO)
         {
         
-            var consulta=await _unitOfWork.MemberRepository.GetById(membersInsertarDTO.Id);
+            var consulta=await _unitOfWork.MemberRepository.GetById(memberUpdateDTO.Id);
 
             if(consulta==null)
             {
                 return new Result().NotFound();
             }
-            else if(consulta.Image != membersInsertarDTO.Image.ToString())
+            else if(consulta.Image != memberUpdateDTO.Image.ToString())
             {
                 try
                 {
@@ -74,11 +74,18 @@ namespace OngProject.Core.Services
                 }
              
                 string uniqueName = "Member_" + DateTime.Now.ToString().Replace(",", "").Replace("/", "").Replace(" ", "");
-                var urlImage = await _ImageService.Save(uniqueName + membersInsertarDTO.Image.FileName, membersInsertarDTO.Image);
+                var urlImage = await _ImageService.Save(uniqueName + memberUpdateDTO.Image.FileName, memberUpdateDTO.Image);
                 consulta.Image = urlImage;
             
 
             }
+            
+            consulta.Name= memberUpdateDTO.Name;
+            consulta.FacebookUrl = memberUpdateDTO.FacebookUrl;
+            consulta.InstagramUrl = memberUpdateDTO.InstagramUrl;
+            consulta.LinkedinUrl = memberUpdateDTO.LinkedinUrl;
+            consulta.Description= memberUpdateDTO.Description;
+            
             await _unitOfWork.MemberRepository.Update(consulta);
             await _unitOfWork.SaveChangesAsync();
 

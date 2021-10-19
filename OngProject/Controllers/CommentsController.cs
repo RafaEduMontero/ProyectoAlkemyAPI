@@ -39,5 +39,18 @@ namespace OngProject.Controllers
 
             return (request != null) ? Ok() : BadRequest("No se ha podido ingresar el comentario");
         }
+
+        [Authorize]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (_commentsServices.EntityExists(id))
+            {
+                if (! await _commentsServices.ValidateCreatorOrAdmin(User, id)) return Forbid();
+                return Ok(await _commentsServices.Delete(id));
+                
+            }
+            return Ok(await _commentsServices.Delete(id));
+        }
     }
 }

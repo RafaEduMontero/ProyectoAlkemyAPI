@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OngProject.Common;
 using OngProject.Core.DTOs;
 using OngProject.Core.Interfaces.IServices;
 using System;
@@ -42,6 +43,16 @@ namespace OngProject.Controllers
         {
              
             return Ok(await _memberServices.Delete(id));
+        }
+
+        [Authorize(Roles = "Administrator")]
+        [HttpPut]
+        public async Task<ActionResult<Result>> Update ([FromForm] MembersInsertarDTO membersInsertarDTO)
+        {
+            var request= await _memberServices.Update(membersInsertarDTO);
+            return request.HasErrors
+                ? BadRequest(request.Messages):Ok(request);
+
         }
     }    
 }

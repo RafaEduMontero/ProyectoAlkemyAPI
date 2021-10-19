@@ -1,6 +1,7 @@
 ﻿using OngProject.Common;
 using OngProject.Core.DTOs;
 using OngProject.Core.Entities;
+using OngProject.Core.Helper.S3;
 using OngProject.Core.Interfaces.IServices;
 using OngProject.Core.Interfaces.IServices.AWS;
 using OngProject.Core.Mapper;
@@ -16,16 +17,18 @@ namespace OngProject.Core.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly  IImageService _ImageService;
+
         public MemberServices(IUnitOfWork unitOfWork, IImageService ImageService)
         {
             _unitOfWork = unitOfWork;
             _ImageService = ImageService;
-
         }
 
         public async Task<Result> Delete(int id)
         {
-            return await _unitOfWork.MemberRepository.Delete(id);
+            var respuesta = await _unitOfWork.MemberRepository.Delete(id);
+            await _unitOfWork.SaveChangesAsync();
+            return respuesta;
         }
 
         public async Task<IEnumerable<MembersDTO>> GetAll()
@@ -51,7 +54,37 @@ namespace OngProject.Core.Services
             return member;
         }
 
+        public async Task<Result> Update(MembersInsertarDTO membersInsertarDTO)
+        {
+        
+            var consulta=await _unitOfWork.MemberRepository.GetById(membersInsertarDTO.Id);
+
+            if(consulta==null)
+            {
+                return new Result().NotFound();
+            }
+            else if(consulta.Image != membersInsertarDTO.Image.ToString())
+            {
+                try
+                {
+                       await _ImageService.Delete(consulta.Image);                     
+                }
+                catch (System.Exception)
+                {
+                }
+             
+                string uniqueName = "Member_" + DateTime.Now.ToString().Replace(",", "").Replace("/", "").Replace(" ", "");
+                var urlImage = await _ImageService.Save(uniqueName + membersInsertarDTO.Image.FileName, membersInsertarDTO.Image);
+                consulta.Image = urlImage;
+            
+
+            }
+            await _unitOfWork.MemberRepository.Update(consulta);
+            await _unitOfWork.SaveChangesAsync();
 
 
+            return new Result().Success("El miembro se ha cambiado correctamente");
+            
+        }
     }
 }

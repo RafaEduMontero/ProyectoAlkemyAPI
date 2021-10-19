@@ -42,7 +42,7 @@ namespace OngProject.Controllers
             if (!_slidesServices.EntityExist(id)) return NotFound();
 
             var slide = await _slidesServices.GetById(id);
-            
+
             return Ok(slide);
         }
 
@@ -55,6 +55,17 @@ namespace OngProject.Controllers
                 ? BadRequest(response.Messages)
                 : Ok(response);
 
+        }
+
+        [Authorize(Roles = "Administrator")]
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Result>> Delete(int id)
+        {
+            var request = await _slidesServices.Delete(id);
+
+            return request.HasErrors
+                ? BadRequest(request.Messages)
+                : Ok(request);
         }
     }
 }

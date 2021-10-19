@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Common;
 using OngProject.Core.DTOs;
+using OngProject.Core.DTOs.SlidesDTOs;
 using OngProject.Core.Interfaces.IServices;
 using OngProject.Core.Services;
 using System;
@@ -83,9 +84,9 @@ namespace OngProject.Controllers
         #endregion
         [Authorize(Roles = "Administrator")]
         [HttpPut("{id}")]
-        public async Task<ActionResult<Result>> UpdateSlide(int id, [FromBody] SlidesDTO slidesDTO)
+        public async Task<ActionResult<Result>> UpdateSlide(int id, [FromForm] UpdateSlideDTO updateSlideDTO )
         {
-            var request = await _slidesServices.Update(id, slidesDTO);
+            var request = await _slidesServices.Update(id, updateSlideDTO);
 
             return request.HasErrors
                 ? BadRequest(request.Messages)

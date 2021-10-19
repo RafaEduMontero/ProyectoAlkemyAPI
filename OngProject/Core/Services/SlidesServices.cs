@@ -17,13 +17,15 @@ namespace OngProject.Core.Services
 {
     public class SlidesServices : ISlidesServices
     {
+        #region Object and Constructor
         private readonly IUnitOfWork _unitOfWork;
         private readonly IImageService _imageServices;
         public SlidesServices(IUnitOfWork unitOfWork, IImageService imageServices)
         {
             _unitOfWork = unitOfWork;
             _imageServices = imageServices;
-        }
+        } 
+        #endregion
 
         public bool EntityExist(int id)
         {
@@ -103,22 +105,24 @@ namespace OngProject.Core.Services
                 return new Result().Fail("No se ha podido ingresar el Slide");
             }
         }
-        public async Task<Result> Update(SlidesDTO slidesDTO)
+        public async Task<Result> Update(int id, SlidesDTO slidesDTO)
         {
             
-            var verify = await _unitOfWork.SlidesRepository.GetById(slidesDTO.Id);
+            var verify = await _unitOfWork.SlidesRepository.GetById(id);
             if (verify == null)
                 return new Result().NotFound();
 
-            var mapper = new EntityMapper();
-            var entity = mapper.FromSlidesDtoToSlides(slidesDTO);
+            verify.ImageUrl = slidesDTO.ImageUrl;
+            verify.Order = slidesDTO.Order;
+            verify.OrganizationId = slidesDTO.OrganizationId;
+            verify.Text = slidesDTO.Text;
             
-            await _unitOfWork.SlidesRepository.Update(entity);
+            await _unitOfWork.SlidesRepository.Update(verify);
 
             _unitOfWork.SaveChanges();
 
-            return new Result().Success($"El item se ha modificado correctamente!!" +
-                $"{entity.Text}");
+            return new Result().Success($"El item se ha modificado correctamente!! \n" +
+                $" {verify.Text}");
         }
     }
 }

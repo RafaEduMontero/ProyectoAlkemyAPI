@@ -83,9 +83,9 @@ namespace OngProject.Controllers
         #endregion
         [Authorize(Roles = "Administrator")]
         [HttpPut("{id}")]
-        public async Task<ActionResult<Result>> UpdateSlide([FromForm] SlidesDTO slidesDTO)
+        public async Task<ActionResult<Result>> UpdateSlide(int id, [FromBody] SlidesDTO slidesDTO)
         {
-            var request = await _slidesServices.Update(slidesDTO);
+            var request = await _slidesServices.Update(id, slidesDTO);
 
             return request.HasErrors
                 ? BadRequest(request.Messages)

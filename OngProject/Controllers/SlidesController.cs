@@ -93,6 +93,38 @@ namespace OngProject.Controllers
                 : Ok(request);
         }
 
+        #region 
+        /// <summary>
+        /// Este metodo permite modificar un Slide de la base de datos
+        /// </summary>
+        /// <remarks>Ejemplo: 
+        /// {
+        /// "imageUrl": "url modificada de la imagen",
+        /// "text": "slide1 a modificar",
+        /// "order": 14,
+        /// "organizationId": 2
+        /// }
+        /// 
+        /// </remarks>
+        /// <param name="slidesDTO"></param>
+        /// <returns>
+        /// <para>
+        /// Los nuevos datos del Slide + un mensaje de modificacion correcta
+        /// </para>
+        /// <para>Caso contrario, BadRequest para cuando existe un slide con el mismo Id</para>
+        /// </returns> 
+        #endregion
+        [Authorize(Roles = "Administrator")]
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Result>> UpdateSlide(int id, [FromForm] UpdateSlideDTO updateSlideDTO )
+        {
+            var request = await _slidesServices.Update(id, updateSlideDTO);
+
+            return request.HasErrors
+                ? BadRequest(request.Messages)
+                : Ok(request);
+        }
+
 
 
         [Authorize(Roles = "Administrator")]

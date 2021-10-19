@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using OngProject.Core.DTOs;
+using OngProject.Core.DTOs.SlidesDTOs;
 using OngProject.Core.Entities;
 using OngProject.Infrastructure.Repositories;
 
@@ -19,10 +20,11 @@ namespace OngProject.Core.Mapper
             };
             return slideDTO;
         }
-        public Slides FromSlidesDtoToSlides(SlidesDTO slidesDTO)
+        public Slides FromSlidesDtoToSlides(int id, SlidesDTO slidesDTO)
         {
             var slide = new Slides()
             {
+                Id= id,
                 ImageUrl = slidesDTO.ImageUrl,
                 Order = slidesDTO.Order,
                 Text = slidesDTO.Text,
@@ -30,7 +32,6 @@ namespace OngProject.Core.Mapper
             };
             return slide;
         }
-
         public SlidesDTO FromSlideDetalleToSlideDto(Slides slide)
         {
             var slideDTO = new SlidesDTO()

@@ -1,5 +1,6 @@
 ﻿using OngProject.Common;
 using OngProject.Core.DTOs;
+using OngProject.Core.DTOs.SlidesDTOs;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -12,6 +13,6 @@ namespace OngProject.Core.Interfaces.IServices
         Task<List<SlidesPublicDTO>> GetAllPublic();
         Task<SlidesDTO> GetById(int id);
         bool EntityExist(int id);
-        Task<Result> Update(int id, SlidesDTO slidesDTO);
+        Task<Result> Update(int id, UpdateSlideDTO updateSlideDTO);
     }
 }

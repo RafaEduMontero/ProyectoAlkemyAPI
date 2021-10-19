@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using OngProject.Common;
 using OngProject.Core.DTOs;
+using OngProject.Core.DTOs.SlidesDTOs;
 using OngProject.Core.Entities;
 using OngProject.Core.Helper.FomFileData;
 using OngProject.Core.Helper.S3;
@@ -105,24 +106,26 @@ namespace OngProject.Core.Services
                 return new Result().Fail("No se ha podido ingresar el Slide");
             }
         }
-        public async Task<Result> Update(int id, SlidesDTO slidesDTO)
+        public async Task<Result> Update(int id, UpdateSlideDTO updateSlideDTO)
         {
             
-            var verify = await _unitOfWork.SlidesRepository.GetById(id);
-            if (verify == null)
+            var slide = await _unitOfWork.SlidesRepository.GetById(id);
+            if (slide == null)
                 return new Result().NotFound();
 
-            verify.ImageUrl = slidesDTO.ImageUrl;
-            verify.Order = slidesDTO.Order;
-            verify.OrganizationId = slidesDTO.OrganizationId;
-            verify.Text = slidesDTO.Text;
+            if (updateSlideDTO.ImageUrl!=null)
+                slide.ImageUrl = await _imageServices.Save(slide.ImageUrl, updateSlideDTO.ImageUrl);
+
+            slide.Order = updateSlideDTO.Order;
+            slide.OrganizationId = updateSlideDTO.OrganizationId;
+            slide.Text = updateSlideDTO.Text;
             
-            await _unitOfWork.SlidesRepository.Update(verify);
+            await _unitOfWork.SlidesRepository.Update(slide);
 
             _unitOfWork.SaveChanges();
 
             return new Result().Success($"El item se ha modificado correctamente!! \n" +
-                $" {verify.Text}");
+                $" {slide.Text}");
         }
     }
 }

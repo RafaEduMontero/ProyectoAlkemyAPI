@@ -14,6 +14,5 @@ namespace OngProject.Core.Helper.Pagination
         public string PrevPage { get; init; }
         public string NextPage { get; init; }
         public List<T> Items { get; init; }
-        public IDictionary<LinkedResourceType, LinkedResource> Links { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using OngProject.Common;
 using OngProject.Core.DTOs;
 using OngProject.Core.Entities;
+using OngProject.Core.Helper.Pagination;
 using OngProject.Core.Helper.S3;
 using OngProject.Core.Interfaces.IServices;
 using OngProject.Core.Interfaces.IServices.AWS;
@@ -13,15 +14,16 @@ using System.Threading.Tasks;
 
 namespace OngProject.Core.Services
 {
-    public class MemberServices : IMemberServices , IService
+    public class MemberServices : IMemberServices 
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly  IImageService _ImageService;
-
-        public MemberServices(IUnitOfWork unitOfWork, IImageService ImageService)
+        private readonly IImageService _ImageService;
+        private readonly IUriService _uriService;
+        public MemberServices(IUnitOfWork unitOfWork, IImageService ImageService, IUriService uriService)
         {
             _unitOfWork = unitOfWork;
             _ImageService = ImageService;
+            _uriService = uriService;
         }
 
         public async Task<Result> Delete(int id)
@@ -41,19 +43,26 @@ namespace OngProject.Core.Services
             return MemberDTO;
         }
 
-        public async Task<PaginationDTO<MembersDTO>> GetByPage(int page)
+        public async Task<PaginationDTO<MembersDTO>> GetByPage(string route ,int page)
         {
             if (page <= 0) page = 1;
             int elementsByPage = 10; // Condición exigida por negocio
-            var member = new Member();
-            var m = await _unitOfWork.MemberRepository.GetPageAsync(member=> member.Name, elementsByPage, page);
+            var m = await _unitOfWork.MemberRepository.GetPageAsync(x=> x.Name, elementsByPage, page);
             var items= m.ToList();
             var mapper = new EntityMapper();
             var itemsList = items.Select(x => mapper.FromMembersToMembersDto(x)).ToList();
             var totalItems = await _unitOfWork.MemberRepository.CountAsync();
+            var totalpages = (int)Math.Ceiling((double)totalItems / elementsByPage);
 
-            var response = this.PaginationDTO<MembersDTO>
-                (page: page, items: itemsList, totalItems: totalItems, elementsByPage: elementsByPage);
+            var response = new PaginationDTO<MembersDTO>()
+            {
+                CurrentPage = page,
+                TotalItems = totalItems,
+                TotalPages = totalpages,
+                PrevPage = page > 1 ? _uriService.GetPage(route, page - 1) : null,
+                NextPage = page < totalpages ? _uriService.GetPage(route, page + 1) : null,
+                Items = itemsList
+            };
 
             return response;
         }

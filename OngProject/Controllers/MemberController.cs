@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using OngProject.Common;
 using OngProject.Core.DTOs;
 using OngProject.Core.Helper.Pagination;
-using OngProject.Core.Helper.Pagination.Extensions;
 using OngProject.Core.Interfaces.IServices;
 using System;
 using System.Collections.Generic;
@@ -34,9 +33,10 @@ namespace OngProject.Controllers
         [HttpGet("{page}")]
         public async Task<ActionResult<PaginationDTO<MembersDTO>>> GetPages([FromQuery] int page)
         {
-            var response = await _memberServices.GetByPage(page);
+            string route = "/member";
+            var response = await _memberServices.GetByPage(route, page);
 
-            return Ok(this.AddPageLinks(nameof(this.GetPages), page, response));
+            return Ok(response);
         }
 
         [Authorize(Roles = "Administrator")]

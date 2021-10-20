@@ -14,6 +14,6 @@ namespace OngProject.Core.Interfaces.IServices
         Task<IEnumerable<MembersDTO>> GetAll();
         Task<Member> Insert(MembersInsertarDTO membersInsertarDTO);
         Task<Result> Delete(int id);
-        Task<PaginationDTO<MembersDTO>> GetByPage(int page);
+        Task<PaginationDTO<MembersDTO>> GetByPage(string route, int page);
     }
 }

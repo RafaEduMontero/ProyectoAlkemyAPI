@@ -24,14 +24,8 @@ namespace OngProject.Controllers
         #endregion
 
         [Authorize(Roles = "Administrator")]
-        [HttpGet]
-        public async Task<IEnumerable<MembersDTO>> GetAll()
-        {
-            return await _memberServices.GetAll();
-        }
-
         [HttpGet("{page}")]
-        public async Task<ActionResult<PaginationDTO<MembersDTO>>> GetPages([FromQuery] int page)
+        public async Task<ActionResult<PaginationDTO<MembersDTO>>> GetAll([FromQuery] int page)
         {
             string route = "/member";
             var response = await _memberServices.GetByPage(route, page);

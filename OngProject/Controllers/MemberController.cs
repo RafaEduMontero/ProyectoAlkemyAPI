@@ -23,7 +23,7 @@ namespace OngProject.Controllers
         }
         #endregion
 
-        //[Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Administrator")]
         [HttpGet("{page}")]
         public async Task<ActionResult<PaginationDTO<MembersDTO>>> GetAll([FromQuery] int page)
         {

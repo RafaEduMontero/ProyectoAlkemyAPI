@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using OngProject.Common;
 using OngProject.Core.DTOs;
+using OngProject.Core.DTOs.SlidesDTOs;
 using OngProject.Core.Entities;
 using OngProject.Core.Helper.FomFileData;
 using OngProject.Core.Helper.S3;
@@ -17,20 +18,21 @@ namespace OngProject.Core.Services
 {
     public class SlidesServices : ISlidesServices
     {
+        #region Object and Constructor
         private readonly IUnitOfWork _unitOfWork;
         private readonly IImageService _imageServices;
         public SlidesServices(IUnitOfWork unitOfWork, IImageService imageServices)
         {
             _unitOfWork = unitOfWork;
             _imageServices = imageServices;
-        }
+        } 
+        #endregion
 
 
         public bool EntityExist(int id)
         {
             return _unitOfWork.SlidesRepository.EntityExists(id);
         }
-
         public async Task<IEnumerable<SlidesDTO>> GetAll()
         {
             var mapper = new EntityMapper();
@@ -38,7 +40,6 @@ namespace OngProject.Core.Services
             var slideDTOList = slideList.Select(x => mapper.FromSlideToSlideDto(x)).ToList();
             return slideDTOList;
         }
-
         public async Task<List<SlidesPublicDTO>> GetAllPublic()
         {
             var mapper = new EntityMapper();
@@ -47,7 +48,6 @@ namespace OngProject.Core.Services
             var slideDTOList = mapper.FromSlidePublicToSlideDto(orderSlideList);
             return slideDTOList;
         }
-
         public async Task<SlidesDTO> GetById(int id)
         {
             var mapper = new EntityMapper();
@@ -55,7 +55,6 @@ namespace OngProject.Core.Services
             var slideDTO = mapper.FromSlideToSlideDto(slide);
             return slideDTO;
         }
-
         public async Task<Result> Insert(SlidesCreateDTO slidesCreateDTO)
         {
             Slides slide;
@@ -107,6 +106,27 @@ namespace OngProject.Core.Services
             {
                 return new Result().Fail("No se ha podido ingresar el Slide");
             }
+        }
+        public async Task<Result> Update(int id, UpdateSlideDTO updateSlideDTO)
+        {
+            
+            var slide = await _unitOfWork.SlidesRepository.GetById(id);
+            if (slide == null)
+                return new Result().NotFound();
+
+            if (updateSlideDTO.ImageUrl!=null)
+                slide.ImageUrl = await _imageServices.Save(slide.ImageUrl, updateSlideDTO.ImageUrl);
+
+            slide.Order = updateSlideDTO.Order;
+            slide.OrganizationId = updateSlideDTO.OrganizationId;
+            slide.Text = updateSlideDTO.Text;
+            
+            await _unitOfWork.SlidesRepository.Update(slide);
+
+            _unitOfWork.SaveChanges();
+
+            return new Result().Success($"El item se ha modificado correctamente!! \n" +
+                $" {slide.Text}");
         }
         public async Task<Result> Delete(int id)
         {

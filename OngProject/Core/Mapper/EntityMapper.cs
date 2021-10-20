@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using OngProject.Core.DTOs;
+using OngProject.Core.DTOs.SlidesDTOs;
 using OngProject.Core.Entities;
 using OngProject.Infrastructure.Repositories;
 
@@ -18,6 +19,18 @@ namespace OngProject.Core.Mapper
                 Order = slide.Order
             };
             return slideDTO;
+        }
+        public Slides FromSlidesDtoToSlides(int id, SlidesDTO slidesDTO)
+        {
+            var slide = new Slides()
+            {
+                Id= id,
+                ImageUrl = slidesDTO.ImageUrl,
+                Order = slidesDTO.Order,
+                Text = slidesDTO.Text,
+                OrganizationId = slidesDTO.OrganizationId
+            };
+            return slide;
         }
         public SlidesDTO FromSlideDetalleToSlideDto(Slides slide)
         {
@@ -145,7 +158,7 @@ namespace OngProject.Core.Mapper
             };
             return membersDTO;
         }
-         public Member FromMembersDTOtoMember(MembersInsertarDTO membersDTO)
+        public Member FromMembersDTOtoMember(MembersInsertarDTO membersDTO)
         {
             return new Member()
             { 
@@ -157,7 +170,7 @@ namespace OngProject.Core.Mapper
                 Description = membersDTO.Description
             };
         }
-    
+
         #endregion
 
         #region Contact Mappers
@@ -248,7 +261,7 @@ namespace OngProject.Core.Mapper
         #endregion
 
         #region Activities Mappers
-        public ActivitiesDTO FromActivitiesToActivitiesDTO (Activities activities)
+        public ActivitiesDTO FromActivitiesToActivitiesDTO(Activities activities)
         {
             var activitiesDTO = new ActivitiesDTO()
             {
@@ -258,7 +271,7 @@ namespace OngProject.Core.Mapper
             };
             return activitiesDTO;
         }
-        public Activities FromActivitiesDTOToActivities (ActivitiesDTO activitiesDTO)
+        public Activities FromActivitiesDTOToActivities(ActivitiesDTO activitiesDTO)
         {
             var activities = new Activities()
             {

@@ -44,8 +44,7 @@ namespace OngProject.Infrastructure.Repositories
         public async Task Update(T entity)
         {
             entity.CreatedAt = DateTime.Now;
-
-            _entity.Update(entity);
+            _context.Set<T>().Update(entity);
         }
         public async Task<Result> Delete(int id)
         {

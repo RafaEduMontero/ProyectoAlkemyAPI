@@ -27,7 +27,7 @@ namespace OngProject.Controllers
         [HttpGet("{page}")]
         public async Task<ActionResult<PaginationDTO<MembersDTO>>> GetAll([FromQuery] int page)
         {
-            string route = "/member";
+            string route = Request.Path.Value.ToString();
             var response = await _memberServices.GetByPage(route, page);
 
             return Ok(response);

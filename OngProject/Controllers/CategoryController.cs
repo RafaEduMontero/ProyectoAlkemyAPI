@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OngProject.Common;
 using OngProject.Core.DTOs;
 using OngProject.Core.Interfaces.IServices;
 using System;
@@ -25,11 +26,10 @@ namespace OngProject.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CategoryNameDTO>>> Get()
         {
-            var categorias= await _CategoriesServices.GetAll();
-            var cat= (from Name in categorias select 
-             Name);
-           return Ok(cat);
-            
+            var categorias = await _CategoriesServices.GetAll();
+            var cat = (from Name in categorias select Name);
+            return Ok(cat);
+
         }
 
         [Authorize(Roles = "Administrator")]
@@ -42,12 +42,23 @@ namespace OngProject.Controllers
         }
         [Authorize(Roles = "Administrator")]
         [HttpPost]
-       public async Task<IActionResult> Post([FromBody] CategoryDTO categoryDTO)
+        public async Task<IActionResult> Post([FromBody] CategoryDTO categoryDTO)
         {
             if (!ModelState.IsValid) return BadRequest();
             var response = await _CategoriesServices.Post(categoryDTO);
             return CreatedAtAction("POST", response);
         }
-        
+
+        [Authorize(Roles = "Administrator")]
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Result>> Delete(int id)
+        {
+            var request = await _CategoriesServices.Delete(id);
+
+            return request.HasErrors
+                ? BadRequest(request.Messages)
+                : Ok(request);
+        }
+
     }
 }

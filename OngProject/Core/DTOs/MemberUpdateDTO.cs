@@ -1,5 +1,3 @@
-using System;
-using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
@@ -9,7 +7,6 @@ namespace OngProject.Core.DTOs
     {
         [JsonIgnore]
         public int Id { get; set; }
-        [Required(ErrorMessage = "Escriba su nombre")]
         public string Name { get; set; }
         public string FacebookUrl { get; set; }
         public string InstagramUrl { get; set; }

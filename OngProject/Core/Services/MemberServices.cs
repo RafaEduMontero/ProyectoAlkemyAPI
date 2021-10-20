@@ -63,28 +63,28 @@ namespace OngProject.Core.Services
             {
                 return new Result().NotFound();
             }
-            else if(consulta.Image != memberUpdateDTO.Image.ToString())
+            if(memberUpdateDTO.Image!= null)
+            {
+            if(consulta.Image != memberUpdateDTO.Image.ToString())
             {
                 try
                 {
-                       await _ImageService.Delete(consulta.Image);                     
+                    await _ImageService.Delete(consulta.Image);
                 }
                 catch (System.Exception)
                 {
-                }
-             
+                }  
                 string uniqueName = "Member_" + DateTime.Now.ToString().Replace(",", "").Replace("/", "").Replace(" ", "");
                 var urlImage = await _ImageService.Save(uniqueName + memberUpdateDTO.Image.FileName, memberUpdateDTO.Image);
-                consulta.Image = urlImage;
-            
-
+                consulta.Image = urlImage;                      
             }
-            
-            consulta.Name= memberUpdateDTO.Name;
-            consulta.FacebookUrl = memberUpdateDTO.FacebookUrl;
-            consulta.InstagramUrl = memberUpdateDTO.InstagramUrl;
-            consulta.LinkedinUrl = memberUpdateDTO.LinkedinUrl;
-            consulta.Description= memberUpdateDTO.Description;
+            }
+        
+            consulta.Name= (consulta.Name == memberUpdateDTO.Name || string.IsNullOrEmpty(memberUpdateDTO.Name))? consulta.Name : memberUpdateDTO.Name;
+            consulta.FacebookUrl= (consulta.FacebookUrl == memberUpdateDTO.FacebookUrl || string.IsNullOrEmpty(memberUpdateDTO.FacebookUrl))? consulta.FacebookUrl : memberUpdateDTO.FacebookUrl;
+            consulta.InstagramUrl= (consulta.InstagramUrl == memberUpdateDTO.InstagramUrl || string.IsNullOrEmpty(memberUpdateDTO.InstagramUrl))? consulta.InstagramUrl : memberUpdateDTO.InstagramUrl;
+            consulta.LinkedinUrl= (consulta.LinkedinUrl == memberUpdateDTO.LinkedinUrl || string.IsNullOrEmpty(memberUpdateDTO.LinkedinUrl))? consulta.LinkedinUrl : memberUpdateDTO.LinkedinUrl;
+            consulta.Description= (consulta.Description == memberUpdateDTO.Description || string.IsNullOrEmpty(memberUpdateDTO.Description))? consulta.Description : memberUpdateDTO.Description;
             
             await _unitOfWork.MemberRepository.Update(consulta);
             await _unitOfWork.SaveChangesAsync();

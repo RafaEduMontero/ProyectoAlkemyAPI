@@ -4,6 +4,7 @@ using OngProject.Core.Entities;
 using OngProject.Core.Helper.S3;
 using OngProject.Core.Interfaces.IServices;
 using OngProject.Core.Interfaces.IServices.AWS;
+using OngProject.Core.Mapper;
 using OngProject.Infrastructure.Repositories.IRepository;
 using System;
 using System.Collections.Generic;
@@ -68,6 +69,23 @@ namespace OngProject.Core.Services
             {
                 return new Result().Fail("No se ha podido ingresar el Testimonial");
             }
+        }
+        public async Task<Result> Delete(int id)
+        {
+            var testimonial = await _unitOfWork.TestimonialsRepository.GetById(id);
+            if(testimonial == null)
+            {
+                return new Result().NotFound();
+            }
+            var ulr = testimonial.Image;
+            var result = await _unitOfWork.TestimonialsRepository.Delete(id);
+            await _unitOfWork.SaveChangesAsync();
+            if(result != null)
+            {
+                await _imageServices.Delete(ulr);
+                return new Result().Success("Testimonial eliminado con exito");
+            }
+            return new Result().Fail("Ocurrio un error al eliminar el testimonial");
         }
     }
 }

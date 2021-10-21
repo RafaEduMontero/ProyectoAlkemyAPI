@@ -44,5 +44,16 @@ namespace OngProject.Controllers
                 ? BadRequest(request.Messages)
                 : Ok(request);
         }
+
+        [Authorize(Roles = "Administrator")]
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Result>> Update(int id, [FromForm] TestimonialsCreateDTO testimonialsCreateDTO)
+        {
+            var request = await _testimonialsServices.Update(id, testimonialsCreateDTO);
+
+            return request.HasErrors
+                ? BadRequest(request.Messages)
+                : Ok(request);
+        }
     }
 }

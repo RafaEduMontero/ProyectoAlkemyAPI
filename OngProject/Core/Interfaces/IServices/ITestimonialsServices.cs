@@ -11,5 +11,6 @@ namespace OngProject.Core.Interfaces.IServices
     {
         Task<Result> Insert(TestimonialsCreateDTO testimonialsDTO);
         Task<Result> Delete(int id);
+        Task<Result> Update(int id, TestimonialsCreateDTO testimonialsCreateDTO);
     }
 }

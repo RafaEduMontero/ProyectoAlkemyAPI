@@ -27,6 +27,16 @@ namespace OngProject.Core.Services
             return _unitOfWork.CategoryRepository.EntityExists(id);
         }
 
+        public async Task<Result> Delete(int id)
+        {
+            if (!_unitOfWork.CategoryRepository.EntityExists(id)) return new Result().NotFound();
+
+            await _unitOfWork.CategoryRepository.Delete(id);
+            await _unitOfWork.SaveChangesAsync();
+
+            return new Result().Success($"Se ha borrado la categoria correctamente");
+        }
+
         public async Task<IEnumerable<CategoryNameDTO>> GetAll()
         {
             var mapper = new EntityMapper();

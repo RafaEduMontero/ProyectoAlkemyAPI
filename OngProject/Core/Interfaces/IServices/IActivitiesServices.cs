@@ -1,4 +1,6 @@
-﻿using OngProject.Core.DTOs;
+﻿using OngProject.Common;
+using OngProject.Core.DTOs;
+using OngProject.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +17,6 @@ namespace OngProject.Core.Interfaces.IServices
         bool EntityExists(int id);
 
         Task<ActivitiesDTO> Insert(ActivitiesDTO contactDTO);
+        Task<Result> Update(ActivitiesDTO activitiesUpdateDTO,int id);
     }
 }

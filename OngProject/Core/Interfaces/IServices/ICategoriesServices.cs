@@ -16,5 +16,6 @@ namespace OngProject.Core.Interfaces.IServices
         Task<IEnumerable<CategoryNameDTO>> GetAll();
         Task<Category> Post(CategoryDTO categoryDTO);
         Task<Result> Update(int id, UpdateCategoryDTO updateCategoryDTO);
+        Task<Result> Delete(int id);
     }
 }

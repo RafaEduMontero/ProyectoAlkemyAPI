@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OngProject.Common;
 using OngProject.Core.DTOs;
 using OngProject.Core.Interfaces.IServices;
 using System.Threading.Tasks;
@@ -35,6 +36,28 @@ namespace OngProject.Controllers
             if (!ModelState.IsValid) return BadRequest();
             var response = await _newsServices.Insert(newsDTO);
             return Ok(response);
+        }
+
+        [Authorize(Roles = "Administrator")]
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Result>> Delete(int id)
+        {
+            var request = await _newsServices.Delete(id);
+
+            return request.HasErrors
+                ? BadRequest(request.Messages)
+                : Ok(request);
+        }
+
+        [Authorize(Roles = "Administrator")]
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Result>> Update(int id, [FromForm] NewsUpdateDTO newsUpdateDTO)
+        {
+            var request = await _newsServices.Update(id, newsUpdateDTO);
+
+            return request.HasErrors
+                ? BadRequest(request.Messages)
+                : Ok(request);
         }
     }
 }

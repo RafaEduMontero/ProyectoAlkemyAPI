@@ -33,5 +33,27 @@ namespace OngProject.Controllers
 
                 : Ok(response);
         }
+
+        [Authorize(Roles = "Administrator")]
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Result>> Delete(int id)
+        {
+            var request = await _testimonialsServices.Delete(id);
+
+            return request.HasErrors
+                ? BadRequest(request.Messages)
+                : Ok(request);
+        }
+
+        [Authorize(Roles = "Administrator")]
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Result>> Update(int id, [FromForm] TestimonialsCreateDTO testimonialsCreateDTO)
+        {
+            var request = await _testimonialsServices.Update(id, testimonialsCreateDTO);
+
+            return request.HasErrors
+                ? BadRequest(request.Messages)
+                : Ok(request);
+        }
     }
 }

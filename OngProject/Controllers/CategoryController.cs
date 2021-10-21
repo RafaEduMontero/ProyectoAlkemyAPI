@@ -27,13 +27,10 @@ namespace OngProject.Controllers
         public async Task<ActionResult<IEnumerable<CategoryNameDTO>>> Get()
         {
             var categorias = await _CategoriesServices.GetAll();
-            var cat = (from Name in categorias
-                       select Name);
+            var cat = (from Name in categorias select Name);
             return Ok(cat);
-
         }
 
-        [Authorize(Roles = "Administrator")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -50,11 +47,20 @@ namespace OngProject.Controllers
             return CreatedAtAction("POST", response);
         }
 
-        [Authorize(Roles = "Administrator")]
         [HttpPut("{id}")]
         public async Task<ActionResult<Result>> Update(int id, [FromForm] UpdateCategoryDTO updateCategoryDTO)
         {
             var request = await _CategoriesServices.Update(id, updateCategoryDTO);
+            
+            return request.HasErrors
+                ? BadRequest(request.Messages)
+                : Ok(request);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Result>> Delete(int id)
+        {
+            var request = await _CategoriesServices.Delete(id);
 
             return request.HasErrors
                 ? BadRequest(request.Messages)

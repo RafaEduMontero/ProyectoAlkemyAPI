@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OngProject.Common;
 using OngProject.Core.DTOs;
+using OngProject.Core.Entities;
 using OngProject.Core.Interfaces.IServices;
 using System;
 using System.Collections.Generic;
@@ -45,6 +47,15 @@ namespace OngProject.Controllers
             var instert = await _activitiesServices.Insert(activitiesDTO);
 
             return (instert != null) ? Ok("Actividad creada con exito") : BadRequest("Ocurrio un error al crear la actividad");
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Result>> Update([FromBody] ActivitiesDTO activitiesDTO,int id)
+        {
+            var response = await _activitiesServices.Update(activitiesDTO,id);
+            return response.HasErrors
+                ? BadRequest(response.Messages)
+                : Ok(response);
         }
 
     }

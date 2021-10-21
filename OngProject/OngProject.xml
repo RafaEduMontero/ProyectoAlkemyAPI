@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>OngProject</name>
+    </assembly>
+    <members>
+        <member name="M:OngProject.Controllers.AuthController.Get">
+            <summary>
+            Get all data about me
+            </summary>
+        </member>
+        <member name="P:OngProject.Core.Entities.EntityBase.IsDeleted">
+            <summary>
+            IsDeleted para borrado de baja logica, donde: 
+            true = borrado
+            false = Activo
+            </summary> 
+        </member>
+        <member name="P:OngProject.Core.Entities.EntityBase.CreatedAt">
+            <summary>
+            Para indicar fechas de modificaciones en al Db. 
+            </summary> 
+        </member>
+        <member name="M:OngProject.Infrastructure.Repositories.BaseRepository`1.EntityExists(System.Int32)">
+            <summary>
+            Si la entidad existe y no ha sido borrada regresa un bool. 
+            Si no esta registrado el Id, o ha sido borrada con baja logica, regresa null.
+            </summary>
+            <param name="id"></param>
+            <returns></returns> 
+        </member>
+        <member name="M:OngProject.Infrastructure.Repositories.BaseRepository`1.FindByCondition(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Linq.Expressions.Expression{System.Func{`0,System.Object}}[])">
+            <summary>
+            Metodo para realizar una busqueda por medio de una expresion LINQ
+            </summary>
+            <remarks>
+            <para>Ejemplo:
+            var request= _unitOfWork.(repositorioDeLaEntidad).FindByCondition(x=> x.campo del objeto de la Db == Campo contra el que quiero comparar);</para>
+            <para>Cuando se quiere agregar una entidad ligada por una FK, se debe de incluir despues de la frase, con una coma</para>
+            <para>Ejemplo: .FindByCondition(query LINQ, y=> y.EntidadVinculadaPorunaFK)</para>
+            <para> Ejemplo concreto:
+            var request= _unitOfWork.UsersRepository.FindByCondition(x=> x.Email == email, y=> y.Role);</para>
+            <para> Esto me va a traer un IEnumerable de User, y en el campo Role va a traer el Rol asignado a ese Usuario.
+            De ahi solamente restaria aplicar logica para hacerlo lista, o para lo que necesiten</para>
+            
+            </remarks>
+            <returns>
+            IEnumerable de la entidad que se este ocupando, filtrada. Pueden agregarse mas propiedades. 
+            Por defecto trae solo las que IsDeleted==false
+            </returns> 
+        </member>
+    </members>
+</doc>

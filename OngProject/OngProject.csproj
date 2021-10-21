@@ -5,7 +5,11 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+<<<<<<< HEAD
     <DocumentationFile>OngProject.xml</DocumentationFile>
+=======
+    <DocumentationFile>C:\Users\Jacobz\Source\Repos\dev\OngProject\App_data\OngProject.xml</DocumentationFile>
+>>>>>>> 31d9dcacaf373e80d6b1dc426cf3a3bb90f9803c
 	  <NoWarn>$(NoWarn);1591</NoWarn>
 	  <OutputPath></OutputPath>
   </PropertyGroup>
@@ -23,7 +27,7 @@
     <PackageReference Include="Microsoft.IdentityModel.Protocols" Version="6.12.2" />
     <PackageReference Include="NSwag.Annotations" Version="13.13.2" />
     <PackageReference Include="SendGrid" Version="9.24.3" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.12.2" />
   </ItemGroup>

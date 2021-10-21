@@ -56,7 +56,7 @@ namespace OngProject.Controllers
 
                 Response.StatusCode = StatusCodes.Status201Created;     
             }
-            return Ok(new { Status = "operacion exitosa El usuario fue creado con exito!", 
+            return Ok(new { Status = "Operacion exitosa El usuario fue creado con exito!", 
             Token = (OkObjectResult)await Login(new LoginDTO
             {
                 Email = userDTO.Email,

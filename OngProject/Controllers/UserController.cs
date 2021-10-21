@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OngProject.Common;
 using OngProject.Core.DTOs;
 using OngProject.Core.Interfaces.IServices;
 using System;
@@ -12,7 +13,7 @@ namespace OngProject.Controllers
 {
     [Route("users")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class UserController : Controller
     {
         #region Objects and Constructor
@@ -30,6 +31,17 @@ namespace OngProject.Controllers
             var userlist = await _userServices.GetAll();
             
             return Ok(userlist);
+        }
+
+        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Standard")]
+        [HttpPut]
+        public async Task<ActionResult<Result>> Update([FromForm]UserUpdateDTO userUpdateDTO)
+        {
+            var response = await _userServices.Update(userUpdateDTO);
+            return response.HasErrors
+                ? BadRequest(response.Messages)
+                : Ok(response);
         }
     }
 }

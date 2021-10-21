@@ -46,11 +46,22 @@ namespace OngProject.Controllers
         {
             if (_commentsServices.EntityExists(id))
             {
-                if (! await _commentsServices.ValidateCreatorOrAdmin(User, id)) return Forbid();
+                if (!await _commentsServices.ValidateCreatorOrAdmin(User, id)) return Forbid();
                 return Ok(await _commentsServices.Delete(id));
-                
+
             }
             return Ok(await _commentsServices.Delete(id));
+        }
+        [Authorize]
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(int id, CommentUpdateDTO commentsDTO)
+        {
+            if (_commentsServices.EntityExists(id))
+            {
+                if (!await _commentsServices.ValidateCreatorOrAdmin(User, id)) return Forbid();
+                return Ok(await _commentsServices.Update(id, commentsDTO));
+            }
+            return Ok(await _commentsServices.Update(id, commentsDTO));
         }
     }
 }

@@ -48,6 +48,10 @@ namespace OngProject.Core.Services
                 return new Result().Fail("Este correo ya existe");
             }
             var newUser = new EntityMapper().FromUserDtoToUser(userDTO);
+            string uniqueName = "User_" + DateTime.Now.ToString().Replace(",", "").Replace("/", "").Replace(" ", "");
+            var urlImage = await _imageServices.Save(uniqueName + userDTO.Photo.FileName, userDTO.Photo);
+
+            newUser.Photo = urlImage.ToString();
             newUser.RoleId = 2;
             newUser.Password = Encrypt.GetSHA256(newUser.Password);
 
@@ -91,10 +95,10 @@ namespace OngProject.Core.Services
             return userDTO;
         }
 
-        public async Task<Result> Update(UserUpdateDTO userUpdateDTO, int id)
+        public async Task<Result> Update(UserUpdateDTO userUpdateDTO)
         {
             Result resp = new Result();
-            var user = await _unitOfWork.UsersRepository.GetById(id);
+            var user = await _unitOfWork.UsersRepository.GetById(userUpdateDTO.Id);
             if(user != null)
             {
                 if (!string.IsNullOrEmpty(user.Photo))
@@ -126,7 +130,7 @@ namespace OngProject.Core.Services
                     user.FirstName = userUpdateDTO.FirstName;
                     user.LastName = userUpdateDTO.LastName;
                     user.Email = userUpdateDTO.Email;
-                    user.Password = userUpdateDTO.Password;
+                    user.Password = Encrypt.GetSHA256(userUpdateDTO.Password);
                     user.Photo = urlImage;
 
                     await _unitOfWork.UsersRepository.Update(user);

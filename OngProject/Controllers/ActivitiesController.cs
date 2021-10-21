@@ -44,9 +44,9 @@ namespace OngProject.Controllers
         [HttpPost]
         public async Task<IActionResult> Insert([FromBody]ActivitiesDTO activitiesDTO)
         {
-            var instert = await _activitiesServices.Insert(activitiesDTO);
+            var insert = await _activitiesServices.Insert(activitiesDTO);
 
-            return (instert != null) ? Ok("Actividad creada con exito") : BadRequest("Ocurrio un error al crear la actividad");
+            return (insert != null) ? Ok("Actividad creada con exito") : BadRequest("Ocurrio un error al crear la actividad");
         }
 
         [HttpPut("{id}")]

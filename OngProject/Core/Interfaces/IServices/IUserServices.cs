@@ -16,6 +16,6 @@ namespace OngProject.Core.Interfaces.IServices
         Task<User> GetByEmail(string email);
         int GetUserId(string token);
         Task<UserInfoDTO> GetById(int userId);
-        Task<Result> Update(UserUpdateDTO userUpdateDTO,int id);
+        Task<Result> Update(UserUpdateDTO userUpdateDTO);
     }
 }

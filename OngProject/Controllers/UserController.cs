@@ -13,7 +13,7 @@ namespace OngProject.Controllers
 {
     [Route("users")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class UserController : Controller
     {
         #region Objects and Constructor
@@ -33,10 +33,12 @@ namespace OngProject.Controllers
             return Ok(userlist);
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult<Result>> Update([FromForm]UserUpdateDTO userUpdateDTO,int id)
+        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Standard")]
+        [HttpPut]
+        public async Task<ActionResult<Result>> Update([FromForm]UserUpdateDTO userUpdateDTO)
         {
-            var response = await _userServices.Update(userUpdateDTO, id);
+            var response = await _userServices.Update(userUpdateDTO);
             return response.HasErrors
                 ? BadRequest(response.Messages)
                 : Ok(response);

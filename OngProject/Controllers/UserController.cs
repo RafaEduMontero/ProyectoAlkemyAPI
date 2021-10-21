@@ -33,12 +33,12 @@ namespace OngProject.Controllers
             return Ok(userlist);
         }
 
-        [Authorize(Roles = "Administrator")]
-        [Authorize(Roles = "Standard")]
-        [HttpPut]
+        [Authorize]
+        [HttpPatch]
         public async Task<ActionResult<Result>> Update([FromForm]UserUpdateDTO userUpdateDTO)
         {
-            var response = await _userServices.Update(userUpdateDTO);
+            var token = Request.Headers["Authorization"].ToString();
+            var response = await _userServices.Update(userUpdateDTO,token);
             return response.HasErrors
                 ? BadRequest(response.Messages)
                 : Ok(response);

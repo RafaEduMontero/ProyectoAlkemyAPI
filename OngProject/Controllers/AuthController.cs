@@ -14,9 +14,11 @@ using System.ComponentModel.DataAnnotations;
 using OngProject.Core.Mapper;
 using OngProject.Core.Helper;
 using OngProject.Core.Services;
+using NSwag.Annotations;
 
 namespace OngProject.Controllers
 {
+   
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("/auth")]
     [ApiController]
@@ -29,9 +31,11 @@ namespace OngProject.Controllers
         {
             this._userServices = _userServices;
             this._JwtHelper = _JwtHelper;
-        } 
+        }
         #endregion
-
+        /// <summary>
+        /// Get all data about me
+        /// </summary>
         [HttpGet("me")]
         public async Task<IActionResult> Get()
         {

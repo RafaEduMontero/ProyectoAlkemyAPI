@@ -41,10 +41,15 @@ namespace OngProject.Infrastructure.Repositories
             var response = await _entity.AddAsync(entity);
             return response.Entity;
         }
-        public async Task Update(T entity)
+        public async Task<Result> Update(T entity)
         {
+            if(entity==null)
+            {
+                return new Result().Fail("El id no existe");
+            }
             entity.CreatedAt = DateTime.Now;
             _context.Set<T>().Update(entity);
+            return new Result().Success($"Se ha actualizado correctamente");
         }
         public async Task<Result> Delete(int id)
         {

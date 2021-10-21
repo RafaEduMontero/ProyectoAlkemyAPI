@@ -16,5 +16,6 @@ namespace OngProject.Core.Interfaces.IServices
         Task<NewCommentsDTO> Insert(NewCommentsDTO newCommentsDTO);
         Task<Result> Delete(int id);
         Task<bool> ValidateCreatorOrAdmin(ClaimsPrincipal user, int id);
+        Task<Result> Update(int id, CommentUpdateDTO commentsDTO);
     }
 }

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using OngProject.Common;
 using OngProject.Core.DTOs;
 using OngProject.Core.Entities;
@@ -65,6 +66,62 @@ namespace OngProject.Core.Services
                 return new Result().Success("Novedad eliminada con exito");
             }
             return new Result().Fail("Ocurrio un error al eliminar la novedad");
+        }
+
+        public async Task<Result> Update(int id, NewsUpdateDTO newsUpdateDTO)
+        {
+            var news = await _unitOfWork.NewsRepository.GetById(id);
+            if (news == null)
+            {
+                return new Result().NotFound();
+            }
+            if (!string.IsNullOrEmpty(newsUpdateDTO.Name))
+            {
+                news.Name = newsUpdateDTO.Name;
+            }
+            if (!string.IsNullOrEmpty(newsUpdateDTO.Content))
+            {
+                news.Content = newsUpdateDTO.Content;
+            }
+            if (newsUpdateDTO.Image != null)
+            {
+
+                if (news.Image == null)
+                {
+                    news.Image = await _imageServices.Save(newsUpdateDTO.Image.FileName, newsUpdateDTO.Image);
+                }
+                else if(await _imageServices.Delete(news.Image))
+                {
+                    news.Image = await _imageServices.Save(newsUpdateDTO.Image.FileName, newsUpdateDTO.Image);
+                }
+            }
+            if (newsUpdateDTO.CategoryId > 0)
+            {
+                if (_unitOfWork.CategoryRepository.EntityExists(newsUpdateDTO.CategoryId))
+                {
+                    news.CategoryId = newsUpdateDTO.CategoryId;
+                }
+                
+            }
+            await _unitOfWork.NewsRepository.Update(news);
+            await _unitOfWork.SaveChangesAsync();
+
+            var newsUpdate = await _unitOfWork.NewsRepository.GetById(id);
+
+            if (newsUpdate.Name == news.Name
+                && newsUpdate.Content == news.Content
+                && newsUpdate.Image == news.Image
+                && newsUpdate.CategoryId == news.CategoryId)
+            {
+
+                return new Result().Success($"{newsUpdate.Name}  ," +
+                                            $"{newsUpdate.Content}  ," +
+                                            $"{newsUpdate.Image}  ," +
+                                            $"{newsUpdate.CategoryId}"
+                );
+
+            }
+            return new Result().Fail("La Novedad no se pudo modificar");
         }
     }
 }

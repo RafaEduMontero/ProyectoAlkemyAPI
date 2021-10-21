@@ -1,6 +1,8 @@
-﻿using OngProject.Core.DTOs;
+﻿using OngProject.Common;
+using OngProject.Core.DTOs;
 using OngProject.Core.Entities;
 using OngProject.Core.Interfaces.IServices;
+using OngProject.Core.Interfaces.IServices.AWS;
 using OngProject.Core.Mapper;
 using OngProject.Infrastructure.Repositories.IRepository;
 using System;
@@ -13,14 +15,26 @@ namespace OngProject.Core.Services
     public class CategoriesServices : ICategoriesServices
     {
         private readonly IUnitOfWork _unitOfWork;
-        public CategoriesServices(IUnitOfWork unitOfWork)
+        private readonly IImageService _imageServices;
+        public CategoriesServices(IUnitOfWork unitOfWork, IImageService imageServices)
         {
             _unitOfWork = unitOfWork;
+            _imageServices = imageServices;
         }
 
         public bool EntityExist(int id)
         {
             return _unitOfWork.CategoryRepository.EntityExists(id);
+        }
+
+        public async Task<Result> Delete(int id)
+        {
+            if (!_unitOfWork.CategoryRepository.EntityExists(id)) return new Result().NotFound();
+
+            await _unitOfWork.CategoryRepository.Delete(id);
+            await _unitOfWork.SaveChangesAsync();
+
+            return new Result().Success($"Se ha borrado la categoria correctamente");
         }
 
         public async Task<IEnumerable<CategoryNameDTO>> GetAll()
@@ -47,6 +61,23 @@ namespace OngProject.Core.Services
             await _unitOfWork.SaveChangesAsync();
             return category;
 
+        }
+
+        public async Task<Result> Update(int id, UpdateCategoryDTO updateCategoryDTO)
+        {
+            var category = await _unitOfWork.CategoryRepository.GetById(id);
+            if (category == null) return new Result().NotFound();
+
+            if (updateCategoryDTO.Image != null) category.Image = await _imageServices.Save(category.Image, updateCategoryDTO.Image);
+            if (updateCategoryDTO.Description != null) category.Description = updateCategoryDTO.Description;
+            if (updateCategoryDTO.Name != null) category.Name = updateCategoryDTO.Name;
+
+            await _unitOfWork.CategoryRepository.Update(category);
+
+            _unitOfWork.SaveChanges();
+
+            return new Result().Success($"El item se ha modificado correctamente!!" +
+                $" {category.Name}");
         }
     }
 }

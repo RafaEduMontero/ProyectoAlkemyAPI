@@ -74,7 +74,7 @@ namespace OngProject.Controllers
         /// }
         /// 
         /// </remarks>
-        /// <param name="slidesDTO"></param>
+        /// <param name="updateSlideDTO"></param>
         /// <returns>
         /// <para>
         /// Los nuevos datos del Slide + un mensaje de modificacion correcta

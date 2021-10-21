@@ -174,7 +174,7 @@ namespace OngProject.Core.Mapper
         public Member FromMembersDTOtoMember(MembersInsertarDTO membersDTO)
         {
             return new Member()
-            {
+            { 
                 Name = membersDTO.Name,
                 FacebookUrl = membersDTO.FacebookUrl,
                 InstagramUrl = membersDTO.InstagramUrl,

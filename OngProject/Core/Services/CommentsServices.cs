@@ -65,5 +65,15 @@ namespace OngProject.Core.Services
             if(comment.UserId.Equals(int.Parse(userId)) || user.IsInRole("Administrator")) return true;
             return false;
         }
+
+        public async Task<Result> Update(int id, CommentUpdateDTO commentsDTO)
+        {
+            if (await _unitOfWork.UsersRepository.GetById((int)commentsDTO.UserId) == null) return null;
+            var  comment = await _unitOfWork.CommentsRepository.GetById(id);
+            comment = new EntityMapper().FromComentUpdateToComment(commentsDTO, comment);
+            var response = await _unitOfWork.CommentsRepository.Update(comment);
+            await _unitOfWork.SaveChangesAsync();
+            return response;
+        }
     }
 }

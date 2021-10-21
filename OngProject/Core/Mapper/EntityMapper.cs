@@ -141,6 +141,19 @@ namespace OngProject.Core.Mapper
                 UserId = newCommentDTO.UserId
             };
         }
+        public Comments FromComentUpdateToComment (CommentUpdateDTO commentUpdateDTO, Comments comment)
+        {
+            if (commentUpdateDTO.UserId != null)
+                comment.UserId = (int)commentUpdateDTO.UserId;
+
+            if (commentUpdateDTO.NewId != null)
+                comment.NewId = (int)commentUpdateDTO.NewId;
+
+            if (commentUpdateDTO.Body != null)
+                comment.Body = commentUpdateDTO.Body;
+
+            return comment;
+        }
         #endregion
 
         #region Member Mapper

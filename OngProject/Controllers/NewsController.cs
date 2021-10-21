@@ -48,5 +48,16 @@ namespace OngProject.Controllers
                 ? BadRequest(request.Messages)
                 : Ok(request);
         }
+
+        [Authorize(Roles = "Administrator")]
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Result>> Update(int id, [FromForm] NewsUpdateDTO newsUpdateDTO)
+        {
+            var request = await _newsServices.Update(id, newsUpdateDTO);
+
+            return request.HasErrors
+                ? BadRequest(request.Messages)
+                : Ok(request);
+        }
     }
 }

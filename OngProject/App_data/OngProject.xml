@@ -9,6 +9,27 @@
             Get all data about me
             </summary>
         </member>
+        <member name="M:OngProject.Controllers.SlidesController.UpdateSlide(System.Int32,OngProject.Core.DTOs.SlidesDTOs.UpdateSlideDTO)">
+            <summary>
+            Este metodo permite modificar un Slide de la base de datos
+            </summary>
+            <remarks>Ejemplo: 
+            {
+            "imageUrl": "url modificada de la imagen",
+            "text": "slide1 a modificar",
+            "order": 14,
+            "organizationId": 2
+            }
+            
+            </remarks>
+            <param name="updateSlideDTO"></param>
+            <returns>
+            <para>
+            Los nuevos datos del Slide + un mensaje de modificacion correcta
+            </para>
+            <para>Caso contrario, BadRequest para cuando existe un slide con el mismo Id</para>
+            </returns> 
+        </member>
         <member name="P:OngProject.Core.Entities.EntityBase.IsDeleted">
             <summary>
             IsDeleted para borrado de baja logica, donde: 

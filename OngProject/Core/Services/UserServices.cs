@@ -87,5 +87,13 @@ namespace OngProject.Core.Services
 
             return userDTO;
         }
+
+        public async Task<Result> Delete(string token)
+        {
+            var id = GetUserId(token);
+            var response = await _unitOfWork.UsersRepository.Delete(id);
+            await _unitOfWork.SaveChangesAsync();
+            return response;
+        }
     }
 }

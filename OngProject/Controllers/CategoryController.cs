@@ -29,7 +29,6 @@ namespace OngProject.Controllers
             var categorias = await _CategoriesServices.GetAll();
             var cat = (from Name in categorias select Name);
             return Ok(cat);
-
         }
 
         [Authorize(Roles = "Administrator")]
@@ -47,6 +46,17 @@ namespace OngProject.Controllers
             if (!ModelState.IsValid) return BadRequest();
             var response = await _CategoriesServices.Post(categoryDTO);
             return CreatedAtAction("POST", response);
+        }
+
+        [Authorize(Roles = "Administrator")]
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Result>> Update(int id, [FromForm] UpdateCategoryDTO updateCategoryDTO)
+        {
+            var request = await _CategoriesServices.Update(id, updateCategoryDTO);
+            
+            return request.HasErrors
+                ? BadRequest(request.Messages)
+                : Ok(request);
         }
 
         [Authorize(Roles = "Administrator")]

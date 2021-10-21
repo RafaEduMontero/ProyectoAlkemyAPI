@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Common;
 using OngProject.Core.DTOs;
+using OngProject.Core.Helper.Pagination;
 using OngProject.Core.Interfaces.IServices;
 using System;
 using System.Collections.Generic;
@@ -10,22 +11,26 @@ using System.Threading.Tasks;
 
 namespace OngProject.Controllers
 {
-     [Route("/member")]
+    [Route("/member")]
     [ApiController]
     public class MemberController : Controller
     {
-         private readonly IMemberServices _memberServices;
-
+        #region Objects and Constructor
+        private readonly IMemberServices _memberServices;
         public MemberController(IMemberServices memberServices)
         {
             _memberServices = memberServices;
         }
+        #endregion
 
         [Authorize(Roles = "Administrator")]
-        [HttpGet]
-         public async Task<IEnumerable<MembersDTO>> Get()
+        [HttpGet("{page}")]
+        public async Task<ActionResult<PaginationDTO<MembersDTO>>> GetAll([FromQuery] int page)
         {
-            return await _memberServices.GetAll();
+            string route = Request.Path.Value.ToString();
+            var response = await _memberServices.GetByPage(route, page);
+
+            return Ok(response);
         }
 
         [Authorize(Roles = "Administrator")]
@@ -41,7 +46,7 @@ namespace OngProject.Controllers
         [HttpDelete]
         public async Task<ActionResult> Delete(int id)
         {
-             
+
             return Ok(await _memberServices.Delete(id));
         }
 

@@ -1,13 +1,12 @@
-using System;
-using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace OngProject.Core.DTOs
 {
-    public class MembersInsertarDTO
+    public class MemberUpdateDTO
     {
-        [Required(ErrorMessage = "Escriba su nombre")]
+        [JsonIgnore]
+        public int Id { get; set; }
         public string Name { get; set; }
         public string FacebookUrl { get; set; }
         public string InstagramUrl { get; set; }

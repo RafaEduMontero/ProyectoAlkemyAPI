@@ -1,6 +1,7 @@
 ﻿using OngProject.Common;
 using OngProject.Core.DTOs;
 using OngProject.Core.Entities;
+using OngProject.Core.Helper.S3;
 using OngProject.Core.Interfaces.IServices;
 using OngProject.Core.Interfaces.IServices.AWS;
 using OngProject.Core.Mapper;
@@ -16,16 +17,18 @@ namespace OngProject.Core.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly  IImageService _ImageService;
+
         public MemberServices(IUnitOfWork unitOfWork, IImageService ImageService)
         {
             _unitOfWork = unitOfWork;
             _ImageService = ImageService;
-
         }
 
         public async Task<Result> Delete(int id)
         {
-            return await _unitOfWork.MemberRepository.Delete(id);
+            var respuesta = await _unitOfWork.MemberRepository.Delete(id);
+            await _unitOfWork.SaveChangesAsync();
+            return respuesta;
         }
 
         public async Task<IEnumerable<MembersDTO>> GetAll()
@@ -51,7 +54,44 @@ namespace OngProject.Core.Services
             return member;
         }
 
+        public async Task<Result> Update(MemberUpdateDTO memberUpdateDTO)
+        {
+        
+            var consulta=await _unitOfWork.MemberRepository.GetById(memberUpdateDTO.Id);
+
+            if(consulta==null)
+            {
+                return new Result().NotFound();
+            }
+            if(memberUpdateDTO.Image!= null)
+            {
+            if(consulta.Image != memberUpdateDTO.Image.ToString())
+            {
+                try
+                {
+                    await _ImageService.Delete(consulta.Image);
+                }
+                catch (System.Exception)
+                {
+                }  
+                string uniqueName = "Member_" + DateTime.Now.ToString().Replace(",", "").Replace("/", "").Replace(" ", "");
+                var urlImage = await _ImageService.Save(uniqueName + memberUpdateDTO.Image.FileName, memberUpdateDTO.Image);
+                consulta.Image = urlImage;                      
+            }
+            }
+        
+            consulta.Name= (consulta.Name == memberUpdateDTO.Name || string.IsNullOrEmpty(memberUpdateDTO.Name))? consulta.Name : memberUpdateDTO.Name;
+            consulta.FacebookUrl= (consulta.FacebookUrl == memberUpdateDTO.FacebookUrl || string.IsNullOrEmpty(memberUpdateDTO.FacebookUrl))? consulta.FacebookUrl : memberUpdateDTO.FacebookUrl;
+            consulta.InstagramUrl= (consulta.InstagramUrl == memberUpdateDTO.InstagramUrl || string.IsNullOrEmpty(memberUpdateDTO.InstagramUrl))? consulta.InstagramUrl : memberUpdateDTO.InstagramUrl;
+            consulta.LinkedinUrl= (consulta.LinkedinUrl == memberUpdateDTO.LinkedinUrl || string.IsNullOrEmpty(memberUpdateDTO.LinkedinUrl))? consulta.LinkedinUrl : memberUpdateDTO.LinkedinUrl;
+            consulta.Description= (consulta.Description == memberUpdateDTO.Description || string.IsNullOrEmpty(memberUpdateDTO.Description))? consulta.Description : memberUpdateDTO.Description;
+            
+            await _unitOfWork.MemberRepository.Update(consulta);
+            await _unitOfWork.SaveChangesAsync();
 
 
+            return new Result().Success("El miembro se ha cambiado correctamente");
+            
+        }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using OngProject.Common;
 using OngProject.Core.DTOs;
 using OngProject.Core.Entities;
 
@@ -14,5 +15,6 @@ namespace OngProject.Core.Interfaces.IServices
         bool EntityExist(int id);
         Task<IEnumerable<CategoryNameDTO>> GetAll();
         Task<Category> Post(CategoryDTO categoryDTO);
+        Task<Result> Delete(int id);
     }
 }

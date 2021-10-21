@@ -1,4 +1,5 @@
-﻿using OngProject.Core.DTOs;
+﻿using OngProject.Common;
+using OngProject.Core.DTOs;
 using OngProject.Core.Entities;
 using OngProject.Core.Interfaces.IServices;
 using OngProject.Core.Mapper;
@@ -21,6 +22,16 @@ namespace OngProject.Core.Services
         public bool EntityExist(int id)
         {
             return _unitOfWork.CategoryRepository.EntityExists(id);
+        }
+
+        public async Task<Result> Delete(int id)
+        {
+            if (!_unitOfWork.CategoryRepository.EntityExists(id)) return new Result().NotFound();
+
+            await _unitOfWork.CategoryRepository.Delete(id);
+            await _unitOfWork.SaveChangesAsync();
+
+            return new Result().Success($"Se ha borrado la categoria correctamente");
         }
 
         public async Task<IEnumerable<CategoryNameDTO>> GetAll()

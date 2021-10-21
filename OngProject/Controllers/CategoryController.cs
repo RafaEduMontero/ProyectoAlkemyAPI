@@ -31,6 +31,7 @@ namespace OngProject.Controllers
             return Ok(cat);
         }
 
+        [Authorize(Roles = "Administrator")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -47,6 +48,7 @@ namespace OngProject.Controllers
             return CreatedAtAction("POST", response);
         }
 
+        [Authorize(Roles = "Administrator")]
         [HttpPut("{id}")]
         public async Task<ActionResult<Result>> Update(int id, [FromForm] UpdateCategoryDTO updateCategoryDTO)
         {
@@ -57,6 +59,7 @@ namespace OngProject.Controllers
                 : Ok(request);
         }
 
+        [Authorize(Roles = "Administrator")]
         [HttpDelete("{id}")]
         public async Task<ActionResult<Result>> Delete(int id)
         {

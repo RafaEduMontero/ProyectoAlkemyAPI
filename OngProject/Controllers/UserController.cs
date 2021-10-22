@@ -13,7 +13,7 @@ namespace OngProject.Controllers
 {
     [Route("users")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class UserController : Controller
     {
         #region Objects and Constructor
@@ -34,11 +34,20 @@ namespace OngProject.Controllers
         }
 
         [Authorize]
-        [HttpDelete]
+        [HttpPatch]
+        public async Task<ActionResult<Result>> Update([FromForm] UserUpdateDTO userUpdateDTO)
+        {
+            var token = Request.Headers["Authorization"].ToString();
+            var response = await _userServices.Update(userUpdateDTO, token);
+            return response.HasErrors
+                ? BadRequest(response.Messages)
+                : Ok(response);
+        }
 
+        [Authorize]
+        [HttpDelete]
         public async Task<ActionResult<Result>> Delete()
         {
-
             var token = Request.Headers["Authorization"].ToString();
             var response = await _userServices.Delete(token);
             return response;

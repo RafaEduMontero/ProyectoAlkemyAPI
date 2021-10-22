@@ -115,7 +115,6 @@ namespace OngProject.Core.Services
             await _unitOfWork.MemberRepository.Update(consulta);
             await _unitOfWork.SaveChangesAsync();
 
-
             return new Result().Success("El miembro se ha cambiado correctamente");
             
         }

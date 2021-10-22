@@ -1,6 +1,7 @@
 ﻿using OngProject.Common;
 using OngProject.Core.DTOs;
 using OngProject.Core.Entities;
+using OngProject.Core.Helper.Pagination;
 using OngProject.Core.Interfaces.IServices;
 using OngProject.Core.Interfaces.IServices.AWS;
 using OngProject.Core.Mapper;
@@ -16,10 +17,12 @@ namespace OngProject.Core.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IImageService _imageServices;
-        public CategoriesServices(IUnitOfWork unitOfWork, IImageService imageServices)
+        private readonly IUriService _uriService;
+        public CategoriesServices(IUnitOfWork unitOfWork, IImageService imageServices, IUriService uriService)
         {
             _unitOfWork = unitOfWork;
             _imageServices = imageServices;
+            _uriService = uriService;
         }
 
         public bool EntityExist(int id)
@@ -44,6 +47,7 @@ namespace OngProject.Core.Services
             var CategoryDTOList = CategoryList.Select(x => mapper.FromCategoryToCategoryNameDto(x)).ToList();
             return CategoryDTOList;
         }
+        
 
         public async Task<CategoryDTO> GetById(int id)
         {
@@ -78,6 +82,30 @@ namespace OngProject.Core.Services
 
             return new Result().Success($"El item se ha modificado correctamente!!" +
                 $" {category.Name}");
+        }
+
+        public async Task<PaginationDTO<CategoryDTO>> GetByPage(string route, int page)
+        {
+            if (page <= 0) page = 1;
+            int elementsByPage = 10; // Condición exigida por negocio
+            var m = await _unitOfWork.CategoryRepository.GetPageAsync(x=> x.Name, elementsByPage, page);
+            var items= m.ToList();
+            var mapper = new EntityMapper();
+            var itemsList = items.Select(x => mapper.FromCategoryToCategoryDto(x)).ToList();
+            var totalItems = await _unitOfWork.CategoryRepository.CountAsync();
+            var totalpages = (int)Math.Ceiling((double)totalItems / elementsByPage);
+
+            var response = new PaginationDTO<CategoryDTO>()
+            {
+                CurrentPage = page,
+                TotalItems = totalItems,
+                TotalPages = totalpages,
+                PrevPage = page > 1 ? _uriService.GetPage(route, page - 1) : null,
+                NextPage = page < totalpages ? _uriService.GetPage(route, page + 1) : null,
+                Items = itemsList
+            };
+
+            return response;
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using OngProject.Common;
 using OngProject.Core.DTOs;
 using OngProject.Core.Interfaces.IServices;
 using System;
@@ -22,6 +24,16 @@ namespace OngProject.Controllers
         public async Task<OrganizationsDTO> Get()
         {
             return await _organizationsServices.Get();
+        }
+        
+        [Authorize(Roles = "Administrator")]
+        [HttpPut]
+        public async Task<ActionResult<Result>> Update ([FromForm] OrganizationUpdateDTO organizationUpdateDTO)
+        {
+            var request= await _organizationsServices.Update(organizationUpdateDTO);
+            return request.HasErrors
+                ? BadRequest(request.Messages):Ok(request);
+
         }
     }
 }

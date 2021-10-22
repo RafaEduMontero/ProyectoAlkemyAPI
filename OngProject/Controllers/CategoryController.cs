@@ -23,12 +23,14 @@ namespace OngProject.Controllers
         }
 
         [Authorize(Roles = "Administrator")]
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<CategoryNameDTO>>> Get()
+        [HttpGet("/GetAll/{page}")]
+        public async Task<ActionResult<IEnumerable<CategoryNameDTO>>> GetAll([FromQuery] int page)
         {
-            var categorias = await _CategoriesServices.GetAll();
-            var cat = (from Name in categorias select Name);
-            return Ok(cat);
+
+            string route = Request.Path.Value.ToString();
+            var response = await _CategoriesServices.GetByPage(route, page);
+
+            return Ok(response);
         }
 
         [Authorize(Roles = "Administrator")]

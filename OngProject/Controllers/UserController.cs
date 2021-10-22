@@ -21,27 +21,36 @@ namespace OngProject.Controllers
         public UserController(IUserServices userServices)
         {
             _userServices = userServices;
-        } 
+        }
         #endregion
 
         [HttpGet]
-        [Authorize(Roles ="Administrator")]
+        [Authorize(Roles = "Administrator")]
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetAll()
         {
             var userlist = await _userServices.GetAll();
-            
+
             return Ok(userlist);
         }
 
         [Authorize]
         [HttpPatch]
-        public async Task<ActionResult<Result>> Update([FromForm]UserUpdateDTO userUpdateDTO)
+        public async Task<ActionResult<Result>> Update([FromForm] UserUpdateDTO userUpdateDTO)
         {
             var token = Request.Headers["Authorization"].ToString();
-            var response = await _userServices.Update(userUpdateDTO,token);
+            var response = await _userServices.Update(userUpdateDTO, token);
             return response.HasErrors
                 ? BadRequest(response.Messages)
                 : Ok(response);
+        }
+
+        [Authorize]
+        [HttpDelete]
+        public async Task<ActionResult<Result>> Delete()
+        {
+            var token = Request.Headers["Authorization"].ToString();
+            var response = await _userServices.Delete(token);
+            return response;
         }
     }
 }

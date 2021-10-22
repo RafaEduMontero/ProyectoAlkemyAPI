@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Common;
 using OngProject.Core.DTOs;
+using OngProject.Core.Helper.Pagination;
 using OngProject.Core.Interfaces.IServices;
 using System.Threading.Tasks;
 
@@ -27,6 +28,16 @@ namespace OngProject.Controllers
                 return NotFound();
             var news = await _newsServices.GetById(id);
             return Ok(news);
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<ActionResult<PaginationDTO<NewsDTO>>> GetAll([FromQuery] int page)
+        {
+            string route = Request.Path.Value.ToString();
+            var response = await _newsServices.GetByPage(route, page);
+
+            return Ok(response);
         }
 
         [Authorize(Roles = "Administrator")]

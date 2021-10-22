@@ -7,18 +7,22 @@ using OngProject.Core.Interfaces.IServices.AWS;
 using OngProject.Core.Mapper;
 using OngProject.Infrastructure.Repositories.IRepository;
 using System.Threading.Tasks;
+using OngProject.Core.Helper.Pagination;
+using System;
+using System.Linq;
 
 namespace OngProject.Core.Services
 {
     public class NewsServices : INewsServices
     {
         private readonly IUnitOfWork _unitOfWork;
-
+        private readonly IUriService _uriService;
         private readonly IImageService _imageServices;
-        public NewsServices(IUnitOfWork unitOfWork, IImageService imageServices)
+        public NewsServices(IUnitOfWork unitOfWork, IImageService imageServices, IUriService uriService)
         {
             _unitOfWork = unitOfWork;
             _imageServices = imageServices;
+            _uriService = uriService;
         }
 
         public async Task<NewsDTO> GetById(int id)
@@ -30,6 +34,31 @@ namespace OngProject.Core.Services
             return newsDTO;
 
         }
+
+        public async Task<PaginationDTO<NewsDTO>> GetByPage(string route, int page)
+        {
+            if (page <= 0) page = 1;
+            const int elementsByPage = 10;
+            var n = await _unitOfWork.NewsRepository.GetPageAsync(x => x.Name, elementsByPage, page);
+            var items = n.ToList();
+            var mapper = new EntityMapper();
+            var itemsList = items.Select(x => mapper.FromNewsToNewsDTO(x)).ToList();
+            var totalItems = await _unitOfWork.NewsRepository.CountAsync();
+            var totalpages = (int)Math.Ceiling((double)totalItems / elementsByPage);
+
+            var response = new PaginationDTO<NewsDTO>()
+            {
+                CurrentPage = page,
+                TotalItems = totalItems,
+                TotalPages = totalpages,
+                PrevPage = page > 1 && page-1 <= totalpages ? _uriService.GetPage(route, page - 1) : null,
+                NextPage = page < totalpages ? _uriService.GetPage(route, page + 1) : null,
+                Items = itemsList
+            };
+
+            return response;
+        }
+
         public bool EntityExists(int id)
         {
             return _unitOfWork.NewsRepository.EntityExists(id);

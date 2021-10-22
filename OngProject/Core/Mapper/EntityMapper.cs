@@ -238,7 +238,7 @@ namespace OngProject.Core.Mapper
                 LastName = user.LastName,
                 Email = user.Email,
                 Password = user.Password,
-                Photo = user.Photo,
+                Photo = null,
                 RoleId = user.RoleId
             };
             return userDTO;
@@ -265,7 +265,7 @@ namespace OngProject.Core.Mapper
                 LastName = userDTO.LastName,
                 Email = userDTO.Email,
                 Password = userDTO.Password,
-                Photo = userDTO.Photo,
+                Photo = null,
                 RoleId = userDTO.RoleId
             };
             return user;

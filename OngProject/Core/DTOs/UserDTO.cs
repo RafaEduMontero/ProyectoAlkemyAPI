@@ -1,4 +1,5 @@
-﻿using OngProject.Core.Entities;
+﻿using Microsoft.AspNetCore.Http;
+using OngProject.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -21,7 +22,7 @@ namespace OngProject.Core.DTOs
         [Required(ErrorMessage = "Escriba su pasword")]
         [MinLength(5,ErrorMessage = "su paswor debe tener mas de 5 caracteres")]
         public string Password { get; set; }
-        public string Photo { get; set; }
+        public IFormFile Photo { get; set; }
 
         [ForeignKey("Role")]
         public int RoleId { get; set; }

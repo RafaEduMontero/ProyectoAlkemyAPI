@@ -56,49 +56,49 @@ namespace OngProject.Core.Services
             return _unitOfWork.ActivitiesRepository.EntityExists(id);
         }
 
-        public async Task<Result> Update(ActivitiesDTO activitiesUpdateDTO,int id)
+        public async Task<Result> Update(ActivitiesDTO activitiesUpdateDTO, int id)
         {
             Result resp = new Result();
 
             var activitie = await _unitOfWork.ActivitiesRepository.GetById(id);
-            if(activitie != null)
+            if (activitie != null)
             {
-                    if(activitiesUpdateDTO.Image != activitie.Image && !string.IsNullOrEmpty(activitiesUpdateDTO.Image))
-                    {
+                if (activitiesUpdateDTO.Image != activitie.Image && !string.IsNullOrEmpty(activitiesUpdateDTO.Image))
+                {
                     var response = await _imageServices.Delete(activitie.Image);
                     if (response)
-                        {
-                            byte[] bytesFile = Convert.FromBase64String(activitiesUpdateDTO.Image);
-                            var FileName = ValidateFiles.GetImageExtensionFromFile(bytesFile);
-                            string uniqueName = "activities_" + DateTime.Now.ToString().Replace(",", "").Replace("/", "").Replace(" ", "");
-                            
-                            var formFile = new FormFileData()
-                            {
-                                FileName = FileName,
-                                ContentType = "image/" + FileName.Replace(".",""),
-                                Name = activitiesUpdateDTO.Name
-                            };
-                            var image = ConvertFile.BinaryToFormFile(bytesFile, formFile);
+                    {
+                        byte[] bytesFile = Convert.FromBase64String(activitiesUpdateDTO.Image);
+                        var FileName = ValidateFiles.GetImageExtensionFromFile(bytesFile);
+                        string uniqueName = "activities_" + DateTime.Now.ToString().Replace(",", "").Replace("/", "").Replace(" ", "");
 
-                            var urlImage = await _imageServices.Save(uniqueName + formFile.FileName, image);
+                        var formFile = new FormFileData()
+                        {
+                            FileName = FileName,
+                            ContentType = "image/" + FileName.Replace(".", ""),
+                            Name = activitiesUpdateDTO.Name
+                        };
+                        var image = ConvertFile.BinaryToFormFile(bytesFile, formFile);
+
+                        var urlImage = await _imageServices.Save(uniqueName + formFile.FileName, image);
 
                         activitie.Name = activitiesUpdateDTO.Name;
                         activitie.Content = activitiesUpdateDTO.Content;
                         activitie.Image = urlImage;
 
-                           await _unitOfWork.ActivitiesRepository.Update(activitie);
+                        await _unitOfWork.ActivitiesRepository.Update(activitie);
                         await _unitOfWork.SaveChangesAsync();
                         resp = new Result().Success("Activitie modificada con éxito");
-                        }
                     }
-                    else
-                    {
+                }
+                else
+                {
                     activitie.Name = activitiesUpdateDTO.Name;
                     activitie.Content = activitiesUpdateDTO.Content;
                     await _unitOfWork.ActivitiesRepository.Update(activitie);
                     await _unitOfWork.SaveChangesAsync();
-                        resp = new Result().Success("Activitie modificada con éxito");
-                    }                   
+                    resp = new Result().Success("Activitie modificada con éxito");
+                }
             }
             else
             {

@@ -23,7 +23,7 @@ namespace OngProject.Controllers
         }
 
         [Authorize(Roles = "Administrator")]
-        [HttpGet("/GetAll/{page}")]
+        [HttpGet("/GetAll")]
         public async Task<ActionResult<IEnumerable<CategoryNameDTO>>> GetAll([FromQuery] int page)
         {
 

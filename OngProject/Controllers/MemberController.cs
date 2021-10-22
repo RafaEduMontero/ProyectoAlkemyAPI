@@ -24,7 +24,7 @@ namespace OngProject.Controllers
         #endregion
 
         [Authorize(Roles = "Administrator")]
-        [HttpGet("{page}")]
+        [HttpGet()]
         public async Task<ActionResult<PaginationDTO<MembersDTO>>> GetAll([FromQuery] int page)
         {
             string route = Request.Path.Value.ToString();

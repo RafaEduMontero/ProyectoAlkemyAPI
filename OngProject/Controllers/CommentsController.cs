@@ -61,7 +61,7 @@ namespace OngProject.Controllers
                 if (!await _commentsServices.ValidateCreatorOrAdmin(User, id)) return Forbid();
                 return Ok(await _commentsServices.Update(id, commentsDTO));
             }
-            return Ok(await _commentsServices.Update(id, commentsDTO));
+            return NotFound("El comentario no existe");
         }
     }
 }

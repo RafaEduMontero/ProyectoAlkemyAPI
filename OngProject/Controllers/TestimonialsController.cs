@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Common;
 using OngProject.Core.DTOs;
+using OngProject.Core.Helper.Pagination;
 using OngProject.Core.Interfaces.IServices;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,16 @@ namespace OngProject.Controllers
         public TestimonialsController(ITestimonialsServices testimonialsServices)
         {
             _testimonialsServices = testimonialsServices;
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<ActionResult<PaginationDTO<TestimonialsCreateDTO>>> GetAll([FromQuery] int page, int? sizePage)
+        {
+            string route = Request.Path.Value.ToString();
+            var response = await _testimonialsServices.GetByPage(route, page, sizePage);
+
+            return Ok(response);
         }
 
         [Authorize(Roles = "Administrator")]

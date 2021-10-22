@@ -2,6 +2,7 @@
 using OngProject.Core.DTOs;
 using OngProject.Core.DTOs.SlidesDTOs;
 using OngProject.Core.Entities;
+using OngProject.Core.Helper.Pagination;
 using OngProject.Core.Helper.S3;
 using OngProject.Core.Interfaces.IServices;
 using OngProject.Core.Interfaces.IServices.AWS;
@@ -17,10 +18,12 @@ namespace OngProject.Core.Services
     public class TestimonialsServices : ITestimonialsServices
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IUriService _uriService;
         private readonly IImageService _imageServices;
 
-        public TestimonialsServices(IUnitOfWork unitOfWork, IImageService imageServices)
+        public TestimonialsServices(IUnitOfWork unitOfWork, IImageService imageServices, IUriService uriService)
         {
+            _uriService = uriService;
             _unitOfWork = unitOfWork;
             _imageServices = imageServices;
         }
@@ -127,6 +130,30 @@ namespace OngProject.Core.Services
                 
             }
             return new Result().Fail("El testimonio no se pudo modificar");
+        }
+
+        public async Task<PaginationDTO<TestimonialsDTO>> GetByPage(string route, int page, int? sizePage)
+        {
+            if (page <= 0) page = 1;
+            if(sizePage == null) sizePage = 10;
+            var n = await _unitOfWork.TestimonialsRepository.GetPageAsync(x => x.Name, (int)sizePage, page);
+            var items = n.ToList();
+            var mapper = new EntityMapper();
+            var itemsList = items.Select(x => mapper.FromTestimonialsToTestimonialsDTO(x)).ToList();
+            var totalItems = await _unitOfWork.TestimonialsRepository.CountAsync();
+            var totalpages = (int)Math.Ceiling((double)totalItems / (int)sizePage);
+
+            var response = new PaginationDTO<TestimonialsDTO>()
+            {
+                CurrentPage = page,
+                TotalItems = totalItems,
+                TotalPages = totalpages,
+                PrevPage = page > 1 && page - 1 <= totalpages ? _uriService.GetPage(route, page - 1) : null,
+                NextPage = page < totalpages ? _uriService.GetPage(route, page + 1) : null,
+                Items = itemsList
+            };
+
+            return response;
         }
     }
 }

@@ -296,5 +296,17 @@ namespace OngProject.Core.Mapper
         }
 
         #endregion
+
+        #region Testimonials Mappers
+        public TestimonialsDTO FromTestimonialsToTestimonialsDTO (Testimonials testimonials)
+        {
+            return new TestimonialsDTO()
+            {
+                Content = testimonials.Content,
+                Name = testimonials.Name,
+                Imagen = testimonials.Image
+            };
+        }
+        #endregion
     }
 }

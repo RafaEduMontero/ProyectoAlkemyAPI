@@ -171,7 +171,7 @@ namespace OngProject.Core.Mapper
             };
             return membersDTO;
         }
-        public Member FromMembersDTOtoMember(MembersInsertarDTO membersDTO)
+        public Member FromMembersDTOtoMember(MemberInsertDTO membersDTO)
         {
             return new Member()
             { 

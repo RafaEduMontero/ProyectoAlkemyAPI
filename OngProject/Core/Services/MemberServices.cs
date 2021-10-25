@@ -67,9 +67,8 @@ namespace OngProject.Core.Services
             return response;
         }
 
-        public async Task<Member> Insert(MembersInsertarDTO membersInsertarDTO)
+        public async Task<Member> Insert(MemberInsertDTO membersInsertarDTO)
         {
-           
             var mapper = new EntityMapper();
             var member = mapper.FromMembersDTOtoMember(membersInsertarDTO);
             string uniqueName = "Member_" + DateTime.Now.ToString().Replace(",", "").Replace("/", "").Replace(" ", "");

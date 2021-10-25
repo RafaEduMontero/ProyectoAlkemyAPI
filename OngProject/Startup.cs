@@ -148,7 +148,6 @@ namespace OngProject
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseMiddleware<AdminRoutesMiddleware>();
 
             app.UseMiddleware<OwnerShipMiddleware>();
 
@@ -166,6 +165,8 @@ namespace OngProject
             app.UseAuthentication();
 
             app.UseAuthorization();
+            
+            app.UseMiddleware<AdminRoutesMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

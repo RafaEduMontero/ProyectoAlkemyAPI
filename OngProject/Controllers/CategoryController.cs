@@ -14,12 +14,13 @@ namespace OngProject.Controllers
     [ApiController]
     public class CategoryController : ControllerBase
     {
+        #region Object and Constructor
         private readonly ICategoriesServices _CategoriesServices;
-
         public CategoryController(ICategoriesServices CategoriesServices)
         {
             _CategoriesServices = CategoriesServices;
-        }
+        } 
+        #endregion
 
         [Authorize(Roles = "Administrator")]
         [HttpGet("/GetAll")]

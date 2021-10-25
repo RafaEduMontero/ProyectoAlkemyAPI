@@ -34,7 +34,7 @@ namespace OngProject.Core.Services
 
         public async Task<Result> Update(OrganizationUpdateDTO organizationUpdateDTO)
         {
-              var consulta= await _unitOfWork.OrganizationsRepository.GetById(organizationUpdateDTO.Id);
+            var consulta= await _unitOfWork.OrganizationsRepository.GetById(organizationUpdateDTO.Id);
 
             if(consulta==null)
             {

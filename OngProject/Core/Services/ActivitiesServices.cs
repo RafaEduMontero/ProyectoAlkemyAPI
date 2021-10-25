@@ -17,6 +17,7 @@ namespace OngProject.Core.Services
     public class ActivitiesServices : IActivitiesServices
     {
 
+        #region Object and Constructor
         private readonly IUnitOfWork _unitOfWork;
         private readonly EntityMapper _mapper;
         private readonly IImageService _imageServices;
@@ -25,7 +26,8 @@ namespace OngProject.Core.Services
             _unitOfWork = unitOfWork;
             _mapper = new EntityMapper();
             _imageServices = imageServices;
-        }
+        } 
+        #endregion
         public async Task<IEnumerable<ActivitiesDTO>> GetAll()
         {
             var activitiesList = await _unitOfWork.ActivitiesRepository.GetAll();
@@ -42,13 +44,18 @@ namespace OngProject.Core.Services
             return activitiesDTO;
         }
 
-        public async Task<ActivitiesDTO> Insert(ActivitiesDTO activitiesDTO)
+        public async Task<Result> Insert(ActivitiyInsertDTO activitiyInsertDTO)
         {
-            var newActivity = _mapper.FromActivitiesDTOToActivities(activitiesDTO);
+            var newActivity = _mapper.ActivitiyInsertDTOtoActivity(activitiyInsertDTO);
+
+            string uniqueName = "Activity_" + DateTime.Now.ToString().Replace(",", "").Replace("/", "").Replace(" ", "");
+            var urlImage = await _imageServices.Save(uniqueName + activitiyInsertDTO.Image.FileName, activitiyInsertDTO.Image);
+            newActivity.Image = urlImage;
+
             await _unitOfWork.ActivitiesRepository.Insert(newActivity);
             await _unitOfWork.SaveChangesAsync();
 
-            return activitiesDTO;
+            return new Result().Success("Se ha insertado correctamente la actividad");
         }
 
         public bool EntityExists(int id)
@@ -56,56 +63,29 @@ namespace OngProject.Core.Services
             return _unitOfWork.ActivitiesRepository.EntityExists(id);
         }
 
-        public async Task<Result> Update(ActivitiesDTO activitiesUpdateDTO, int id)
+        public async Task<Result> Update(ActivityUpdateDTO activityUpdateDTO, int id)
         {
-            Result resp = new Result();
+            var activity = await _unitOfWork.ActivitiesRepository.GetById(id);
+            if (activity == null) return new Result().NotFound();
 
-            var activitie = await _unitOfWork.ActivitiesRepository.GetById(id);
-            if (activitie != null)
+            string uniqueName = "Activity_" + DateTime.Now.ToString().Replace(",", "").Replace("/", "").Replace(" ", "");
+
+
+            if (activityUpdateDTO.Image != null) 
             {
-                if (activitiesUpdateDTO.Image != activitie.Image && !string.IsNullOrEmpty(activitiesUpdateDTO.Image))
-                {
-                    var response = await _imageServices.Delete(activitie.Image);
-                    if (response)
-                    {
-                        byte[] bytesFile = Convert.FromBase64String(activitiesUpdateDTO.Image);
-                        var FileName = ValidateFiles.GetImageExtensionFromFile(bytesFile);
-                        string uniqueName = "activities_" + DateTime.Now.ToString().Replace(",", "").Replace("/", "").Replace(" ", "");
-
-                        var formFile = new FormFileData()
-                        {
-                            FileName = FileName,
-                            ContentType = "image/" + FileName.Replace(".", ""),
-                            Name = activitiesUpdateDTO.Name
-                        };
-                        var image = ConvertFile.BinaryToFormFile(bytesFile, formFile);
-
-                        var urlImage = await _imageServices.Save(uniqueName + formFile.FileName, image);
-
-                        activitie.Name = activitiesUpdateDTO.Name;
-                        activitie.Content = activitiesUpdateDTO.Content;
-                        activitie.Image = urlImage;
-
-                        await _unitOfWork.ActivitiesRepository.Update(activitie);
-                        await _unitOfWork.SaveChangesAsync();
-                        resp = new Result().Success("Activitie modificada con éxito");
-                    }
-                }
-                else
-                {
-                    activitie.Name = activitiesUpdateDTO.Name;
-                    activitie.Content = activitiesUpdateDTO.Content;
-                    await _unitOfWork.ActivitiesRepository.Update(activitie);
-                    await _unitOfWork.SaveChangesAsync();
-                    resp = new Result().Success("Activitie modificada con éxito");
-                }
+                await _imageServices.Delete(activity.Image);
+                activity.Image = await _imageServices.Save(uniqueName + activityUpdateDTO.Image.FileName, activityUpdateDTO.Image);
             }
-            else
-            {
-                resp = new Result().Success("Activitie inexistente");
-            }
+            if (activityUpdateDTO.Content != null) activity.Content = activityUpdateDTO.Content;
+            if (activityUpdateDTO.Name != null) activity.Name = activityUpdateDTO.Name;
 
-            return resp;
+            await _unitOfWork.ActivitiesRepository.Update(activity);
+
+            _unitOfWork.SaveChanges();
+
+            return new Result().Success($"El item se ha modificado correctamente!!" +
+                $" {activity.Name}");
+
         }
     }
 }

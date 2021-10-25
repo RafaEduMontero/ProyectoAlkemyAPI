@@ -9,11 +9,6 @@
             Get all data about me
             </summary>
         </member>
-        <member name="T:OngProject.Controllers.MemberController">
-            <summary><description>
-            Servicio para la creacion, consulta, modificacion y borrado de Miembros
-            </description></summary> 
-        </member>
         <member name="M:OngProject.Controllers.MemberController.GetAll(System.Int32)">
             <summary>
             Endpoint para obtener todas las entradas de Miembros. Se integra una paginacion para optimizar

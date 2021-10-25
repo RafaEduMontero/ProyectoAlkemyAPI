@@ -11,14 +11,14 @@ using System.Threading.Tasks;
 
 namespace OngProject.Controllers
 {
-    [Route("users")]
+    [Route("[controller]")]
     [ApiController]
     //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public class UserController : Controller
+    public class UsersController : ControllerBase
     {
         #region Objects and Constructor
         public readonly IUserServices _userServices;
-        public UserController(IUserServices userServices)
+        public UsersController(IUserServices userServices)
         {
             _userServices = userServices;
         }

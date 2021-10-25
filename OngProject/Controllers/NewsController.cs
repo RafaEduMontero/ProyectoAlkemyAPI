@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace OngProject.Controllers
 {
+    [Route("[controller]")]
     [ApiController]
-    [Route("/news")]
-    public class NewsController : Controller
+    public class NewsController : ControllerBase
     {
 
         private readonly INewsServices _newsServices;

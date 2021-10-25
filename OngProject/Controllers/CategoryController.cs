@@ -10,9 +10,8 @@ using System.Threading.Tasks;
 
 namespace OngProject.Controllers
 {
-    [Route("/category")]
+    [Route("[controller]")]
     [ApiController]
-
     public class CategoryController : ControllerBase
     {
         private readonly ICategoriesServices _CategoriesServices;

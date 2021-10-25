@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace OngProject.Controllers
 {
-    [Route("/member")]
+    [Route("[controller]")]
     [ApiController]
-    public class MemberController : Controller
+    public class MemberController : ControllerBase
     {
         #region Objects and Constructor
         private readonly IMemberServices _memberServices;

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace OngProject.Controllers
 {
-    [Route("/slides")]
+    [Route("[controller]")]
     [ApiController]
     public class SlidesController : ControllerBase
     {

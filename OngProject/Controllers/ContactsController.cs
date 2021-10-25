@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace OngProject.Controllers
 {
-    [Route("/contacts")]
+    [Route("[controller]")]
     [ApiController]
     public class ContactsController : ControllerBase
     {

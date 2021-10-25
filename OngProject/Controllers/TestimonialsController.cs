@@ -12,9 +12,9 @@ using System.Threading.Tasks;
 
 namespace OngProject.Controllers
 {
-    [Route("testimonials")]
+    [Route("[controller]")]
     [ApiController]
-    public class TestimonialsController : Controller
+    public class TestimonialsController : ControllerBase
     {
         private readonly ITestimonialsServices _testimonialsServices;
         public TestimonialsController(ITestimonialsServices testimonialsServices)

@@ -15,17 +15,18 @@ namespace OngProject.Controllers
     [ApiController]
     [Authorize(Roles = "Administrator")]
 
-    public class ActivitiesController : Controller
+    public class ActivitiesController : ControllerBase
     {
+        #region Object and Constructor
         private readonly IActivitiesServices _activitiesServices;
-
         public ActivitiesController(IActivitiesServices activitiesServices)
         {
             _activitiesServices = activitiesServices;
-        }
+        } 
+        #endregion
 
         [HttpGet]
-        public async Task<IEnumerable<ActivitiesDTO>> Get()
+        public async Task<IEnumerable<ActivitiesDTO>> GetAll()
         {
             return await _activitiesServices.GetAll();
         }

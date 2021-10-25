@@ -10,7 +10,8 @@ using System.Threading.Tasks;
 
 namespace OngProject.Controllers
 {
-    [Route("/organization")]
+    [Route("[controller]")]
+    [ApiController]
     public class OrganizationsController : ControllerBase
     {
         private readonly IOrganizationsServices _organizationsServices;

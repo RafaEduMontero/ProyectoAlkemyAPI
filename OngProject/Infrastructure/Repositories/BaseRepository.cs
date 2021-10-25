@@ -123,7 +123,7 @@ namespace OngProject.Infrastructure.Repositories
         {
             return await _entity.Where(x => !x.IsDeleted)
                 .OrderBy(order)
-                .Skip( (page-1) * limit)
+                .Skip((page - 1) * limit)
                 .Take(limit)
                 .ToListAsync();
         }

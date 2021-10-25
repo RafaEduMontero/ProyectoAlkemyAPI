@@ -33,6 +33,7 @@ namespace OngProject.Controllers
             this._JwtHelper = _JwtHelper;
         }
         #endregion
+
         /// <summary>
         /// Get all data about me
         /// </summary>

@@ -41,18 +41,19 @@ namespace OngProject.Core.Services
         {
             return _unitOfWork.ContactsRepository.EntityExists(id);
         }
-        public async Task<ContactDTO> Insert(ContactDTO contactDTO)
+        public async Task<Result> Insert(ContactInsertDTO contactInsertDTO)
         {
             var mapper = new EntityMapper();
                 
-            var newContact= mapper.FromContactsDtoToContacts(contactDTO);
+            var newContact= mapper.FromContactsDtoToContacts(contactInsertDTO);
             await _unitOfWork.ContactsRepository.Insert(newContact);
 
             await _unitOfWork.SaveChangesAsync();
 
             string body = $"{newContact.Name}, Gracias por el contacto! En breve nos estaremos comunicando con vos";
             await _mailService.SendEmailAsync(newContact.Email, body, $"Contacto OnG para {newContact.Name}");
-            return contactDTO;
+
+            return new Result().Success("El contacto fue creado correctamente");
         }
     }
 }

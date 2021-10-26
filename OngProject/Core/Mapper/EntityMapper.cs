@@ -198,18 +198,17 @@ namespace OngProject.Core.Mapper
             };
             return contactDTO;
         }
-        public Contacts FromContactsDtoToContacts(ContactDTO contactDTO)
+        public Contacts FromContactsDtoToContacts(ContactInsertDTO contactInsertDTO)
         {
             var contact = new Contacts()
             {
-                Name = contactDTO.Name,
-                Phone = contactDTO.Phone,
-                Email = contactDTO.Email,
-                Message = contactDTO.Message
+                Name = contactInsertDTO.Name,
+                Phone = contactInsertDTO.Phone,
+                Email = contactInsertDTO.Email,
+                Message = contactInsertDTO.Message
             };
             return contact;
         }
-
         #endregion
 
         #region Organization Mappers

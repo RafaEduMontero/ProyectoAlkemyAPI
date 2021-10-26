@@ -34,28 +34,42 @@ namespace OngProject.Controllers
             }
             catch (Result result)
             {
-                throw new Result().Fail(result.ToString());
+                return BadRequest(result.Messages);
             }
         }
 
-        [Authorize]
+        [Authorize(Roles ="Administrator")]
         [HttpPatch("update")]
         public async Task<ActionResult<Result>> Update([FromForm] UserUpdateDTO userUpdateDTO)
         {
-            var token = Request.Headers["Authorization"].ToString();
-            var response = await _userServices.Update(userUpdateDTO, token);
-            return response.HasErrors
-                ? BadRequest(response.Messages)
-                : Ok(response);
+            try
+            {
+                var token = Request.Headers["Authorization"].ToString();
+                var response = await _userServices.Update(userUpdateDTO, token);
+                return response.HasErrors
+                    ? BadRequest(response.Messages)
+                    : Ok(response);
+            }
+            catch (Result result)
+            {
+                return BadRequest(result.Messages);
+            }
         }
 
         [Authorize]
         [HttpDelete("delete")]
         public async Task<ActionResult<Result>> Delete()
         {
-            var token = Request.Headers["Authorization"].ToString();
-            var response = await _userServices.Delete(token);
-            return response;
+            try
+            {
+                var token = Request.Headers["Authorization"].ToString();
+                var response = await _userServices.Delete(token);
+                return Ok(response);
+            }
+            catch (Result result)
+            {
+                return BadRequest(result.Messages);
+            }
         }
     }
 }

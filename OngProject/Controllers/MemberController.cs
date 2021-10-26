@@ -11,12 +11,7 @@ using System.Threading.Tasks;
 
 namespace OngProject.Controllers
 {
-    #region Documentacion
-    /// <summary><description>
-    /// Servicio para la creacion, consulta, modificacion y borrado de Miembros
-    /// </description></summary> 
-    #endregion
-    [Route("/member")]
+    [Route("[controller]")]
     [ApiController]
     public class MemberController : ControllerBase
     {

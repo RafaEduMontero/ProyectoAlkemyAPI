@@ -11,12 +11,9 @@ namespace OngProject.Core.Interfaces.IServices
     public interface IActivitiesServices
     {
         Task<IEnumerable<ActivitiesDTO>> GetAll();
-
         Task<ActivitiesDTO> GetById(int id);
-
         bool EntityExists(int id);
-
-        Task<ActivitiesDTO> Insert(ActivitiesDTO contactDTO);
-        Task<Result> Update(ActivitiesDTO activitiesUpdateDTO,int id);
+        Task<Result> Insert(ActivitiyInsertDTO activitiyInsertDTO);
+        Task<Result> Update(ActivityUpdateDTO activityUpdateDTO,int id);
     }
 }

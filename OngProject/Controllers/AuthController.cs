@@ -20,7 +20,7 @@ namespace OngProject.Controllers
 {
    
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    [Route("/auth")]
+    [Route("[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
     {
@@ -33,6 +33,7 @@ namespace OngProject.Controllers
             this._JwtHelper = _JwtHelper;
         }
         #endregion
+
         /// <summary>
         /// Get all data about me
         /// </summary>

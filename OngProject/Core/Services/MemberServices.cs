@@ -54,6 +54,11 @@ namespace OngProject.Core.Services
             var totalItems = await _unitOfWork.MemberRepository.CountAsync();
             var totalpages = (int)Math.Ceiling((double)totalItems / elementsByPage);
 
+            if (page > totalpages)
+            {
+                throw new Exception();
+            }
+
             var response = new PaginationDTO<MembersDTO>()
             {
                 CurrentPage = page,

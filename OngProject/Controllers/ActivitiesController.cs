@@ -15,17 +15,18 @@ namespace OngProject.Controllers
     [ApiController]
     [Authorize(Roles = "Administrator")]
 
-    public class ActivitiesController : Controller
+    public class ActivitiesController : ControllerBase
     {
+        #region Object and Constructor
         private readonly IActivitiesServices _activitiesServices;
-
         public ActivitiesController(IActivitiesServices activitiesServices)
         {
             _activitiesServices = activitiesServices;
-        }
+        } 
+        #endregion
 
         [HttpGet]
-        public async Task<IEnumerable<ActivitiesDTO>> Get()
+        public async Task<IEnumerable<ActivitiesDTO>> GetAll()
         {
             return await _activitiesServices.GetAll();
         }
@@ -42,17 +43,17 @@ namespace OngProject.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Insert([FromBody]ActivitiesDTO activitiesDTO)
+        public async Task<IActionResult> Insert([FromForm]ActivitiyInsertDTO activityInsertDTO)
         {
-            var insert = await _activitiesServices.Insert(activitiesDTO);
+            var insert = await _activitiesServices.Insert(activityInsertDTO);
 
             return (insert != null) ? Ok("Actividad creada con exito") : BadRequest("Ocurrio un error al crear la actividad");
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<Result>> Update([FromBody] ActivitiesDTO activitiesDTO,int id)
+        public async Task<ActionResult<Result>> Update([FromForm] ActivityUpdateDTO activityUpdateDTO,int id)
         {
-            var response = await _activitiesServices.Update(activitiesDTO,id);
+            var response = await _activitiesServices.Update(activityUpdateDTO,id);
             return response.HasErrors
                 ? BadRequest(response.Messages)
                 : Ok(response);

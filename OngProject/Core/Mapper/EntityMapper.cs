@@ -295,6 +295,17 @@ namespace OngProject.Core.Mapper
             return activities;
         }
 
+        public Activities ActivitiyInsertDTOtoActivity(ActivitiyInsertDTO activitiyInsertDTO)
+        {
+            var activity = new Activities()
+            {
+                Name = activitiyInsertDTO.Name,
+                Content = activitiyInsertDTO.Content,
+                Image = activitiyInsertDTO.Image.ToString()
+            };
+            return activity;
+        }
+
         #endregion
 
         #region Testimonials Mappers

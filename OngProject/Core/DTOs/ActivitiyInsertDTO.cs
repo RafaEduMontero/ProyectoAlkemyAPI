@@ -13,6 +13,7 @@ namespace OngProject.Core.DTOs
         public string Name { get; set; }
         [Required(ErrorMessage = "El content es requerido")]
         public string Content { get; set; }
+        [Required(ErrorMessage = "La imagen es requerida")]
         public IFormFile Image { get; set; }
 
     }

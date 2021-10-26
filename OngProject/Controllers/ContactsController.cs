@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Common;
 using OngProject.Core.DTOs;
+using OngProject.Core.Helper.Pagination;
 using OngProject.Core.Interfaces.IServices;
 using System;
 using System.Collections.Generic;
@@ -19,16 +20,21 @@ namespace OngProject.Controllers
         public ContactsController(IContactsServices contactsServices)
         {
             _contactsServices = contactsServices;
-        } 
+        }
         #endregion
 
         [Authorize(Roles = "Administrator")]
         [HttpGet("/all")]
-        public async Task<ActionResult<IEnumerable<ContactDTO>>> GetAll()
+        public async Task<ActionResult<PaginationDTO<ContactDTO>>> GetAll([FromQuery] int page)
         {
             try
             {
-                return Ok(await _contactsServices.GetAll());
+                string route = Request.Path.Value.ToString();
+                var request = await _contactsServices.GetByPage(route,page);
+
+                if (request==null) return BadRequest("No se ha encontrado la solicitud");
+                
+                return Ok(request);
             }
             catch (Result result)
             {

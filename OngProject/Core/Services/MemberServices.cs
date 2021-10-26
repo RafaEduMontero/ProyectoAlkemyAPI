@@ -89,13 +89,9 @@ namespace OngProject.Core.Services
         
             var consulta=await _unitOfWork.MemberRepository.GetById(memberUpdateDTO.Id);
 
-            if(consulta==null)
-            {
-                return new Result().NotFound();
-            }
+            if(consulta==null) return new Result().NotFound();
+
             if(memberUpdateDTO.Image!= null)
-            {
-            if(consulta.Image != memberUpdateDTO.Image.ToString())
             {
                 try
                 {
@@ -108,13 +104,12 @@ namespace OngProject.Core.Services
                 var urlImage = await _ImageService.Save(uniqueName + memberUpdateDTO.Image.FileName, memberUpdateDTO.Image);
                 consulta.Image = urlImage;                      
             }
-            }
         
-            consulta.Name= (consulta.Name == memberUpdateDTO.Name || string.IsNullOrEmpty(memberUpdateDTO.Name))? consulta.Name : memberUpdateDTO.Name;
-            consulta.FacebookUrl= (consulta.FacebookUrl == memberUpdateDTO.FacebookUrl || string.IsNullOrEmpty(memberUpdateDTO.FacebookUrl))? consulta.FacebookUrl : memberUpdateDTO.FacebookUrl;
-            consulta.InstagramUrl= (consulta.InstagramUrl == memberUpdateDTO.InstagramUrl || string.IsNullOrEmpty(memberUpdateDTO.InstagramUrl))? consulta.InstagramUrl : memberUpdateDTO.InstagramUrl;
-            consulta.LinkedinUrl= (consulta.LinkedinUrl == memberUpdateDTO.LinkedinUrl || string.IsNullOrEmpty(memberUpdateDTO.LinkedinUrl))? consulta.LinkedinUrl : memberUpdateDTO.LinkedinUrl;
-            consulta.Description= (consulta.Description == memberUpdateDTO.Description || string.IsNullOrEmpty(memberUpdateDTO.Description))? consulta.Description : memberUpdateDTO.Description;
+            consulta.Name= string.IsNullOrEmpty(memberUpdateDTO.Name)? consulta.Name : memberUpdateDTO.Name;
+            consulta.FacebookUrl= string.IsNullOrEmpty(memberUpdateDTO.FacebookUrl)? consulta.FacebookUrl : memberUpdateDTO.FacebookUrl;
+            consulta.InstagramUrl= string.IsNullOrEmpty(memberUpdateDTO.InstagramUrl)? consulta.InstagramUrl : memberUpdateDTO.InstagramUrl;
+            consulta.LinkedinUrl=  string.IsNullOrEmpty(memberUpdateDTO.LinkedinUrl)? consulta.LinkedinUrl : memberUpdateDTO.LinkedinUrl;
+            consulta.Description= string.IsNullOrEmpty(memberUpdateDTO.Description)? consulta.Description : memberUpdateDTO.Description;
             
             await _unitOfWork.MemberRepository.Update(consulta);
             await _unitOfWork.SaveChangesAsync();

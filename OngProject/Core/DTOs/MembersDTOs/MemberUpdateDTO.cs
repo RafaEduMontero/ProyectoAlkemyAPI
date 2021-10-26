@@ -15,7 +15,6 @@ namespace OngProject.Core.DTOs
         /// <summary>
         /// Nombre a modificar
         /// </summary>
-        [Url]
         public string Name { get; set; }
 
         /// <summary>

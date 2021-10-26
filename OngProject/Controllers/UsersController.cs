@@ -13,7 +13,6 @@ namespace OngProject.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class UsersController : ControllerBase
     {
         #region Objects and Constructor
@@ -24,17 +23,23 @@ namespace OngProject.Controllers
         }
         #endregion
 
-        [HttpGet]
+        [HttpGet("allUsers")]
         [Authorize(Roles = "Administrator")]
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetAll()
         {
-            var userlist = await _userServices.GetAll();
-
-            return Ok(userlist);
+            try
+            {
+                var userlist = await _userServices.GetAll();
+                return Ok(userlist);
+            }
+            catch (Result result)
+            {
+                throw new Result().Fail(result.ToString());
+            }
         }
 
         [Authorize]
-        [HttpPatch]
+        [HttpPatch("update")]
         public async Task<ActionResult<Result>> Update([FromForm] UserUpdateDTO userUpdateDTO)
         {
             var token = Request.Headers["Authorization"].ToString();
@@ -45,7 +50,7 @@ namespace OngProject.Controllers
         }
 
         [Authorize]
-        [HttpDelete]
+        [HttpDelete("delete")]
         public async Task<ActionResult<Result>> Delete()
         {
             var token = Request.Headers["Authorization"].ToString();

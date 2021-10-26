@@ -2,6 +2,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Primitives;
 using OngProject.Common;
 using OngProject.Core.DTOs;
+using OngProject.Core.DTOs.UserDTOs;
 using OngProject.Core.Entities;
 using OngProject.Core.Interfaces.IServices;
 using OngProject.Core.Interfaces.IServices.AWS;
@@ -39,25 +40,22 @@ namespace OngProject.Core.Services
 
             return request.Select(x => mapper.FromsUserToUserDto(x)).ToList();
         }
-        public async Task<Result> Register(UserDTO userDTO)
+        public async Task<Result> Register(UserInsertDTO userInsertDTO)
         {
-
-            var request = await _unitOfWork.UsersRepository.GetByEmail(userDTO.Email);
-            if (request != null)
+            var newUser = new EntityMapper().FromUserDtoToUser(userInsertDTO);
+            if (userInsertDTO.Photo != null)
             {
-                return new Result().Fail("Este correo ya existe");
+                string uniqueName = "User_" + DateTime.Now.ToString().Replace(",", "").Replace("/", "").Replace(" ", "");
+                var urlImage = await _imageServices.Save(uniqueName + userInsertDTO.Photo.FileName, userInsertDTO.Photo);
+                newUser.Photo = urlImage.ToString();
             }
-            var newUser = new EntityMapper().FromUserDtoToUser(userDTO);
-            string uniqueName = "User_" + DateTime.Now.ToString().Replace(",", "").Replace("/", "").Replace(" ", "");
-            var urlImage = await _imageServices.Save(uniqueName + userDTO.Photo.FileName, userDTO.Photo);
-
-            newUser.Photo = urlImage.ToString();
+            
             newUser.RoleId = 2;
             newUser.Password = Encrypt.GetSHA256(newUser.Password);
 
             await _unitOfWork.UsersRepository.Insert(newUser);
 
-            await _emailservice.SendEmailAsync(newUser.Email, _configuration["Welcomesubject"], newUser.FirstName + " " + newUser.LastName);
+            await _emailservice.SendEmailAsync(newUser.Email, _configuration["WelcomeSubject"], newUser.FirstName + " " + newUser.LastName);
 
             _unitOfWork.SaveChanges();
 

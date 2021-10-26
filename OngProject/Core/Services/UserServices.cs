@@ -72,7 +72,7 @@ namespace OngProject.Core.Services
             {
                 return null;
             }
-
+            if (list.Count() == 0) return null;
             return list[0];
         }
 

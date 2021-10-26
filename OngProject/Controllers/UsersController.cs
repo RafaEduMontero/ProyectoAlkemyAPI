@@ -13,7 +13,6 @@ namespace OngProject.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class UsersController : ControllerBase
     {
         #region Objects and Constructor
@@ -24,33 +23,53 @@ namespace OngProject.Controllers
         }
         #endregion
 
-        [HttpGet]
+        [HttpGet("allUsers")]
         [Authorize(Roles = "Administrator")]
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetAll()
         {
-            var userlist = await _userServices.GetAll();
-
-            return Ok(userlist);
+            try
+            {
+                var userlist = await _userServices.GetAll();
+                return Ok(userlist);
+            }
+            catch (Result result)
+            {
+                return BadRequest(result.Messages);
+            }
         }
 
-        [Authorize]
-        [HttpPatch]
+        [Authorize(Roles ="Administrator")]
+        [HttpPatch("update")]
         public async Task<ActionResult<Result>> Update([FromForm] UserUpdateDTO userUpdateDTO)
         {
-            var token = Request.Headers["Authorization"].ToString();
-            var response = await _userServices.Update(userUpdateDTO, token);
-            return response.HasErrors
-                ? BadRequest(response.Messages)
-                : Ok(response);
+            try
+            {
+                var token = Request.Headers["Authorization"].ToString();
+                var response = await _userServices.Update(userUpdateDTO, token);
+                return response.HasErrors
+                    ? BadRequest(response.Messages)
+                    : Ok(response);
+            }
+            catch (Result result)
+            {
+                return BadRequest(result.Messages);
+            }
         }
 
         [Authorize]
-        [HttpDelete]
+        [HttpDelete("delete")]
         public async Task<ActionResult<Result>> Delete()
         {
-            var token = Request.Headers["Authorization"].ToString();
-            var response = await _userServices.Delete(token);
-            return response;
+            try
+            {
+                var token = Request.Headers["Authorization"].ToString();
+                var response = await _userServices.Delete(token);
+                return Ok(response);
+            }
+            catch (Result result)
+            {
+                return BadRequest(result.Messages);
+            }
         }
     }
 }

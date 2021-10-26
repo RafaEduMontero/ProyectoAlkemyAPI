@@ -2,6 +2,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Primitives;
 using OngProject.Common;
 using OngProject.Core.DTOs;
+using OngProject.Core.DTOs.UserDTOs;
 using OngProject.Core.Entities;
 using OngProject.Core.Interfaces.IServices;
 using OngProject.Core.Interfaces.IServices.AWS;
@@ -39,25 +40,22 @@ namespace OngProject.Core.Services
 
             return request.Select(x => mapper.FromsUserToUserDto(x)).ToList();
         }
-        public async Task<Result> Register(UserDTO userDTO)
+        public async Task<Result> Register(UserInsertDTO userInsertDTO)
         {
-
-            var request = await _unitOfWork.UsersRepository.GetByEmail(userDTO.Email);
-            if (request != null)
+            var newUser = new EntityMapper().FromUserDtoToUser(userInsertDTO);
+            if (userInsertDTO.Photo != null)
             {
-                return new Result().Fail("Este correo ya existe");
+                string uniqueName = "User_" + DateTime.Now.ToString().Replace(",", "").Replace("/", "").Replace(" ", "");
+                var urlImage = await _imageServices.Save(uniqueName + userInsertDTO.Photo.FileName, userInsertDTO.Photo);
+                newUser.Photo = urlImage.ToString();
             }
-            var newUser = new EntityMapper().FromUserDtoToUser(userDTO);
-            string uniqueName = "User_" + DateTime.Now.ToString().Replace(",", "").Replace("/", "").Replace(" ", "");
-            var urlImage = await _imageServices.Save(uniqueName + userDTO.Photo.FileName, userDTO.Photo);
-
-            newUser.Photo = urlImage.ToString();
+            
             newUser.RoleId = 2;
             newUser.Password = Encrypt.GetSHA256(newUser.Password);
 
             await _unitOfWork.UsersRepository.Insert(newUser);
 
-            await _emailservice.SendEmailAsync(newUser.Email, _configuration["Welcomesubject"], newUser.FirstName + " " + newUser.LastName);
+            await _emailservice.SendEmailAsync(newUser.Email, _configuration["WelcomeSubject"], newUser.FirstName + " " + newUser.LastName);
 
             _unitOfWork.SaveChanges();
 
@@ -75,7 +73,6 @@ namespace OngProject.Core.Services
             if (list.Count() == 0) return null;
             return list[0];
         }
-
         public int GetUserId(string token)
         {
             var handler = new JwtSecurityTokenHandler();
@@ -85,7 +82,6 @@ namespace OngProject.Core.Services
             var id = int.Parse(claims.Value);
             return (int)id;
         }
-
         public async Task<UserInfoDTO> GetById(int userId)
         {
             var mapper = new EntityMapper();
@@ -94,79 +90,48 @@ namespace OngProject.Core.Services
 
             return userDTO;
         }
-
         public async Task<Result> Delete(string token)
         {
             var id = GetUserId(token);
+            if (_unitOfWork.UsersRepository.GetById(id) == null)
+                return new Result().Fail("No existe el usuario");
+
             var response = await _unitOfWork.UsersRepository.Delete(id);
             await _unitOfWork.SaveChangesAsync();
+            
             return response;
         }
         public async Task<Result> Update(UserUpdateDTO userUpdateDTO,string token)
         {
-            Result resp = new Result();
             var id = GetUserId(token);
+
             var user = await _unitOfWork.UsersRepository.GetById(id);
-            if(user != null)
+            if (user == null) return new Result().Fail("No se ha encontrado este usuario");
+            
+            if(userUpdateDTO.Photo != null && user.Photo == null)
             {
-                if (!string.IsNullOrEmpty(user.Photo) && userUpdateDTO.Photo != null)
-                {
-                    var response = await _imageServices.Delete(user.Photo);
-                    if (response)
-                    {
-                        string uniqueName = "user_" + DateTime.Now.ToString().Replace(",", "").Replace("/", "").Replace(" ", "");
-                        var urlImage = await _imageServices.Save(uniqueName + userUpdateDTO.Photo.FileName, userUpdateDTO.Photo);
-
-                        user.FirstName = userUpdateDTO.FirstName;
-                        user.LastName = userUpdateDTO.LastName;
-                        user.Email = userUpdateDTO.Email;
-                        user.Password = userUpdateDTO.Password;
-                        user.Photo = urlImage;
-
-                        await _unitOfWork.UsersRepository.Update(user);
-                        await _unitOfWork.SaveChangesAsync();
-
-                        resp = new Result().Success("User modificado con éxito");
-                    }
-
-                }
-                else
-                {
-                    if(userUpdateDTO.Photo != null)
-                    {
-                        string uniqueName = "user_" + DateTime.Now.ToString().Replace(",", "").Replace("/", "").Replace(" ", "");
-                        var urlImage = await _imageServices.Save(uniqueName + userUpdateDTO.Photo.FileName, userUpdateDTO.Photo);
-
-                        user.FirstName = userUpdateDTO.FirstName;
-                        user.LastName = userUpdateDTO.LastName;
-                        user.Email = userUpdateDTO.Email;
-                        user.Password = Encrypt.GetSHA256(userUpdateDTO.Password);
-                        user.Photo = urlImage;
-
-                        await _unitOfWork.UsersRepository.Update(user);
-                        await _unitOfWork.SaveChangesAsync();
-
-                        resp = new Result().Success("User modificado con éxito");
-                    }
-                    else
-                    {
-                        user.FirstName = userUpdateDTO.FirstName;
-                        user.LastName = userUpdateDTO.LastName;
-                        user.Email = userUpdateDTO.Email;
-                        user.Password = Encrypt.GetSHA256(userUpdateDTO.Password);
-
-                        await _unitOfWork.UsersRepository.Update(user);
-                        await _unitOfWork.SaveChangesAsync();
-
-                        resp = new Result().Success("User modificado con éxito");
-                    }
-                }
-                return resp;
+                string uniqueName = "user_" + DateTime.Now.ToString().Replace(",", "").Replace("/", "").Replace(" ", "");
+                var urlImage = await _imageServices.Save(uniqueName + userUpdateDTO.Photo.FileName, userUpdateDTO.Photo);
+                
+                user.Photo = urlImage;
             }
-            else
+            else if (userUpdateDTO==null && user.Photo!=null)
             {
-                return resp = new Result().NotFound();
+                await _imageServices.Delete(user.Photo);
+                string uniqueName = "user_" + DateTime.Now.ToString().Replace(",", "").Replace("/", "").Replace(" ", "");
+                var urlImage = await _imageServices.Save(uniqueName + userUpdateDTO.Photo.FileName, userUpdateDTO.Photo);
+                user.Photo = urlImage;
             }
+
+            if (userUpdateDTO.FirstName != null) user.FirstName = userUpdateDTO.FirstName;
+            if (userUpdateDTO.LastName != null) user.LastName = userUpdateDTO.LastName;
+            if (userUpdateDTO.Email != null) user.Email = userUpdateDTO.Email;
+            if (userUpdateDTO.Password != null) user.Password = Encrypt.GetSHA256(userUpdateDTO.Password);
+
+            await _unitOfWork.UsersRepository.Update(user);
+            await _unitOfWork.SaveChangesAsync();
+
+            return new Result().Success("Usuario modificado con exito");
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using OngProject.Core.DTOs;
 using OngProject.Core.DTOs.SlidesDTOs;
+using OngProject.Core.DTOs.UserDTOs;
 using OngProject.Core.Entities;
 using OngProject.Infrastructure.Repositories;
 
@@ -131,7 +132,6 @@ namespace OngProject.Core.Mapper
             };
             return CommentsDTO;
         }
-
         public Comments FromNewCommentsDtoToComments(NewCommentsDTO newCommentDTO)
         {
             return new Comments()
@@ -257,16 +257,16 @@ namespace OngProject.Core.Mapper
         }
 
 
-        public User FromUserDtoToUser(UserDTO userDTO)
+        public User FromUserDtoToUser(UserInsertDTO userInsertDTO)
         {
             var user = new User()
             {
-                FirstName = userDTO.FirstName,
-                LastName = userDTO.LastName,
-                Email = userDTO.Email,
-                Password = userDTO.Password,
-                Photo = null,
-                RoleId = userDTO.RoleId
+                FirstName = userInsertDTO.FirstName,
+                LastName = userInsertDTO.LastName,
+                Email = userInsertDTO.Email,
+                Password = userInsertDTO.Password,
+                Photo = userInsertDTO.Photo.ToString(),
+                RoleId = 2
             };
             return user;
         }

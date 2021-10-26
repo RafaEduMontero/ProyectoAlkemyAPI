@@ -26,7 +26,7 @@ namespace OngProject.Core.Services
             _unitOfWork = unitOfWork;
             _mapper = new EntityMapper();
             _imageServices = imageServices;
-        } 
+        }
         #endregion
         public async Task<IEnumerable<ActivitiesDTO>> GetAll()
         {
@@ -35,7 +35,6 @@ namespace OngProject.Core.Services
 
             return activitiesDTO;
         }
-
         public async Task<ActivitiesDTO> GetById(int id)
         {
             var activities = await _unitOfWork.ActivitiesRepository.GetById(id);
@@ -43,7 +42,6 @@ namespace OngProject.Core.Services
 
             return activitiesDTO;
         }
-
         public async Task<Result> Insert(ActivitiyInsertDTO activitiyInsertDTO)
         {
             var newActivity = _mapper.ActivitiyInsertDTOtoActivity(activitiyInsertDTO);
@@ -57,25 +55,22 @@ namespace OngProject.Core.Services
 
             return new Result().Success("Se ha insertado correctamente la actividad");
         }
-
         public bool EntityExists(int id)
         {
             return _unitOfWork.ActivitiesRepository.EntityExists(id);
         }
-
         public async Task<Result> Update(ActivityUpdateDTO activityUpdateDTO, int id)
         {
             var activity = await _unitOfWork.ActivitiesRepository.GetById(id);
             if (activity == null) return new Result().NotFound();
 
-            string uniqueName = "Activity_" + DateTime.Now.ToString().Replace(",", "").Replace("/", "").Replace(" ", "");
-
-
-            if (activityUpdateDTO.Image != null) 
+            if (activityUpdateDTO.Image != null)
             {
+                string uniqueName = "Activity_" + DateTime.Now.ToString().Replace(",", "").Replace("/", "").Replace(" ", "");
                 await _imageServices.Delete(activity.Image);
                 activity.Image = await _imageServices.Save(uniqueName + activityUpdateDTO.Image.FileName, activityUpdateDTO.Image);
             }
+
             if (activityUpdateDTO.Content != null) activity.Content = activityUpdateDTO.Content;
             if (activityUpdateDTO.Name != null) activity.Name = activityUpdateDTO.Name;
 

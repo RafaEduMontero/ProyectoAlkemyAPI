@@ -15,10 +15,11 @@ using OngProject.Core.Mapper;
 using OngProject.Core.Helper;
 using OngProject.Core.Services;
 using NSwag.Annotations;
+using OngProject.Core.DTOs.UserDTOs;
 
 namespace OngProject.Controllers
 {
-   
+
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("[controller]")]
     [ApiController]
@@ -27,7 +28,7 @@ namespace OngProject.Controllers
         #region Object and Constructor
         private readonly IUserServices _userServices;
         private readonly JwtHelper _JwtHelper;
-        public AuthController(IUserServices _userServices , JwtHelper _JwtHelper)
+        public AuthController(IUserServices _userServices, JwtHelper _JwtHelper)
         {
             this._userServices = _userServices;
             this._JwtHelper = _JwtHelper;
@@ -40,57 +41,79 @@ namespace OngProject.Controllers
         [HttpGet("me")]
         public async Task<IActionResult> Get()
         {
-            if (!ModelState.IsValid) return BadRequest();
-            var token = Request.Headers["Authorization"];
-            var userId =_userServices.GetUserId(token);
-            var user = await _userServices.GetById(userId);
-            return Ok(user);
+            try
+            {
+                if (!ModelState.IsValid) return BadRequest("Datos no validos");
+                var token = Request.Headers["Authorization"];
+                var userId = _userServices.GetUserId(token);
+                var user = await _userServices.GetById(userId);
+                return Ok(user);
+
+            }
+            catch (Result result)
+            {
+                return BadRequest(result.Message);
+            }
         }
 
         [HttpPost("register")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
         [AllowAnonymous]
-        public async Task<ActionResult> Register([FromForm] UserDTO userDTO)
+        public async Task<IActionResult> Register([FromForm] UserInsertDTO userInsertDTO)
         {
-            if (ModelState.IsValid){
-                await _userServices.Register(userDTO);
-
-                Response.StatusCode = StatusCodes.Status201Created;     
-            }
-            return Ok(new { Status = "Operacion exitosa El usuario fue creado con exito!", 
-            Token = (OkObjectResult)await Login(new LoginDTO
+            try
             {
-                Email = userDTO.Email,
-                Password = userDTO.Password
-            })
-            });           
+                if (ModelState.IsValid)
+                    if (await _userServices.GetByEmail(userInsertDTO.Email) == null)
+                        await _userServices.Register(userInsertDTO);
+                    else
+                        return BadRequest("Este correo ya estaba en uso");
+                else
+                    return BadRequest("Datos invalidos, verifique los campos ingresados");
+                
+                return Ok(new
+                {
+                    Status = "Operacion exitosa! Usuario creado con exito!",
+                    Token = (OkObjectResult)await Login(new LoginDTO
+                    {
+                        Email = userInsertDTO.Email,
+                        Password = userInsertDTO.Password
+                    }
+                    )
+                });
+            }
+            catch (Result result)
+            {
+                return BadRequest(result.Message);
+            }
         }
-
 
         [HttpPost("login")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
         [AllowAnonymous]
-        public async Task<ActionResult> Login([FromForm]LoginDTO loginDTO)
+        public async Task<ActionResult> Login([FromForm] LoginDTO loginDTO)
         {
-            
-            var userSaved = await _userServices.GetByEmail(loginDTO.Email);
-
-            if (userSaved==null)
+            try
             {
-                return BadRequest("No se ha encontrado un usuario con este correo...");
-            }
+                var userSaved = await _userServices.GetByEmail(loginDTO.Email);
 
-            var passwordVerification = Encrypt.Verify(loginDTO.Password, userSaved.Password);
-            if (!passwordVerification)
+                if (userSaved == null)
+                {
+                    return BadRequest("No se ha encontrado un usuario con este correo");
+                }
+
+                var passwordVerification = Encrypt.Verify(loginDTO.Password, userSaved.Password);
+                if (!passwordVerification)
+                {
+                    return StatusCode(401, "Credenciales no validas");
+                }
+
+                var token = _JwtHelper.GenerateJwtToken(userSaved);
+
+                return Ok(new { token });
+            }
+            catch (Result result)
             {
-                return StatusCode(401, "Credenciales no validas");
+                return BadRequest(result.Message);
             }
-
-            var token = _JwtHelper.GenerateJwtToken(userSaved);
-
-            return Ok(new { token });
-           
         }
-
     }
 }

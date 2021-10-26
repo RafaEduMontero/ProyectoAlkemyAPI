@@ -7,6 +7,9 @@ namespace OngProject.Core.DTOs
 {
     public class CommentsDTO
     {
+        /// <summary>
+        /// Requerido: comentario
+        /// </summary>
         public string Body { get; set; }
 
     }

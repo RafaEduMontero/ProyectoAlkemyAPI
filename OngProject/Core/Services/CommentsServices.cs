@@ -1,5 +1,6 @@
 ﻿using OngProject.Common;
 using OngProject.Core.DTOs;
+using OngProject.Core.Helper.Pagination;
 using OngProject.Core.Interfaces.IServices;
 using OngProject.Core.Mapper;
 using OngProject.Infrastructure.Repositories.IRepository;
@@ -12,11 +13,14 @@ using System.Threading.Tasks;
 namespace OngProject.Core.Services
 {
     public class CommentsServices : ICommentsServices
+    
     {
         private readonly IUnitOfWork _unitOfWork;
-        public CommentsServices(IUnitOfWork unitOfWork)
+        private readonly IUriService _uriService;
+        public CommentsServices(IUnitOfWork unitOfWork, IUriService uriService)
         {
             _unitOfWork = unitOfWork;
+            _uriService = uriService;
         }
 
         public bool EntityExists(int id)
@@ -66,13 +70,42 @@ namespace OngProject.Core.Services
             return false;
         }
 
-        public async Task<Result> Update(int id, CommentUpdateDTO commentsDTO)
+        public async Task<Result> Update(int id, CommentUpdateDTO CommentUpdateDTO)
         {
-            if (await _unitOfWork.UsersRepository.GetById((int)commentsDTO.UserId) == null) return null;
+            if (await _unitOfWork.UsersRepository.GetById((int)CommentUpdateDTO.UserId) == null) return null;
             var  comment = await _unitOfWork.CommentsRepository.GetById(id);
-            comment = new EntityMapper().FromComentUpdateToComment(commentsDTO, comment);
+            comment = new EntityMapper().FromComentUpdateToComment(CommentUpdateDTO, comment);
             var response = await _unitOfWork.CommentsRepository.Update(comment);
             await _unitOfWork.SaveChangesAsync();
+            return response;
+        }
+
+        public async Task<PaginationDTO<CommentsDTO>> GetByPage(string route, int page)
+        {
+              if (page <= 0) page = 1;
+            int elementsByPage = 10; // Condición exigida por negocio
+            var m = await _unitOfWork.CommentsRepository.GetPageAsync(x=> x.Id , elementsByPage, page);
+            var items= m.ToList();
+            var mapper = new EntityMapper();
+            var itemsList = items.Select(x => mapper.FromCommentsToCommentsDto(x)).ToList();
+            var totalItems = await _unitOfWork.CommentsRepository.CountAsync();
+            var totalpages = (int)Math.Ceiling((double)totalItems / elementsByPage);
+
+            if (page > totalpages)
+            {
+                throw new Exception();
+            }
+
+            var response = new PaginationDTO<CommentsDTO>()
+            {
+                CurrentPage = page,
+                TotalItems = totalItems,
+                TotalPages = totalpages,
+                PrevPage = page > 1 ? _uriService.GetPage(route, page - 1) : null,
+                NextPage = page < totalpages ? _uriService.GetPage(route, page + 1) : null,
+                Items = itemsList
+            };
+
             return response;
         }
     }

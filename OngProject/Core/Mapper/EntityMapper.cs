@@ -264,9 +264,10 @@ namespace OngProject.Core.Mapper
                 LastName = userInsertDTO.LastName,
                 Email = userInsertDTO.Email,
                 Password = userInsertDTO.Password,
-                Photo = userInsertDTO.Photo.ToString(),
                 RoleId = 2
             };
+            if (userInsertDTO.Photo == null) user.Photo = null;
+            else user.Photo = userInsertDTO.Photo.ToString();
             return user;
         }
 

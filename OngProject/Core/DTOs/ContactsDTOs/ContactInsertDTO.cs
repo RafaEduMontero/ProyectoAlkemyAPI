@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace OngProject.Core.DTOs
 {
-    public class ContactDTO
+    public class ContactInsertDTO
     {
         [Required]
         public string Name { get; set; }
         public int Phone { get; set; }
+
         [Required]
         [EmailAddress]
         public string Email { get; set; }

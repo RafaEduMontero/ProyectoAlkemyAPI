@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using OngProject.Common;
 using OngProject.Core.DTOs;
+using OngProject.Core.Helper.Pagination;
 using OngProject.Core.Interfaces.IServices;
 using OngProject.Core.Mapper;
 using OngProject.Infrastructure.Repositories.IRepository;
@@ -16,18 +17,41 @@ namespace OngProject.Core.Services
         #region Objects and Constructor
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMailService _mailService;
-        public ContactsServices(IUnitOfWork unitOfWork, IMailService mailService)
+        private readonly IUriService uriService;
+        public ContactsServices(IUnitOfWork unitOfWork, IMailService mailService, IUriService uriService)
         {
             this._unitOfWork = unitOfWork;
             this._mailService = mailService;
-        } 
+            this.uriService = uriService;
+        }
         #endregion
-        public async Task<IEnumerable<ContactDTO>> GetAll()
+        public async Task<PaginationDTO<ContactDTO>> GetByPage(string route, int page)
         {
+            if (page <= 0) page = 1;
+            int elementsByPage = 10; // Condición exigida por negocio
+            var m = await _unitOfWork.ContactsRepository.GetPageAsync(x => x.Name, elementsByPage, page);
+            var items = m.ToList();
             var mapper = new EntityMapper();
-            var contactList = await _unitOfWork.ContactsRepository.GetAll();
-            var contactDTOList = contactList.Select(x => mapper.FromContactsToContactsDto(x)).ToList();
-            return contactDTOList;
+            var itemsList = items.Select(x => mapper.FromContactsToContactsDto(x)).ToList();
+            var totalItems = await _unitOfWork.ContactsRepository.CountAsync();
+            var totalpages = (int)Math.Ceiling((double)totalItems / elementsByPage);
+
+            if (page > totalpages)
+            {
+                throw new Result().Fail("No se ha encontrado la consulta");
+            }
+
+            var response = new PaginationDTO<ContactDTO>()
+            {
+                CurrentPage = page,
+                TotalItems = totalItems,
+                TotalPages = totalpages,
+                PrevPage = page > 1 ? uriService.GetPage(route, page - 1) : null,
+                NextPage = page < totalpages ? uriService.GetPage(route, page + 1) : null,
+                Items = itemsList
+            };
+
+            return response;
         }
         public async Task<ContactDTO> GetById(int id)
         {
@@ -41,18 +65,19 @@ namespace OngProject.Core.Services
         {
             return _unitOfWork.ContactsRepository.EntityExists(id);
         }
-        public async Task<ContactDTO> Insert(ContactDTO contactDTO)
+        public async Task<Result> Insert(ContactInsertDTO contactInsertDTO)
         {
             var mapper = new EntityMapper();
                 
-            var newContact= mapper.FromContactsDtoToContacts(contactDTO);
+            var newContact= mapper.FromContactsDtoToContacts(contactInsertDTO);
             await _unitOfWork.ContactsRepository.Insert(newContact);
 
             await _unitOfWork.SaveChangesAsync();
 
             string body = $"{newContact.Name}, Gracias por el contacto! En breve nos estaremos comunicando con vos";
             await _mailService.SendEmailAsync(newContact.Email, body, $"Contacto OnG para {newContact.Name}");
-            return contactDTO;
+
+            return new Result().Success("El contacto fue creado correctamente");
         }
     }
 }

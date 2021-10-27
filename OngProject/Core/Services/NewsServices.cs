@@ -18,11 +18,13 @@ namespace OngProject.Core.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUriService _uriService;
         private readonly IImageService _imageServices;
+        private readonly EntityMapper _entityMapper;
         public NewsServices(IUnitOfWork unitOfWork, IImageService imageServices, IUriService uriService)
         {
             _unitOfWork = unitOfWork;
             _imageServices = imageServices;
             _uriService = uriService;
+            _entityMapper = new EntityMapper();
         }
 
         public async Task<NewsDTO> GetById(int id)
@@ -46,6 +48,11 @@ namespace OngProject.Core.Services
             var totalItems = await _unitOfWork.NewsRepository.CountAsync();
             var totalpages = (int)Math.Ceiling((double)totalItems / elementsByPage);
 
+            if (page > totalpages)
+            {
+                throw new Exception();
+            }
+
             var response = new PaginationDTO<NewsDTO>()
             {
                 CurrentPage = page,
@@ -64,14 +71,18 @@ namespace OngProject.Core.Services
             return _unitOfWork.NewsRepository.EntityExists(id);
         }
 
-        public async Task<News> Insert(NewsDTO newsDTO)
+        public async Task<Result> Insert(NewsInsertDTO newsInsertDTO)
         {
-            var mapper = new EntityMapper();
-            var news = mapper.FromNewsDTOtoNews(newsDTO);
-            await _unitOfWork.NewsRepository.Insert(news);
-            await _unitOfWork.SaveChangesAsync();
-            return news;
+            var newNews = _entityMapper.NewsInsertDTOtoNews(newsInsertDTO);
 
+            string uniqueName = "News_" + DateTime.Now.ToString().Replace(",", "").Replace("/", "").Replace(" ", "");
+            var urlImage = await _imageServices.Save(uniqueName + newsInsertDTO.Image.FileName, newsInsertDTO.Image);
+            newNews.Image = urlImage;
+
+            await _unitOfWork.NewsRepository.Insert(newNews);
+            await _unitOfWork.SaveChangesAsync();
+
+            return new Result().Success("Se ha insertado correctamente la novedad");
 
         }
 
@@ -87,70 +98,49 @@ namespace OngProject.Core.Services
             await _unitOfWork.SaveChangesAsync();
             if (result != null)
             {
-                if(url != null)
+                try
                 {
                     await _imageServices.Delete(url);
                 }
-                
+                catch(Exception)
+                {
+
+                }
+
                 return new Result().Success("Novedad eliminada con exito");
             }
             return new Result().Fail("Ocurrio un error al eliminar la novedad");
         }
 
-        public async Task<Result> Update(int id, NewsUpdateDTO newsUpdateDTO)
+        public async Task<Result> Update(NewsUpdateDTO newsUpdateDTO,int id)
         {
             var news = await _unitOfWork.NewsRepository.GetById(id);
-            if (news == null)
-            {
-                return new Result().NotFound();
-            }
-            if (!string.IsNullOrEmpty(newsUpdateDTO.Name))
-            {
-                news.Name = newsUpdateDTO.Name;
-            }
-            if (!string.IsNullOrEmpty(newsUpdateDTO.Content))
-            {
-                news.Content = newsUpdateDTO.Content;
-            }
+            if (news == null) return new Result().NotFound();
+
             if (newsUpdateDTO.Image != null)
             {
-
-                if (news.Image == null)
-                {
-                    news.Image = await _imageServices.Save(newsUpdateDTO.Image.FileName, newsUpdateDTO.Image);
-                }
-                else if(await _imageServices.Delete(news.Image))
-                {
-                    news.Image = await _imageServices.Save(newsUpdateDTO.Image.FileName, newsUpdateDTO.Image);
-                }
-            }
-            if (newsUpdateDTO.CategoryId > 0)
-            {
-                if (_unitOfWork.CategoryRepository.EntityExists(newsUpdateDTO.CategoryId))
-                {
-                    news.CategoryId = newsUpdateDTO.CategoryId;
-                }
                 
+                try
+                {
+                    await _imageServices.Delete(news.Image);
+                }
+                catch(Exception)
+                {
+
+                }
+                string uniqueName = "News_" + DateTime.Now.ToString().Replace(",", "").Replace("/", "").Replace(" ", "");
+                news.Image = await _imageServices.Save(uniqueName + newsUpdateDTO.Image.FileName, newsUpdateDTO.Image);
             }
+
+            if (newsUpdateDTO.Content != null) news.Content = newsUpdateDTO.Content;
+            if (newsUpdateDTO.Name != null) news.Name = newsUpdateDTO.Name;
+
             await _unitOfWork.NewsRepository.Update(news);
-            await _unitOfWork.SaveChangesAsync();
 
-            var newsUpdate = await _unitOfWork.NewsRepository.GetById(id);
+            _unitOfWork.SaveChanges();
 
-            if (newsUpdate.Name == news.Name
-                && newsUpdate.Content == news.Content
-                && newsUpdate.Image == news.Image
-                && newsUpdate.CategoryId == news.CategoryId)
-            {
-
-                return new Result().Success($"{newsUpdate.Name}  ," +
-                                            $"{newsUpdate.Content}  ," +
-                                            $"{newsUpdate.Image}  ," +
-                                            $"{newsUpdate.CategoryId}"
-                );
-
-            }
-            return new Result().Fail("La Novedad no se pudo modificar");
+            return new Result().Success($"El item se ha modificado correctamente!!" +
+                $" {news.Name}");
         }
     }
 }

@@ -4,6 +4,7 @@ using OngProject.Common;
 using OngProject.Core.DTOs;
 using OngProject.Core.Helper.Pagination;
 using OngProject.Core.Interfaces.IServices;
+using System;
 using System.Threading.Tasks;
 
 namespace OngProject.Controllers
@@ -24,51 +25,84 @@ namespace OngProject.Controllers
         [Route("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            if (!_newsServices.EntityExists(id))
+            try
+            {
+                if (!_newsServices.EntityExists(id))
+                    return NotFound();
+                var news = await _newsServices.GetById(id);
+                return Ok(news);
+            }
+            catch(Exception)
+            {
                 return NotFound();
-            var news = await _newsServices.GetById(id);
-            return Ok(news);
+            }
+            
         }
 
         [HttpGet]
         [Authorize]
         public async Task<ActionResult<PaginationDTO<NewsDTO>>> GetAll([FromQuery] int page)
         {
-            string route = Request.Path.Value.ToString();
-            var response = await _newsServices.GetByPage(route, page);
+            try
+            {
+                string route = Request.Path.Value.ToString();
+                var response = await _newsServices.GetByPage(route, page);
 
-            return Ok(response);
+                return Ok(response);
+            }
+            catch(Exception)
+            {
+                return NotFound();
+            }
+            
         }
 
         [Authorize(Roles = "Administrator")]
         [HttpPost]
-        public async Task<IActionResult> Post(NewsDTO newsDTO)
+        public async Task<IActionResult> Insert([FromForm]NewsInsertDTO newsInsertDTO)
         {
-            if (!ModelState.IsValid) return BadRequest();
-            var response = await _newsServices.Insert(newsDTO);
-            return Ok(response);
+            try
+            {
+                if (!ModelState.IsValid) return BadRequest();
+                Result response = await _newsServices.Insert(newsInsertDTO);
+                return (response != null) ? Ok("Novedad creada con exito") : BadRequest("Ocurrio un error al crear la Novedad");
+            }
+            catch(Result ex)
+            {
+                return BadRequest(ex.Message);
+            }
+             
         }
 
         [Authorize(Roles = "Administrator")]
         [HttpDelete("{id}")]
         public async Task<ActionResult<Result>> Delete(int id)
         {
-            var request = await _newsServices.Delete(id);
-
-            return request.HasErrors
-                ? BadRequest(request.Messages)
-                : Ok(request);
+            try
+            {
+                Result request = await _newsServices.Delete(id);
+                return request.HasErrors ? BadRequest(request.Messages) : Ok(request);
+            }
+            catch(Result ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [Authorize(Roles = "Administrator")]
         [HttpPut("{id}")]
-        public async Task<ActionResult<Result>> Update(int id, [FromForm] NewsUpdateDTO newsUpdateDTO)
+        public async Task<ActionResult<Result>> Update([FromForm] NewsUpdateDTO newsUpdateDTO, int id)
         {
-            var request = await _newsServices.Update(id, newsUpdateDTO);
-
-            return request.HasErrors
-                ? BadRequest(request.Messages)
-                : Ok(request);
+            try
+            {
+                Result request = await _newsServices.Update(newsUpdateDTO, id);
+                return request.HasErrors ? BadRequest(request.Messages) : Ok(request);
+            }
+            catch(Result ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
         }
     }
 }

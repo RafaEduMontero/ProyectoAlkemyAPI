@@ -20,58 +20,37 @@ namespace OngProject.Core.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUriService _uriService;
         private readonly IImageService _imageServices;
+        private readonly EntityMapper _mapper;
 
         public TestimonialsServices(IUnitOfWork unitOfWork, IImageService imageServices, IUriService uriService)
         {
             _uriService = uriService;
             _unitOfWork = unitOfWork;
             _imageServices = imageServices;
+            _mapper = new EntityMapper();
         }
         public async Task<Result> Insert(TestimonialsCreateDTO testimonialsDTO)
         {
-            Testimonials testimonial;
-            Testimonials response = null;
-            if (!string.IsNullOrEmpty(testimonialsDTO.Name) && !string.IsNullOrEmpty(testimonialsDTO.Content))
+            if(testimonialsDTO.Imagen != null)
             {
-                if (testimonialsDTO.Imagen != null)
-                {
-                    string uniqueName = "testimonial_" + DateTime.Now.ToString().Replace(",", "").Replace("/", "").Replace(" ", "");
-                    var urlImage = await _imageServices.Save(uniqueName + testimonialsDTO.Imagen.FileName, testimonialsDTO.Imagen);
+                var newTestimonial = _mapper.TestimonialsCreateDTOTestimonials(testimonialsDTO);
+                string uniqueName = "Testimonials_" + DateTime.Now.ToString().Replace(",", "").Replace("/", "").Replace(" ", "");
+                var urlImage = await _imageServices.Save(uniqueName + testimonialsDTO.Imagen.FileName, testimonialsDTO.Imagen);
+                newTestimonial.Image = urlImage;
 
-                    testimonial = new Testimonials()
-                    {
-                        Name = testimonialsDTO.Name,
-                        Image = urlImage,
-                        Content = testimonialsDTO.Content
-                    };
+                await _unitOfWork.TestimonialsRepository.Insert(newTestimonial);
+                await _unitOfWork.SaveChangesAsync();
 
-                    response = await _unitOfWork.TestimonialsRepository.Insert(testimonial);
-
-                    await _unitOfWork.SaveChangesAsync();
-                }
-                else
-                {
-                    testimonial = new Testimonials()
-                    {
-                        Name = testimonialsDTO.Name,
-                        Content = testimonialsDTO.Content
-                    };
-
-                    response = await _unitOfWork.TestimonialsRepository.Insert(testimonial);
-
-                    await _unitOfWork.SaveChangesAsync();
-                }
+                return new Result().Success("Se ha insertado correctamente la actividad");
             }
-
-            if (response != null)
-
-            {
-                return new Result().Success("Testimonial ingresado con éxito");
-            }
-
             else
             {
-                return new Result().Fail("No se ha podido ingresar el Testimonial");
+                var newTestimonial = _mapper.TestimonialsCreateDTOTestimonials(testimonialsDTO);
+                newTestimonial.Image = "";
+                await _unitOfWork.TestimonialsRepository.Insert(newTestimonial);
+                await _unitOfWork.SaveChangesAsync();
+
+                return new Result().Success("Se ha insertado correctamente la actividad");
             }
         }
         public async Task<Result> Delete(int id)
@@ -91,57 +70,51 @@ namespace OngProject.Core.Services
             }
             return new Result().Fail("Ocurrio un error al eliminar el testimonial");
         }
-        public async Task<Result> Update(int id, TestimonialsCreateDTO testimonialsCreateDTO)
+        public async Task<Result> Update(int id, TestimonialsUpdateDTO testimonialsUpdateDTO)
         {
             var testimonial = await _unitOfWork.TestimonialsRepository.GetById(id);
             if (testimonial == null)
-            {
                 return new Result().NotFound();
-            }
-            if(!string.IsNullOrEmpty(testimonialsCreateDTO.Name))
+            
+            if(testimonialsUpdateDTO.Imagen != null && string.IsNullOrEmpty(testimonial.Image))
             {
-                testimonial.Name = testimonialsCreateDTO.Name;
+                await _imageServices.Delete(testimonial.Image);
+                string uniqueName = "Testimonials_" + DateTime.Now.ToString().Replace(",", "").Replace("/", "").Replace(" ", "");
+                testimonial.Image = await _imageServices.Save(uniqueName + testimonialsUpdateDTO.Imagen.FileName, testimonialsUpdateDTO.Imagen);
             }
-            if(!string.IsNullOrEmpty(testimonialsCreateDTO.Content))
+            else
             {
-                testimonial.Content = testimonialsCreateDTO.Content;
-            }
-            if(testimonialsCreateDTO.Imagen != null)
-            {
-                if(await _imageServices.Delete(testimonial.Image))
+                if(testimonialsUpdateDTO.Imagen != null)
                 {
-                    testimonial.Image = await _imageServices.Save(testimonialsCreateDTO.Imagen.FileName, testimonialsCreateDTO.Imagen);
+                    string uniqueName = "Testimonials_" + DateTime.Now.ToString().Replace(",", "").Replace("/", "").Replace(" ", "");
+                    testimonial.Image = await _imageServices.Save(uniqueName + testimonialsUpdateDTO.Imagen.FileName, testimonialsUpdateDTO.Imagen);
                 }
             }
+
+            testimonial.Name = testimonialsUpdateDTO.Name;
+            testimonial.Content = testimonialsUpdateDTO.Content;
+
             await _unitOfWork.TestimonialsRepository.Update(testimonial);
             await _unitOfWork.SaveChangesAsync();
 
-            var testimonialUpdate = await _unitOfWork.TestimonialsRepository.GetById(id);
-
-            if (testimonialUpdate.Name == testimonial.Name 
-                && testimonialUpdate.Content == testimonial.Content
-                && testimonialUpdate.Image == testimonial.Image)
-            {
-                
-                return new Result().Success($"{testimonialUpdate.Name}  ," + 
-                                            $"{testimonialUpdate.Content}  ," + 
-                                            $"{testimonialUpdate.Image}" 
-                );
-                
-            }
-            return new Result().Fail("El testimonio no se pudo modificar");
+            return new Result().Success($"El item se ha modificado correctamente!!");
         }
 
-        public async Task<PaginationDTO<TestimonialsDTO>> GetByPage(string route, int page, int? sizePage)
+        public async Task<PaginationDTO<TestimonialsDTO>> GetByPage(string route, int page)
         {
             if (page <= 0) page = 1;
-            if(sizePage == null) sizePage = 10;
-            var n = await _unitOfWork.TestimonialsRepository.GetPageAsync(x => x.Name, (int)sizePage, page);
+            int elementsByPage = 10; ;
+            var n = await _unitOfWork.TestimonialsRepository.GetPageAsync(x => x.Name, elementsByPage, page);
             var items = n.ToList();
             var mapper = new EntityMapper();
             var itemsList = items.Select(x => mapper.FromTestimonialsToTestimonialsDTO(x)).ToList();
             var totalItems = await _unitOfWork.TestimonialsRepository.CountAsync();
-            var totalpages = (int)Math.Ceiling((double)totalItems / (int)sizePage);
+            var totalpages = (int)Math.Ceiling((double)totalItems / elementsByPage);
+
+            if (page > totalpages)
+            {
+                throw new Result().Fail("No se ha encontrado la consulta");
+            }
 
             var response = new PaginationDTO<TestimonialsDTO>()
             {

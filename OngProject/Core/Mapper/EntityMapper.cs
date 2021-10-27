@@ -317,6 +317,17 @@ namespace OngProject.Core.Mapper
                 Imagen = testimonials.Image
             };
         }
+
+        public Testimonials TestimonialsCreateDTOTestimonials(TestimonialsCreateDTO testimonialsCreateDTO)
+        {
+            var testimonial = new Testimonials()
+            {
+                Name = testimonialsCreateDTO.Name,
+                Content = testimonialsCreateDTO.Content
+            };
+
+            return testimonial;
+        }
         #endregion
     }
 }

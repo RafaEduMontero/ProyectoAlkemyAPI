@@ -49,6 +49,8 @@ namespace OngProject.Controllers
         /// </returns>
         /// <response code="200">Solicitud concretada con exito</response>
         /// <response code="400">No pudo retornar los datos del usuario</response> 
+        /// <response code="401">Credenciales incorrectas</response>
+
         #endregion
         [HttpGet("me")]
         public async Task<IActionResult> Get()
@@ -151,7 +153,7 @@ namespace OngProject.Controllers
         /// <returns>
         ///     Devuelve el token del usuario en caso de que las credenciales sean correctas o Response indicando el error
         /// </returns>
-        /// <response code="200">El usuario se inserto con exito</response>
+        /// <response code="200">El usuario se logueo con exito</response>
         /// <response code="400">No se ha podido procesar la solicitud con estos datos</response>
         /// <response code="401">Credenciales incorrectas</response>
         #endregion

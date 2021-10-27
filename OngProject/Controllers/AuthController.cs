@@ -35,9 +35,21 @@ namespace OngProject.Controllers
         }
         #endregion
 
+        #region Documentacion
         /// <summary>
-        /// Get all data about me
+        /// Endpoint para obtener los datos almacenados del usuario logueado
         /// </summary>
+        /// <remarks>
+        /// <para>
+        /// Formato de peticion: https:// nombreDelServidor /auth/me
+        /// </para>
+        /// </remarks>
+        /// <returns>
+        /// FirstName , LastName ,Email ,Photo, RoleId 
+        /// </returns>
+        /// <response code="200">Solicitud concretada con exito</response>
+        /// <response code="400">No pudo retornar los datos del usuario</response> 
+        #endregion
         [HttpGet("me")]
         public async Task<IActionResult> Get()
         {
@@ -55,7 +67,37 @@ namespace OngProject.Controllers
                 return BadRequest(result.Message);
             }
         }
-
+        #region Documentacion
+        /// <summary>
+        /// Endpoint para el registro de un usuario en el sistema
+        /// </summary>
+        /// <remarks>
+        /// Formato de peticion: <br></br>
+        /// {
+        ///     <br></br>
+        ///     "FirstName*": "string",<br></br>
+        ///     "LastName*": "string",<br></br>
+        ///     "Email*": "string",<br></br>
+        ///     "Password*": "string"<br></br>
+        /// }
+        /// <br></br>
+        /// Ejemplo de solicitud: <br></br>
+        /// {
+        ///     <br></br>
+        ///     "FirstName*": "Alkemy",<br></br>
+        ///     "LastName*": "Aceleracion",<br></br>
+        ///     "Email*": "user@example.com",<br></br>
+        ///     "Password*": "alkemy1234"<br></br>
+        /// }
+        /// </remarks>
+        /// <param name="UserInsertDTO">DTO para la creacion de un nuevo Miembro</param>
+        /// <returns>
+        ///     Devuelve el token del usuario en caso de ser creado o Response indicando el error
+        /// </returns>
+        /// <response code="200">El usuario se inserto con exito</response>
+        /// <response code="400">No se ha podido procesar la solicitud con estos datos</response>
+        /// <response code="401">Credenciales incorrectas</response>
+        #endregion
         [HttpPost("register")]
         [AllowAnonymous]
         public async Task<IActionResult> Register([FromForm] UserInsertDTO userInsertDTO)
@@ -86,7 +128,33 @@ namespace OngProject.Controllers
                 return BadRequest(result.Message);
             }
         }
-
+        #region Documentacion
+        /// <summary>
+        /// Endpoint para el login de un usuario en el sistema
+        /// </summary>
+        /// <remarks>
+        /// Formato de peticion: <br></br>
+        /// {
+        ///     <br></br>
+        ///     "Email": "string",<br></br>
+        ///     "Password": "string"<br></br>
+        /// }
+        /// <br></br>
+        /// Ejemplo de solicitud: <br></br>
+        /// {
+        ///     <br></br>
+        ///     "Email": "user@example.com",<br></br>
+        ///     "Password": "alkemy1234"<br></br>
+        /// }
+        /// </remarks>
+        /// <param name="LoginDTO">DTO para la creacion de un nuevo Miembro</param>
+        /// <returns>
+        ///     Devuelve el token del usuario en caso de que las credenciales sean correctas o Response indicando el error
+        /// </returns>
+        /// <response code="200">El usuario se inserto con exito</response>
+        /// <response code="400">No se ha podido procesar la solicitud con estos datos</response>
+        /// <response code="401">Credenciales incorrectas</response>
+        #endregion
         [HttpPost("login")]
         [AllowAnonymous]
         public async Task<ActionResult> Login([FromForm] LoginDTO loginDTO)

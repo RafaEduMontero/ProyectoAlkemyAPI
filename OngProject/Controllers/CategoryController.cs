@@ -47,7 +47,6 @@ namespace OngProject.Controllers
         [HttpGet("/GetAll")]
         public async Task<ActionResult<IEnumerable<CategoryNameDTO>>> GetAll([FromQuery] int page)
         {
-
             string route = Request.Path.Value.ToString();
             var response = await _CategoriesServices.GetByPage(route, page);
 

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace OngProject.Common
 {
-    public class Result : Exception
+    public class Result
     {
         public bool HasErrors { get; set; }
         public IList<string> Messages { get; set; }

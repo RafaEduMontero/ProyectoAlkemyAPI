@@ -29,9 +29,8 @@ namespace OngProject.Core.Services
 
         public async Task<NewsDTO> GetById(int id)
         {
-            var maper = new EntityMapper();
             var news = await _unitOfWork.NewsRepository.GetById(id);
-            var newsDTO = maper.FromNewsToNewsDTO(news);
+            var newsDTO = _entityMapper.FromNewsToNewsDTO(news);
            
             return newsDTO;
 
@@ -43,8 +42,7 @@ namespace OngProject.Core.Services
             const int elementsByPage = 10;
             var n = await _unitOfWork.NewsRepository.GetPageAsync(x => x.Name, elementsByPage, page);
             var items = n.ToList();
-            var mapper = new EntityMapper();
-            var itemsList = items.Select(x => mapper.FromNewsToNewsDTO(x)).ToList();
+            var itemsList = items.Select(x => _entityMapper.FromNewsToNewsDTO(x)).ToList();
             var totalItems = await _unitOfWork.NewsRepository.CountAsync();
             var totalpages = (int)Math.Ceiling((double)totalItems / elementsByPage);
 
@@ -117,7 +115,7 @@ namespace OngProject.Core.Services
             var news = await _unitOfWork.NewsRepository.GetById(id);
             if (news == null) return new Result().NotFound();
 
-            if (newsUpdateDTO.Image != null)
+            if (!string.IsNullOrEmpty(newsUpdateDTO.Image.Name))
             {
                 
                 try
@@ -132,15 +130,21 @@ namespace OngProject.Core.Services
                 news.Image = await _imageServices.Save(uniqueName + newsUpdateDTO.Image.FileName, newsUpdateDTO.Image);
             }
 
-            if (newsUpdateDTO.Content != null) news.Content = newsUpdateDTO.Content;
-            if (newsUpdateDTO.Name != null) news.Name = newsUpdateDTO.Name;
+            if(!string.IsNullOrEmpty(newsUpdateDTO.Content)) news.Content = newsUpdateDTO.Content;
+            if(!string.IsNullOrEmpty(newsUpdateDTO.Name)) news.Name = newsUpdateDTO.Name;
+            if(newsUpdateDTO.CategoryId > 0)
+            {
+                if(_unitOfWork.CategoryRepository.GetById(newsUpdateDTO.CategoryId) != null)
+                {
+                    news.CategoryId = newsUpdateDTO.CategoryId;
+                }
+                
+            }
 
             await _unitOfWork.NewsRepository.Update(news);
-
             _unitOfWork.SaveChanges();
 
-            return new Result().Success($"El item se ha modificado correctamente!!" +
-                $" {news.Name}");
+            return new Result().Success($"La Novedad se modifico correctamente!!");
         }
     }
 }

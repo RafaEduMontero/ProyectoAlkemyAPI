@@ -12,7 +12,7 @@ namespace OngProject.Core.Interfaces.IServices
     {
         Task<Result> Insert(TestimonialsCreateDTO testimonialsDTO);
         Task<Result> Delete(int id);
-        Task<Result> Update(int id, TestimonialsCreateDTO testimonialsCreateDTO); 
-        Task<PaginationDTO<TestimonialsDTO>> GetByPage(string route, int page, int? sizePage);
+        Task<Result> Update(int id, TestimonialsUpdateDTO testimonialsUpdateDTO); 
+        Task<PaginationDTO<TestimonialsDTO>> GetByPage(string route, int page);
     }
 }

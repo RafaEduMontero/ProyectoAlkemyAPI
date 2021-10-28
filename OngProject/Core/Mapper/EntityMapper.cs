@@ -209,18 +209,17 @@ namespace OngProject.Core.Mapper
             };
             return contactDTO;
         }
-        public Contacts FromContactsDtoToContacts(ContactDTO contactDTO)
+        public Contacts FromContactsDtoToContacts(ContactInsertDTO contactInsertDTO)
         {
             var contact = new Contacts()
             {
-                Name = contactDTO.Name,
-                Phone = contactDTO.Phone,
-                Email = contactDTO.Email,
-                Message = contactDTO.Message
+                Name = contactInsertDTO.Name,
+                Phone = contactInsertDTO.Phone,
+                Email = contactInsertDTO.Email,
+                Message = contactInsertDTO.Message
             };
             return contact;
         }
-
         #endregion
 
         #region Organization Mappers
@@ -276,9 +275,10 @@ namespace OngProject.Core.Mapper
                 LastName = userInsertDTO.LastName,
                 Email = userInsertDTO.Email,
                 Password = userInsertDTO.Password,
-                Photo = userInsertDTO.Photo.ToString(),
                 RoleId = 2
             };
+            if (userInsertDTO.Photo == null) user.Photo = null;
+            else user.Photo = userInsertDTO.Photo.ToString();
             return user;
         }
 
@@ -328,6 +328,17 @@ namespace OngProject.Core.Mapper
                 Name = testimonials.Name,
                 Imagen = testimonials.Image
             };
+        }
+
+        public Testimonials TestimonialsCreateDTOTestimonials(TestimonialsCreateDTO testimonialsCreateDTO)
+        {
+            var testimonial = new Testimonials()
+            {
+                Name = testimonialsCreateDTO.Name,
+                Content = testimonialsCreateDTO.Content
+            };
+
+            return testimonial;
         }
         #endregion
     }

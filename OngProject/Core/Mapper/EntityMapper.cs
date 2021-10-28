@@ -120,6 +120,17 @@ namespace OngProject.Core.Mapper
             };
             return news;
         }
+        public News NewsInsertDTOtoNews(NewsInsertDTO NewsInsertDTO)
+        {
+            var news = new News()
+            {
+                Name = NewsInsertDTO.Name,
+                Content = NewsInsertDTO.Content,
+                Image = NewsInsertDTO.Image.ToString(),
+                CategoryId = NewsInsertDTO.CategoryId
+            };
+            return news;
+        }
 
         #endregion
 

@@ -13,10 +13,10 @@ namespace OngProject.Core.Interfaces.IServices
         Task<NewsDTO> GetById(int id);
 
         bool EntityExists(int id);
-        Task<News> Insert(NewsDTO newsDTO);
+        Task<Result> Insert(NewsInsertDTO newsInsertDTO);
 
         Task<Result> Delete(int id);
-        Task<Result> Update(int id, NewsUpdateDTO newsUpdateDTO);
+        Task<Result> Update(NewsUpdateDTO newsUpdateDTO, int id);
         Task<PaginationDTO<NewsDTO>> GetByPage(string route, int page);
     }
 }

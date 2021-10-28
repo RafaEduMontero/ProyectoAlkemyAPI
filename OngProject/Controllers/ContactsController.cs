@@ -36,9 +36,9 @@ namespace OngProject.Controllers
                 
                 return Ok(request);
             }
-            catch (Result result)
+            catch (Exception result)
             {
-                return BadRequest(result.Messages);
+                return BadRequest(result.Message);
             }
         }
 
@@ -54,9 +54,9 @@ namespace OngProject.Controllers
                 var contact = await _contactsServices.GetById(id);
                 return Ok(contact);
             }
-            catch (Result result)
+            catch (Exception result)
             {
-                return BadRequest(result.Messages);
+                return BadRequest(result.Message);
             }
         }
 
@@ -74,9 +74,9 @@ namespace OngProject.Controllers
 
                 return Ok(request);
             }
-            catch (Result result)
+            catch (Exception result)
             {
-                return BadRequest(result.Messages);
+                return BadRequest(result.Message);
             }
         }
     }

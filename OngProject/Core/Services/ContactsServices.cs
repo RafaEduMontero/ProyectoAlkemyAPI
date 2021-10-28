@@ -38,7 +38,7 @@ namespace OngProject.Core.Services
 
             if (page > totalpages)
             {
-                throw new Result().Fail("No se ha encontrado la consulta");
+                return null;
             }
 
             var response = new PaginationDTO<ContactDTO>()

@@ -33,7 +33,7 @@ namespace OngProject.Controllers
 
                 return Ok(response);
             }
-            catch(Result result)
+            catch(Exception result)
             {
                 return BadRequest(result.Message);
             }
@@ -49,7 +49,7 @@ namespace OngProject.Controllers
 
                 return Ok(response);
             }
-            catch(Result result){
+            catch(Exception result){
                 return BadRequest(result.Message);
             }
         }
@@ -64,7 +64,7 @@ namespace OngProject.Controllers
 
                 return Ok(response);
             }
-            catch(Result result)
+            catch(Exception result)
             {
                 return BadRequest(result.Message);
             }
@@ -78,7 +78,7 @@ namespace OngProject.Controllers
                 var response = await _testimonialsServices.Update(id, testimonialsUpdateDTO);
                 return Ok(response);
             }
-            catch (Result result) { return BadRequest(result.Message);}
+            catch (Exception result) { return BadRequest(result.Message);}
         }
     }
 }

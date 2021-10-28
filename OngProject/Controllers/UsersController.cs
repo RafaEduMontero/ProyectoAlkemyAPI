@@ -32,9 +32,9 @@ namespace OngProject.Controllers
                 var userlist = await _userServices.GetAll();
                 return Ok(userlist);
             }
-            catch (Result result)
+            catch (Exception result)
             {
-                return BadRequest(result.Messages);
+                return BadRequest(result.Message);
             }
         }
 
@@ -50,9 +50,9 @@ namespace OngProject.Controllers
                     ? BadRequest(response.Messages)
                     : Ok(response);
             }
-            catch (Result result)
+            catch (Exception result)
             {
-                return BadRequest(result.Messages);
+                return BadRequest(result.Message);
             }
         }
 
@@ -66,9 +66,9 @@ namespace OngProject.Controllers
                 var response = await _userServices.Delete(token);
                 return Ok(response);
             }
-            catch (Result result)
+            catch (Exception result)
             {
-                return BadRequest(result.Messages);
+                return BadRequest(result.Message);
             }
         }
     }

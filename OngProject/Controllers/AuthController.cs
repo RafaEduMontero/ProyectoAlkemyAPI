@@ -64,7 +64,7 @@ namespace OngProject.Controllers
                 return Ok(user);
 
             }
-            catch (Result result)
+            catch (Exception result)
             {
                 return BadRequest(result.Message);
             }
@@ -125,7 +125,7 @@ namespace OngProject.Controllers
                     )
                 });
             }
-            catch (Result result)
+            catch (Exception result)
             {
                 return BadRequest(result.Message);
             }
@@ -180,7 +180,7 @@ namespace OngProject.Controllers
 
                 return Ok(new { token });
             }
-            catch (Result result)
+            catch (Exception result)
             {
                 return BadRequest(result.Message);
             }

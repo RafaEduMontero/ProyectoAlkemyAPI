@@ -136,7 +136,7 @@ namespace OngProject.Controllers
                 Result response = await _newsServices.Insert(newsInsertDTO);
                 return (response != null) ? Ok("Novedad creada con exito") : BadRequest("Ocurrio un error al crear la Novedad");
             }
-            catch(Result ex)
+            catch(Exception ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -170,7 +170,7 @@ namespace OngProject.Controllers
                 Result request = await _newsServices.Delete(id);
                 return request.HasErrors ? BadRequest(request.Messages) : Ok(request);
             }
-            catch(Result ex)
+            catch(Exception ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -215,7 +215,7 @@ namespace OngProject.Controllers
                 Result request = await _newsServices.Update(newsUpdateDTO, id);
                 return request.HasErrors ? BadRequest(request.Messages) : Ok(request);
             }
-            catch(Result ex)
+            catch(Exception ex)
             {
                 return BadRequest(ex.Message);
             }
